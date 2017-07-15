@@ -17,7 +17,7 @@ public class TagAgent {
     // 得到所有tags
     public static synchronized List<TagInfo> getAllTagInfos() {
         if (allTags == null) {
-            allTags = MyDatabaseHelper.getTags();
+            allTags = MyDatabaseHelper.getAllTags();
         }
 
         return allTags;

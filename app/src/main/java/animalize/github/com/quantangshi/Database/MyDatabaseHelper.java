@@ -40,7 +40,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
-    public static void init() {
+    private static void init() {
         if (mHelper == null) {
             Context context = MyApplication.getContext();
             mHelper = new MyDatabaseHelper(context);
@@ -55,6 +55,18 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    // 得到一个必然的整数结果
+    private final static int getOneInt(String sql, String[] selectionArgs) {
+        Cursor c = mDb.rawQuery(sql, selectionArgs);
+        c.moveToFirst();
+        int ret = c.getInt(0);
+        c.close();
+
+        return ret;
+    }
+
+    // ================== 诗 公有 ==================
+
     // 总共有多少首诗
     public static synchronized int getPoemCount() {
         if (mPoemCount != -1) {
@@ -64,10 +76,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         init();
 
         String sql = "SELECT COUNT(*) FROM tangshi.poem";
-        Cursor c = mDb.rawQuery(sql, null);
-        c.moveToFirst();
-        mPoemCount = c.getInt(0);
-        c.close();
+        mPoemCount = getOneInt(sql, null);
 
         return mPoemCount;
     }
@@ -80,6 +89,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         Random rand = new Random();
 
         RawPoem p;
+        // 数据库中192首诗的诗文没有内容，跳过这些诗
         do {
             int id = rand.nextInt(poemCount) + 1;
             p = MyDatabaseHelper.getPoemById(id);
@@ -96,16 +106,16 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
         init();
 
-        String sql = "SELECT * FROM tangshi.poem WHERE id=?";
+        String sql = "SELECT title,author,txt FROM tangshi.poem WHERE id=?";
         Cursor c = mDb.rawQuery(sql, new String[]{String.valueOf(id)});
         c.moveToFirst();
         RawPoem p = null;
         try {
             p = new RawPoem(
-                    c.getInt(c.getColumnIndex("id")),
-                    new String(c.getBlob(c.getColumnIndex("title")), ENCODING),
-                    new String(c.getBlob(c.getColumnIndex("author")), ENCODING),
-                    new String(c.getBlob(c.getColumnIndex("txt")), ENCODING)
+                    id,
+                    new String(c.getBlob(0), ENCODING),
+                    new String(c.getBlob(1), ENCODING),
+                    new String(c.getBlob(2), ENCODING)
             );
         } catch (UnsupportedEncodingException e) {
             //e.printStackTrace();
@@ -116,7 +126,34 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         return p;
     }
 
-    // 得到tag list
+    // ================== TAG 公有 ==================
+
+    // 得到所有的tag list
+    public static synchronized List<TagInfo> getAllTags() {
+        init();
+
+        String sql = "SELECT id, name, count " +
+                "FROM tag " +
+                "ORDER BY count DESC, id ASC";
+        Cursor c = mDb.rawQuery(sql, null);
+
+        List<TagInfo> l = new ArrayList<>();
+        if (c.moveToFirst()) {
+            do {
+                TagInfo ti = new TagInfo(
+                        c.getInt(0),
+                        c.getString(1),
+                        c.getInt(2)
+                );
+                l.add(ti);
+            } while (c.moveToNext());
+        }
+        c.close();
+
+        return l;
+    }
+
+    // 得到一首诗的tag list
     public static synchronized List<TagInfo> getTagsByPoem(int pid) {
         init();
 
@@ -141,9 +178,12 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         return l;
     }
 
-    // 给诗添加一个tag
+    // 给一首诗添加一个tag
     public static synchronized boolean addTagToPoem(String tag, int pid) {
         init();
+
+        // queryByTags需要单引号，因此不允许标签有单引号
+        tag = tag.replace("'", "");
 
         int tid = getTagID(tag);
 
@@ -156,7 +196,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
                 mDb.execSQL("BEGIN");
 
                 // 添加到tag_map
-                addTagMap(pid, tid);
+                addToTagMap(pid, tid);
                 // count + 1
                 int count = MyDatabaseHelper.getTagCount(tid);
                 updateTagCount(tid, count + 1);
@@ -168,7 +208,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             mDb.execSQL("BEGIN");
 
             tid = MyDatabaseHelper.addTag(tag);
-            MyDatabaseHelper.addTagMap(pid, tid);
+            MyDatabaseHelper.addToTagMap(pid, tid);
 
             mDb.execSQL("COMMIT");
         }
@@ -176,7 +216,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         return true;
     }
 
-    // 删除一个tag
+    // 从一首诗删除一个tag
     public static synchronized boolean delTagFromPoem(int pid, TagInfo info) {
         init();
 
@@ -196,127 +236,6 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         mDb.execSQL("COMMIT");
 
         return true;
-    }
-
-    // 是否存在tag
-    public static synchronized boolean hasTag(String tag) {
-        init();
-
-        String sql = "SELECT COUNT(*) FROM tag WHERE name=?";
-        Cursor c = mDb.rawQuery(sql, new String[]{tag});
-        c.moveToFirst();
-        int count = c.getInt(0);
-        c.close();
-
-        return count > 0;
-    }
-
-    // 得到所有tag
-    public static synchronized List<TagInfo> getTags() {
-        init();
-
-        String sql = "SELECT id, name, count " +
-                "FROM tag " +
-                "ORDER BY count DESC, id ASC";
-        Cursor c = mDb.rawQuery(sql, null);
-
-        List<TagInfo> l = new ArrayList<>();
-        if (c.moveToFirst()) {
-            do {
-                TagInfo ti = new TagInfo(
-                        c.getInt(0),
-                        c.getString(1),
-                        c.getInt(2)
-                );
-                l.add(ti);
-            } while (c.moveToNext());
-        }
-        c.close();
-
-        return l;
-    }
-
-    // 从tag_map删除
-    private static void delFromTagMap(int pid, int tid) {
-        mDb.delete("tag_map",
-                "pid=? AND tid=?",
-                new String[]{String.valueOf(pid), String.valueOf(tid)});
-    }
-
-
-    // 返回tag id，-1为没有
-    private static int getTagID(String tag) {
-        String sql = "SELECT id FROM tag WHERE name=?";
-        Cursor c = mDb.rawQuery(sql, new String[]{tag});
-        if (!c.moveToFirst()) {
-            c.close();
-            return -1;
-        }
-
-        int tid = c.getInt(0);
-        c.close();
-        return tid;
-    }
-
-    // 诗是否有tag id
-    private static boolean poemHasTagID(int pid, int tid) {
-        String sql = "SELECT * FROM tag_map WHERE pid=? AND tid=?";
-        Cursor c = mDb.rawQuery(sql,
-                new String[]{String.valueOf(pid), String.valueOf(tid)}
-        );
-        if (!c.moveToFirst()) {
-            c.close();
-            return false;
-        }
-
-        c.close();
-        return true;
-    }
-
-    // 添加到tag表，count设为1，返回tag id
-    private static int addTag(String tag) {
-        ContentValues cv = new ContentValues();
-        cv.put("name", tag);
-        cv.put("count", 1);
-
-        return (int) mDb.insert("tag", null, cv);
-    }
-
-    // 得到tag count，-1为不存在
-    private static int getTagCount(int tid) {
-        String sql = "SELECT count FROM tag WHERE id=?";
-        Cursor c = mDb.rawQuery(sql, new String[]{String.valueOf(tid)});
-        if (!c.moveToFirst()) {
-            c.close();
-            return -1;
-        }
-
-        int count = c.getInt(0);
-        c.close();
-        return count;
-    }
-
-    // 更新tag count, 由外层设置事务
-    private static void updateTagCount(int tid, int count) {
-        String sql;
-
-        if (count > 0) {
-            sql = "UPDATE tag SET count=? WHERE id=?";
-            mDb.execSQL(sql, new String[]{String.valueOf(count), String.valueOf(tid)});
-        } else {
-            // 引用为0时删除
-            sql = "DELETE FROM tag WHERE id=?";
-            mDb.execSQL(sql, new String[]{String.valueOf(tid)});
-        }
-    }
-
-    // 添加到tag_map
-    private static int addTagMap(int pid, int tid) {
-        ContentValues cv = new ContentValues();
-        cv.put("pid", pid);
-        cv.put("tid", tid);
-
-        return (int) mDb.insert("tag_map", null, cv);
     }
 
     // 用tag列表搜索
@@ -370,6 +289,183 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
         return l;
     }
+
+    // 是否存在tag
+    public static synchronized boolean hasTag(String tag) {
+        return getTagID(tag) != -1;
+    }
+
+    // 整体，改名/合并标签
+    public static boolean renameTag(String o, String n) {
+        int ntid = -1, otid;
+
+        // 得到新tag id
+        String sql = "SELECT id FROM tag WHERE name=?";
+        Cursor c = mDb.rawQuery(sql, new String[]{n});
+        if (c.moveToFirst()) {
+            ntid = c.getInt(0);
+        }
+        c.close();
+
+        if (ntid == -1) { // 新标签不存在，仅改名
+            sql = "UPDATE tag SET name=? WHERE name=?";
+            mDb.execSQL(sql, new String[]{n, o});
+        } else { // 新标签存在，合并
+            mDb.execSQL("BEGIN");
+
+            // 得到旧tag id
+            sql = "SELECT id FROM tag WHERE name=?";
+            otid = getOneInt(sql, new String[]{o});
+
+            // 得到所有旧的pid list
+            sql = "SELECT pid FROM tag_map WHERE tid=?";
+            c = mDb.rawQuery(sql, new String[]{String.valueOf(otid)});
+
+            ArrayList<Integer> l = new ArrayList<>();
+            if (c.moveToFirst()) {
+                do {
+                    l.add(c.getInt(0));
+                } while (c.moveToNext());
+            }
+            c.close();
+
+            // 添加到新的
+            sql = "UPDATE tag_map SET tid=? WHERE " +
+                    "(pid=? AND tid=? AND NOT EXISTS(" +
+                    "SELECT * FROM tag_map WHERE pid=? AND tid=?" +
+                    "))";
+            for (int pid : l) {
+                mDb.execSQL(sql, new String[]{String.valueOf(ntid),
+                        String.valueOf(pid), String.valueOf(otid),
+                        String.valueOf(pid), String.valueOf(ntid)});
+            }
+
+            // 删除旧的tag
+            sql = "DELETE FROM tag_map WHERE tid=?";
+            mDb.execSQL(sql, new String[]{String.valueOf(otid)});
+
+            sql = "DELETE FROM tag WHERE id=?";
+            mDb.execSQL(sql, new String[]{String.valueOf(otid)});
+
+            // 更新count
+            sql = "SELECT COUNT(*) FROM tag_map WHERE tid=?";
+            int count = getOneInt(sql, new String[]{String.valueOf(ntid)});
+
+            updateTagCount(ntid, count);
+
+            mDb.execSQL("COMMIT");
+        }
+
+        return true;
+    }
+
+    // 整体，删除一个标签
+    public static boolean delTag(String tag) {
+        init();
+
+        mDb.execSQL("BEGIN");
+
+        // 从tag map删除
+        String sql = "DELETE FROM tag_map " +
+                "WHERE tid IN (SELECT id " +
+                "FROM tag " +
+                "WHERE name=?)";
+        mDb.execSQL(sql, new String[]{tag});
+
+        // 从tag删除
+        sql = "DELETE FROM tag WHERE name=?";
+        mDb.execSQL(sql, new String[]{tag});
+
+        mDb.execSQL("COMMIT");
+
+        return true;
+    }
+
+    // ================== TAG 私有 ==================
+
+    // 返回tag id，-1为没有
+    private static int getTagID(String tag) {
+        String sql = "SELECT id FROM tag WHERE name=?";
+        Cursor c = mDb.rawQuery(sql, new String[]{tag});
+        if (!c.moveToFirst()) {
+            c.close();
+            return -1;
+        }
+
+        int tid = c.getInt(0);
+        c.close();
+        return tid;
+    }
+
+    // 诗是否有tag id
+    private static boolean poemHasTagID(int pid, int tid) {
+        String sql = "SELECT * FROM tag_map WHERE pid=? AND tid=?";
+        Cursor c = mDb.rawQuery(sql,
+                new String[]{String.valueOf(pid), String.valueOf(tid)}
+        );
+        if (!c.moveToFirst()) {
+            c.close();
+            return false;
+        }
+
+        c.close();
+        return true;
+    }
+
+    // 添加到tag表，设count初始值为1，返回tag id
+    private static int addTag(String tag) {
+        ContentValues cv = new ContentValues();
+        cv.put("name", tag);
+        cv.put("count", 1);
+
+        return (int) mDb.insert("tag", null, cv);
+    }
+
+    // 添加到tag_map
+    private static int addToTagMap(int pid, int tid) {
+        ContentValues cv = new ContentValues();
+        cv.put("pid", pid);
+        cv.put("tid", tid);
+
+        return (int) mDb.insert("tag_map", null, cv);
+    }
+
+    // 从tag_map删除
+    private static void delFromTagMap(int pid, int tid) {
+        mDb.delete("tag_map",
+                "pid=? AND tid=?",
+                new String[]{String.valueOf(pid), String.valueOf(tid)});
+    }
+
+    // 得到tag count，-1为不存在
+    private static int getTagCount(int tid) {
+        String sql = "SELECT count FROM tag WHERE id=?";
+        Cursor c = mDb.rawQuery(sql, new String[]{String.valueOf(tid)});
+        if (!c.moveToFirst()) {
+            c.close();
+            return -1;
+        }
+
+        int count = c.getInt(0);
+        c.close();
+        return count;
+    }
+
+    // 更新tag count, 由外层设置事务
+    private static void updateTagCount(int tid, int count) {
+        String sql;
+
+        if (count > 0) {
+            sql = "UPDATE tag SET count=? WHERE id=?";
+            mDb.execSQL(sql, new String[]{String.valueOf(count), String.valueOf(tid)});
+        } else {
+            // 引用为0时删除
+            sql = "DELETE FROM tag WHERE id=?";
+            mDb.execSQL(sql, new String[]{String.valueOf(tid)});
+        }
+    }
+
+    // ================== recent 公有 ==================
 
     // 得到最近列表
     public static synchronized ArrayList<InfoItem> getRecentList() {
@@ -456,98 +552,6 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         c.close();
 
         return l;
-    }
-
-    // 整体，改名/合并标签
-    public static boolean renameTag(String o, String n) {
-        int ntid = -1, otid;
-
-        // 得到新tag id
-        String sql = "SELECT id FROM tag WHERE name=?";
-        Cursor c = mDb.rawQuery(sql, new String[]{n});
-        if (c.moveToFirst()) {
-            ntid = c.getInt(0);
-        }
-        c.close();
-
-        if (ntid == -1) { // 仅改名
-            sql = "UPDATE tag SET name=? WHERE name=?";
-            mDb.execSQL(sql, new String[]{n, o});
-        } else { // 合并
-            mDb.execSQL("BEGIN");
-
-            // 得到旧tag id
-            sql = "SELECT id FROM tag WHERE name=?";
-            c = mDb.rawQuery(sql, new String[]{o});
-            c.moveToFirst();
-            otid = c.getInt(0);
-            c.close();
-
-            // 得到所有旧的pid list
-            sql = "SELECT pid FROM tag_map WHERE tid=?";
-            c = mDb.rawQuery(sql, new String[]{String.valueOf(otid)});
-
-            ArrayList<Integer> l = new ArrayList<>();
-            if (c.moveToFirst()) {
-                do {
-                    l.add(c.getInt(0));
-                } while (c.moveToNext());
-            }
-            c.close();
-
-            // 添加到新的
-            sql = "UPDATE tag_map SET tid=? WHERE " +
-                    "(pid=? AND tid=? AND NOT EXISTS(" +
-                    "SELECT * FROM tag_map WHERE pid=? AND tid=?" +
-                    "))";
-            for (int pid : l) {
-                mDb.execSQL(sql, new String[]{String.valueOf(ntid),
-                        String.valueOf(pid), String.valueOf(otid),
-                        String.valueOf(pid), String.valueOf(ntid)});
-            }
-
-            // 删除旧的tag
-            sql = "DELETE FROM tag_map WHERE tid=?";
-            mDb.execSQL(sql, new String[]{String.valueOf(otid)});
-
-            sql = "DELETE FROM tag WHERE id=?";
-            mDb.execSQL(sql, new String[]{String.valueOf(otid)});
-
-            // 更新count
-            sql = "SELECT COUNT(*) FROM tag_map WHERE tid=?";
-            c = mDb.rawQuery(sql, new String[]{String.valueOf(ntid)});
-            c.moveToFirst();
-            int count = c.getInt(0);
-            c.close();
-
-            updateTagCount(ntid, count);
-
-            mDb.execSQL("COMMIT");
-        }
-
-        return true;
-    }
-
-    // 整体，删除一个标签
-    public static boolean delTag(String tag) {
-        init();
-
-        mDb.execSQL("BEGIN");
-
-        // 从tag map删除
-        String sql = "DELETE FROM tag_map " +
-                "WHERE tid IN (SELECT id " +
-                "FROM tag " +
-                "WHERE name=?)";
-        mDb.execSQL(sql, new String[]{tag});
-
-        // 从tag删除
-        sql = "DELETE FROM tag WHERE name=?";
-        mDb.execSQL(sql, new String[]{tag});
-
-        mDb.execSQL("COMMIT");
-
-        return true;
     }
 
     // vacuum
