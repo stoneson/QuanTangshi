@@ -118,7 +118,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
                     new String(c.getBlob(2), ENCODING)
             );
         } catch (UnsupportedEncodingException e) {
-            //e.printStackTrace();
+            p = null;
         }
         c.close();
 
