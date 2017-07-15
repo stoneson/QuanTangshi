@@ -293,7 +293,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     }
 
     // 整体，改名/合并标签
-    public static boolean renameTag(String o, String n) {
+    public static void renameTag(String o, String n) {
         int ntid, otid;
         String sql;
 
@@ -347,12 +347,10 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
             mDb.execSQL("COMMIT");
         }
-
-        return true;
     }
 
     // 整体，删除一个标签
-    public static boolean delTag(String tag) {
+    public static void delTag(String tag) {
         init();
 
         mDb.execSQL("BEGIN");
@@ -369,8 +367,6 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         mDb.execSQL(sql, new String[]{tag});
 
         mDb.execSQL("COMMIT");
-
-        return true;
     }
 
     // ================== TAG 私有 ==================

@@ -93,17 +93,15 @@ public class TagAgent {
             return false;
         }
 
-        boolean r = MyDatabaseHelper.renameTag(o, n);
+        MyDatabaseHelper.renameTag(o, n);
         invalideTags();
 
-        return r;
+        return true;
     }
 
     // 整体，删
-    public static synchronized boolean delTag(String tag) {
-        boolean r = MyDatabaseHelper.delTag(tag);
+    public static synchronized void delTag(String tag) {
+        MyDatabaseHelper.delTag(tag);
         invalideTags();
-
-        return r;
     }
 }
