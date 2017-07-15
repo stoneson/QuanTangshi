@@ -109,7 +109,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         String sql = "SELECT title,author,txt FROM tangshi.poem WHERE id=?";
         Cursor c = mDb.rawQuery(sql, new String[]{String.valueOf(id)});
         c.moveToFirst();
-        RawPoem p = null;
+        RawPoem p;
         try {
             p = new RawPoem(
                     id,
@@ -342,7 +342,6 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             // 更新count
             sql = "SELECT COUNT(*) FROM tag_map WHERE tid=?";
             int count = getOneInt(sql, new String[]{String.valueOf(ntid)});
-
             updateTagCount(ntid, count);
 
             mDb.execSQL("COMMIT");
@@ -427,18 +426,10 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
                 new String[]{String.valueOf(pid), String.valueOf(tid)});
     }
 
-    // 得到tag count，-1为不存在
+    // 得到tag count，tag id必须已存在
     private static int getTagCount(int tid) {
         String sql = "SELECT count FROM tag WHERE id=?";
-        Cursor c = mDb.rawQuery(sql, new String[]{String.valueOf(tid)});
-        if (!c.moveToFirst()) {
-            c.close();
-            return -1;
-        }
-
-        int count = c.getInt(0);
-        c.close();
-        return count;
+        return getOneInt(sql, new String[]{String.valueOf(tid)});
     }
 
     // 更新tag count, 由外层设置事务
