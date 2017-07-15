@@ -294,15 +294,11 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
     // 整体，改名/合并标签
     public static boolean renameTag(String o, String n) {
-        int ntid = -1, otid;
+        int ntid, otid;
+        String sql;
 
         // 得到新tag id
-        String sql = "SELECT id FROM tag WHERE name=?";
-        Cursor c = mDb.rawQuery(sql, new String[]{n});
-        if (c.moveToFirst()) {
-            ntid = c.getInt(0);
-        }
-        c.close();
+        ntid = getTagID(n);
 
         if (ntid == -1) { // 新标签不存在，仅改名
             sql = "UPDATE tag SET name=? WHERE name=?";
@@ -311,12 +307,11 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             mDb.execSQL("BEGIN");
 
             // 得到旧tag id
-            sql = "SELECT id FROM tag WHERE name=?";
-            otid = getOneInt(sql, new String[]{o});
+            otid = getTagID(o);
 
             // 得到所有旧的pid list
             sql = "SELECT pid FROM tag_map WHERE tid=?";
-            c = mDb.rawQuery(sql, new String[]{String.valueOf(otid)});
+            Cursor c = mDb.rawQuery(sql, new String[]{String.valueOf(otid)});
 
             ArrayList<Integer> l = new ArrayList<>();
             if (c.moveToFirst()) {
@@ -364,7 +359,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
         // 从tag map删除
         String sql = "DELETE FROM tag_map " +
-                "WHERE tid IN (SELECT id " +
+                "WHERE tid = (SELECT id " +
                 "FROM tag " +
                 "WHERE name=?)";
         mDb.execSQL(sql, new String[]{tag});
@@ -384,14 +379,16 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     private static int getTagID(String tag) {
         String sql = "SELECT id FROM tag WHERE name=?";
         Cursor c = mDb.rawQuery(sql, new String[]{tag});
-        if (!c.moveToFirst()) {
-            c.close();
-            return -1;
-        }
 
-        int tid = c.getInt(0);
+        int ret;
+        if (c.moveToFirst()) {
+            ret = c.getInt(0);
+        } else {
+            ret = -1;
+        }
         c.close();
-        return tid;
+
+        return ret;
     }
 
     // 诗是否有tag id
