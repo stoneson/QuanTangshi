@@ -182,9 +182,6 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     public static synchronized boolean addTagToPoem(String tag, int pid) {
         init();
 
-        // queryByTags需要单引号，因此不允许标签有单引号
-        tag = tag.replace("'", "");
-
         int tid = getTagID(tag);
 
         if (tid != -1) {

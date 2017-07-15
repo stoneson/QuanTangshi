@@ -65,7 +65,9 @@ public class TagAgent {
     // 给诗添加tag
     public static synchronized boolean addTagToPoem(String tag, int pid) {
         boolean r = MyDatabaseHelper.addTagToPoem(tag, pid);
-        invalideTags();
+        if (r) {
+            invalideTags();
+        }
 
         return r;
     }
@@ -73,7 +75,9 @@ public class TagAgent {
     // 从诗删tag
     public static synchronized boolean delTagFromPoem(int pid, TagInfo info) {
         boolean r = MyDatabaseHelper.delTagFromPoem(pid, info);
-        invalideTags();
+        if (r) {
+            invalideTags();
+        }
 
         return r;
     }

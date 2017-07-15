@@ -116,6 +116,12 @@ public class TagView extends LinearLayout {
     }
 
     private void addTag(String tag) {
+        // queryByTags需要单引号，因此不允许标签有单引号
+        if (tag.contains("'")) {
+            Toast.makeText(this.getContext(), "标签不允许有单引号", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         TagAgent.addTagToPoem(tag, mPid);
         setPoemId(mPid);
     }

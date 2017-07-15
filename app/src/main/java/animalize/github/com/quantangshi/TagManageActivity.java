@@ -109,6 +109,9 @@ public class TagManageActivity extends AppCompatActivity implements View.OnClick
                 if ("".equals(newname)) {
                     Toast.makeText(this, "请先输入新的标签名称", Toast.LENGTH_SHORT).show();
                     return;
+                } else if (newname.contains("'")) {
+                    Toast.makeText(this, "标签不允许有单引号", Toast.LENGTH_SHORT).show();
+                    return;
                 }
 
                 boolean hasNewTag = TagAgent.hasTag(newname);
