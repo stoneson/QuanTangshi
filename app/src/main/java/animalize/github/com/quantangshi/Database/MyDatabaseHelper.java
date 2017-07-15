@@ -421,12 +421,6 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
                 new String[]{String.valueOf(pid), String.valueOf(tid)});
     }
 
-    // 得到tag count，tag id必须已存在
-    private static int getTagCount(int tid) {
-        String sql = "SELECT count FROM tag WHERE id=?";
-        return getOneInt(sql, new String[]{String.valueOf(tid)});
-    }
-
     // 更新tag count
     private static void updateTagCount(int tid) {
         String temp = String.valueOf(tid);
