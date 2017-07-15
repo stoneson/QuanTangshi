@@ -194,9 +194,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
                 // 添加到tag_map
                 addToTagMap(pid, tid);
-                // count + 1
-                int count = MyDatabaseHelper.getTagCount(tid);
-                updateTagCount(tid, count + 1);
+                updateTagCount(tid);
 
                 mDb.execSQL("COMMIT");
             }
@@ -226,9 +224,8 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
         // 从tag_map表删除
         delFromTagMap(pid, info.getId());
-        // count - 1
-        int count = MyDatabaseHelper.getTagCount(info.getId());
-        updateTagCount(info.getId(), count - 1);
+        updateTagCount(info.getId());
+        delZeroCountTag();
 
         mDb.execSQL("COMMIT");
 
@@ -340,9 +337,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             mDb.execSQL(sql, new String[]{String.valueOf(otid)});
 
             // 更新count
-            sql = "SELECT COUNT(*) FROM tag_map WHERE tid=?";
-            int count = getOneInt(sql, new String[]{String.valueOf(ntid)});
-            updateTagCount(ntid, count);
+            updateTagCount(ntid);
 
             mDb.execSQL("COMMIT");
         }
@@ -432,18 +427,21 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         return getOneInt(sql, new String[]{String.valueOf(tid)});
     }
 
-    // 更新tag count, 由外层设置事务
-    private static void updateTagCount(int tid, int count) {
-        String sql;
+    // 更新tag count
+    private static void updateTagCount(int tid) {
+        String temp = String.valueOf(tid);
 
-        if (count > 0) {
-            sql = "UPDATE tag SET count=? WHERE id=?";
-            mDb.execSQL(sql, new String[]{String.valueOf(count), String.valueOf(tid)});
-        } else {
-            // 引用为0时删除
-            sql = "DELETE FROM tag WHERE id=?";
-            mDb.execSQL(sql, new String[]{String.valueOf(tid)});
-        }
+        // 重新计数
+        String sql = "UPDATE tag SET count=(" +
+                "SELECT COUNT(*) FROM tag_map WHERE tid=?) " +
+                "WHERE id=?";
+        mDb.execSQL(sql, new String[]{temp, temp});
+    }
+
+    // 删除count为0的tag
+    private static void delZeroCountTag() {
+        String sql = "DELETE FROM tag WHERE count<=0";
+        mDb.execSQL(sql, null);
     }
 
     // ================== recent 公有 ==================
