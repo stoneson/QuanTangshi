@@ -28,7 +28,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "data.db";
     private static final int DATABASE_VERSION = 3;
 
-    private static final String ENCODING = "utf-16LE";
+    private static final String ENCODING = "UTF-16LE";
 
     // 静态变量
     private static MyDatabaseHelper mHelper;
