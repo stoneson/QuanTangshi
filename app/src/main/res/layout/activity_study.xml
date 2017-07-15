@@ -177,7 +177,7 @@
                 app:container_border_color="#22FF0000"
                 app:container_border_radius="0dp"
                 app:tag_background_color="#BDD5D9"
-                app:tag_border_color="#88009688"
+                app:tag_border_color="#22009688"
                 app:tag_corner_radius="0dp"
                 app:tag_cross_color="#999999"
                 app:tag_enable_cross="true"
