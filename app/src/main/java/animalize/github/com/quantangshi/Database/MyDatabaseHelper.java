@@ -194,6 +194,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
                 // 添加到tag_map
                 addToTagMap(pid, tid);
+                // 更新tag表计数
                 updateTagCount(tid);
 
                 mDb.execSQL("COMMIT");
@@ -224,6 +225,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
         // 从tag_map表删除
         delFromTagMap(pid, info.getId());
+        // 更新tag表计数
         updateTagCount(info.getId());
         delZeroCountTag();
 
@@ -435,7 +437,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     // 删除count为0的tag
     private static void delZeroCountTag() {
         String sql = "DELETE FROM tag WHERE count<=0";
-        mDb.execSQL(sql, null);
+        mDb.execSQL(sql);
     }
 
     // ================== recent 公有 ==================
