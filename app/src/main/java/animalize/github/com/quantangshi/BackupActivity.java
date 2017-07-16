@@ -57,6 +57,7 @@ public class BackupActivity extends AppCompatActivity implements View.OnClickLis
 
         TextView tv = (TextView) findViewById(R.id.db_version);
         tv.setText("" + MyAssetsDatabaseHelper.DATABASE_VERSION);
+
         tv = (TextView) findViewById(R.id.mydb_size);
         tv.setText("" + MyDatabaseHelper.getDBSize() + " 字节");
     }
@@ -69,6 +70,9 @@ public class BackupActivity extends AppCompatActivity implements View.OnClickLis
                 s1 = MyDatabaseHelper.getDBSize();
                 MyDatabaseHelper.vacuum();
                 s2 = MyDatabaseHelper.getDBSize();
+
+                TextView tv = (TextView) findViewById(R.id.mydb_size);
+                tv.setText("" + s2 + " 字节");
 
                 Toast.makeText(this,
                         "紧凑前文件大小：" + s1 + "字节\n紧凑后文件大小：" + s2 + "字节",
