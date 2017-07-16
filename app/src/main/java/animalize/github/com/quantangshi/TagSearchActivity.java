@@ -27,7 +27,6 @@ import co.lujun.androidtagview.TagView;
 public class TagSearchActivity extends AppCompatActivity {
 
     private boolean inResult = false;
-    private int currentCount = 0;
 
     private List<TagInfo> mAllTagList;
     private TagContainerLayout searchTags;
@@ -76,8 +75,9 @@ public class TagSearchActivity extends AppCompatActivity {
             public void onTagCrossClick(int position) {
                 searchTags.removeTag(position);
 
-                currentCount -= 1;
-                setSearchButton();
+                if (searchTags.getTags().isEmpty()) {
+                    searchButton.setEnabled(false);
+                }
             }
         });
 
@@ -153,7 +153,6 @@ public class TagSearchActivity extends AppCompatActivity {
         outState.putStringArrayList("search_tags", (ArrayList<String>) tags);
 
         outState.putBoolean("in_result", inResult);
-        outState.putInt("count", currentCount);
     }
 
     @Override
@@ -164,16 +163,11 @@ public class TagSearchActivity extends AppCompatActivity {
         searchTags.setTags(tags);
 
         inResult = savedInstanceState.getBoolean("in_result", false);
-        currentCount = savedInstanceState.getInt("count", 0);
 
+        searchButton.setEnabled(!tags.isEmpty());
         if (inResult) {
             doSearch();
         }
-        setSearchButton();
-    }
-
-    private void setSearchButton() {
-        searchButton.setEnabled(currentCount > 0);
     }
 
     public void clickOneAllTag(TagInfo info) {
@@ -182,9 +176,7 @@ public class TagSearchActivity extends AppCompatActivity {
         }
 
         searchTags.addTag(info.getName());
-
-        currentCount += 1;
-        setSearchButton();
+        searchButton.setEnabled(true);
     }
 
     private void doSearch() {
