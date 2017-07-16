@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ import animalize.github.com.quantangshi.UIPoem.OnePoemActivity;
 import co.lujun.androidtagview.TagContainerLayout;
 import co.lujun.androidtagview.TagView;
 
-public class TagSearchActivity extends AppCompatActivity {
+public class TagSearchActivity extends AppCompatActivity implements View.OnClickListener, TagView.OnTagClickListener {
 
     private boolean inResult = false;
 
@@ -37,6 +38,8 @@ public class TagSearchActivity extends AppCompatActivity {
     private LinearLayout layoutResult;
 
     private Button searchButton;
+    private Button prev, next;
+    private Spinner spinner;
 
     private RVAdapter resultAdapter;
     private RecyclerView rvResult;
@@ -60,26 +63,7 @@ public class TagSearchActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         searchTags = (TagContainerLayout) findViewById(R.id.search_tags);
-        searchTags.setOnTagClickListener(new TagView.OnTagClickListener() {
-            @Override
-            public void onTagClick(int position, String text) {
-
-            }
-
-            @Override
-            public void onTagLongClick(int position, String text) {
-
-            }
-
-            @Override
-            public void onTagCrossClick(int position) {
-                searchTags.removeTag(position);
-
-                if (searchTags.getTags().isEmpty()) {
-                    searchButton.setEnabled(false);
-                }
-            }
-        });
+        searchTags.setOnTagClickListener(this);
 
         // 所有tags 数组
         mAllTagList = TagAgent.getAllTagInfos();
@@ -90,41 +74,25 @@ public class TagSearchActivity extends AppCompatActivity {
         // 所有tags
         allTags = (TagContainerLayout) findViewById(R.id.all_tags);
         allTags.setIsTagViewClickable(true);
-        allTags.setOnTagClickListener(new TagView.OnTagClickListener() {
-            @Override
-            public void onTagClick(int position, String text) {
-                TagInfo info = mAllTagList.get(position);
-                TagSearchActivity.this.clickOneAllTag(info);
-            }
-
-            @Override
-            public void onTagLongClick(int position, String text) {
-            }
-
-            @Override
-            public void onTagCrossClick(int position) {
-
-            }
-        });
+        allTags.setOnTagClickListener(this);
         allTags.setTags(TagAgent.getAllTagsHasCount());
 
         // 开始搜索
         searchButton = (Button) findViewById(R.id.search_button);
-        searchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                doSearch();
-            }
-        });
+        searchButton.setOnClickListener(this);
 
         // 退回
         Button bt = (Button) findViewById(R.id.back_button);
-        bt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                resultToSearch();
-            }
-        });
+        bt.setOnClickListener(this);
+
+        // 前一个，后一个
+        bt = (Button) findViewById(R.id.prev);
+        bt.setOnClickListener(this);
+        bt = (Button) findViewById(R.id.next);
+        bt.setOnClickListener(this);
+
+        // spinner
+        spinner = (Spinner) findViewById(R.id.spinner);
 
         layoutAll = (LinearLayout) findViewById(R.id.layout_search);
         layoutResult = (LinearLayout) findViewById(R.id.layout_result);
@@ -252,5 +220,42 @@ public class TagSearchActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         finish();
         return true;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.search_button:
+                doSearch();
+                break;
+
+            case R.id.back_button:
+                resultToSearch();
+                break;
+        }
+    }
+
+    @Override
+    public void onTagClick(int position, String text) {
+        // 注意，两个TagContainerLayout共用一个listener
+        // 所有标签的逻辑
+        TagInfo info = mAllTagList.get(position);
+        clickOneAllTag(info);
+    }
+
+    @Override
+    public void onTagLongClick(int position, String text) {
+
+    }
+
+    @Override
+    public void onTagCrossClick(int position) {
+        // 注意，两个TagContainerLayout共用一个listener
+        // 当前标签的逻辑
+        searchTags.removeTag(position);
+
+        if (searchTags.getTags().isEmpty()) {
+            searchButton.setEnabled(false);
+        }
     }
 }
