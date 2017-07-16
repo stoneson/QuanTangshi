@@ -306,7 +306,7 @@ public class SQLiteAssetHelper extends SQLiteOpenHelper {
 
         Log.w(TAG, "Upgrading database " + mName + " from version " + oldVersion + " to " + newVersion + "...");
 
-        ArrayList<String> paths = new ArrayList<String>();
+        ArrayList<String> paths = new ArrayList<>();
         getUpgradeFilePaths(oldVersion, newVersion-1, newVersion, paths);
 
         if (paths.isEmpty()) {

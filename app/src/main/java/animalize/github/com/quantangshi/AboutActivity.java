@@ -148,6 +148,10 @@ public class AboutActivity extends AppCompatActivity {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
 
+            if (s == null) {
+                s = "获取信息失败";
+            }
+
             AboutActivity about = ref.get();
             if (about == null) {
                 return;

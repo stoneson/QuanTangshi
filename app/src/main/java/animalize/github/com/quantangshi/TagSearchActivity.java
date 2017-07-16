@@ -185,7 +185,7 @@ public class TagSearchActivity extends AppCompatActivity implements View.OnClick
 
         // spinner
         String[] forSpinner = resultAdapter.getForSpinner();
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(
                 this,
                 android.R.layout.simple_spinner_item,
                 forSpinner

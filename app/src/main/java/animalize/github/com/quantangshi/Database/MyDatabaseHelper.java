@@ -238,9 +238,11 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     public static synchronized ArrayList<InfoItem> queryByTags(List<String> tags) {
         init();
 
+        ArrayList<InfoItem> l = new ArrayList<>();
+
         int max = tags.size() - 1;
         if (max == -1) {
-            return null;
+            return l;
         }
 
         StringBuilder sb = new StringBuilder();
@@ -266,7 +268,6 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
                 "ORDER BY tm.id";
 
         Cursor c = mDb.rawQuery(sql, null);
-        ArrayList<InfoItem> l = new ArrayList<>();
         try {
             if (c.moveToFirst()) {
                 do {

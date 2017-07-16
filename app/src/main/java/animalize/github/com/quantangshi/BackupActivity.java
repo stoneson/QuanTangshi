@@ -104,10 +104,11 @@ public class BackupActivity extends AppCompatActivity implements View.OnClickLis
             Uri uri = data.getData();
 
             // 提取路径
-            String temp = null;
+            String temp;
             try {
                 temp = URI2Path.getPath(this, uri);
             } catch (Exception e) {
+                temp = null;
             }
             if (temp == null) {
                 Toast.makeText(this,
