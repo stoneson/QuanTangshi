@@ -53,14 +53,14 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:text="点击选择下列标签"
+                    android:text="至少选择一个标签"
                     android:textSize="20sp" />
 
                 <Button
                     android:id="@+id/search_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"
+                    android:enabled="false"
                     android:text="开始搜索" />
             </LinearLayout>
 
@@ -99,20 +99,36 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <TextView
-                    android:layout_width="0dp"
+                <Button
+                    android:id="@+id/prev"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
+                    android:minWidth="30dp"
+                    android:text="前" />
+
+                <Spinner
+                    android:id="@+id/spinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <Button
+                    android:id="@+id/next"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minWidth="30dp"
+                    android:text="后" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:text="点击回退重新搜索"
-                    android:textSize="20sp" />
+                    android:visibility="invisible" />
 
                 <Button
                     android:id="@+id/back_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:text="回退" />
+                    android:text="重新搜索" />
             </LinearLayout>
 
             <android.support.v7.widget.RecyclerView

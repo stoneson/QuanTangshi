@@ -27,6 +27,7 @@ import co.lujun.androidtagview.TagView;
 public class TagSearchActivity extends AppCompatActivity {
 
     private boolean inResult = false;
+    private int currentCount = 0;
 
     private List<TagInfo> mAllTagList;
     private TagContainerLayout searchTags;
@@ -35,6 +36,8 @@ public class TagSearchActivity extends AppCompatActivity {
     private Toolbar tb;
     private LinearLayout layoutAll;
     private LinearLayout layoutResult;
+
+    private Button searchButton;
 
     private RVAdapter resultAdapter;
     private RecyclerView rvResult;
@@ -72,6 +75,9 @@ public class TagSearchActivity extends AppCompatActivity {
             @Override
             public void onTagCrossClick(int position) {
                 searchTags.removeTag(position);
+
+                currentCount -= 1;
+                setSearchButton();
             }
         });
 
@@ -103,8 +109,8 @@ public class TagSearchActivity extends AppCompatActivity {
         allTags.setTags(TagAgent.getAllTagsHasCount());
 
         // 开始搜索
-        Button bt = (Button) findViewById(R.id.search_button);
-        bt.setOnClickListener(new View.OnClickListener() {
+        searchButton = (Button) findViewById(R.id.search_button);
+        searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 doSearch();
@@ -112,7 +118,7 @@ public class TagSearchActivity extends AppCompatActivity {
         });
 
         // 退回
-        bt = (Button) findViewById(R.id.back_button);
+        Button bt = (Button) findViewById(R.id.back_button);
         bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -147,6 +153,7 @@ public class TagSearchActivity extends AppCompatActivity {
         outState.putStringArrayList("search_tags", (ArrayList<String>) tags);
 
         outState.putBoolean("in_result", inResult);
+        outState.putInt("count", currentCount);
     }
 
     @Override
@@ -157,9 +164,16 @@ public class TagSearchActivity extends AppCompatActivity {
         searchTags.setTags(tags);
 
         inResult = savedInstanceState.getBoolean("in_result", false);
+        currentCount = savedInstanceState.getInt("count", 0);
+
         if (inResult) {
             doSearch();
         }
+        setSearchButton();
+    }
+
+    private void setSearchButton() {
+        searchButton.setEnabled(currentCount > 0);
     }
 
     public void clickOneAllTag(TagInfo info) {
@@ -168,14 +182,14 @@ public class TagSearchActivity extends AppCompatActivity {
         }
 
         searchTags.addTag(info.getName());
+
+        currentCount += 1;
+        setSearchButton();
     }
 
     private void doSearch() {
         List<String> list = searchTags.getTags();
         if (list.isEmpty()) {
-            Toast.makeText(TagSearchActivity.this,
-                    "至少选择一个标签才能搜索",
-                    Toast.LENGTH_SHORT).show();
             return;
         }
 
