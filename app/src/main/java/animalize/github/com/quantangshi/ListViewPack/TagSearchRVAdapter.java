@@ -74,12 +74,11 @@ public abstract class TagSearchRVAdapter
     }
 
     public String[] getForSpinner() {
-        if (mForSpinner.length > 0) {
+        if (mForSpinner != null && mForSpinner.length > 0) {
             return mForSpinner;
         } else {
             return new String[]{"无"};
         }
-
     }
 
     @Override
