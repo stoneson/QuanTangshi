@@ -8,6 +8,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -20,14 +22,15 @@ import animalize.github.com.quantangshi.Data.InfoItem;
 import animalize.github.com.quantangshi.Data.TagInfo;
 import animalize.github.com.quantangshi.Database.MyDatabaseHelper;
 import animalize.github.com.quantangshi.Database.TagAgent;
-import animalize.github.com.quantangshi.ListViewPack.RVAdapter;
+import animalize.github.com.quantangshi.ListViewPack.TagSearchRVAdapter;
 import animalize.github.com.quantangshi.UIPoem.OnePoemActivity;
 import co.lujun.androidtagview.TagContainerLayout;
 import co.lujun.androidtagview.TagView;
 
-public class TagSearchActivity extends AppCompatActivity implements View.OnClickListener, TagView.OnTagClickListener {
+public class TagSearchActivity extends AppCompatActivity implements View.OnClickListener, TagView.OnTagClickListener, AdapterView.OnItemSelectedListener {
 
     private boolean inResult = false;
+    private ArrayList<InfoItem> searchResultList;
 
     private List<TagInfo> mAllTagList;
     private TagContainerLayout searchTags;
@@ -41,7 +44,7 @@ public class TagSearchActivity extends AppCompatActivity implements View.OnClick
     private Button prev, next;
     private Spinner spinner;
 
-    private RVAdapter resultAdapter;
+    private TagSearchRVAdapter resultAdapter;
     private RecyclerView rvResult;
 
     public static void actionStart(Context context) {
@@ -85,14 +88,15 @@ public class TagSearchActivity extends AppCompatActivity implements View.OnClick
         Button bt = (Button) findViewById(R.id.back_button);
         bt.setOnClickListener(this);
 
-        // 前一个，后一个
-        bt = (Button) findViewById(R.id.prev);
-        bt.setOnClickListener(this);
-        bt = (Button) findViewById(R.id.next);
-        bt.setOnClickListener(this);
+        // 前一个，后一个，spinner
+        prev = (Button) findViewById(R.id.prev);
+        prev.setOnClickListener(this);
+        next = (Button) findViewById(R.id.next);
+        next.setOnClickListener(this);
 
         // spinner
         spinner = (Spinner) findViewById(R.id.spinner);
+        spinner.setOnItemSelectedListener(this);
 
         layoutAll = (LinearLayout) findViewById(R.id.layout_search);
         layoutResult = (LinearLayout) findViewById(R.id.layout_result);
@@ -104,7 +108,7 @@ public class TagSearchActivity extends AppCompatActivity implements View.OnClick
         rvResult.setLayoutManager(lm);
 
         // adapter
-        resultAdapter = new RVAdapter() {
+        resultAdapter = new TagSearchRVAdapter() {
             @Override
             public void onItemClick(int pid) {
                 OnePoemActivity.actionStart(TagSearchActivity.this, pid);
@@ -121,6 +125,10 @@ public class TagSearchActivity extends AppCompatActivity implements View.OnClick
         outState.putStringArrayList("search_tags", (ArrayList<String>) tags);
 
         outState.putBoolean("in_result", inResult);
+
+        if (inResult) {
+            outState.putInt("current_page", resultAdapter.getCurrentPage());
+        }
     }
 
     @Override
@@ -135,6 +143,12 @@ public class TagSearchActivity extends AppCompatActivity implements View.OnClick
         searchButton.setEnabled(!tags.isEmpty());
         if (inResult) {
             doSearch();
+
+            int current = savedInstanceState.getInt("current_page");
+            resultAdapter.setPage(current);
+
+            int last = resultAdapter.getLastPage();
+            spinner.setSelection((current > last ? last : current) - 1);
         }
     }
 
@@ -153,19 +167,40 @@ public class TagSearchActivity extends AppCompatActivity implements View.OnClick
             return;
         }
 
-        ArrayList<InfoItem> l = MyDatabaseHelper.queryByTags(list);
+        // 查询
+        searchResultList = MyDatabaseHelper.queryByTags(list);
+        tb.setTitle("标签搜索 - 找到" + searchResultList.size() + "首");
 
-        tb.setTitle("标签搜索 - 找到" + l.size() + "首");
+        // adapter
+        resultAdapter.setArrayList(searchResultList);
+        resultAdapter.setPage(1);
 
-        resultAdapter.setArrayList(l);
+        // 前后页按钮
+        prev.setEnabled(resultAdapter.hasPrev());
+        next.setEnabled(resultAdapter.hasNext());
 
+        // 切换界面
         layoutAll.setVisibility(View.INVISIBLE);
         layoutResult.setVisibility(View.VISIBLE);
 
+        // spinner
+        String[] forSpinner = resultAdapter.getForSpinner();
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(
+                this,
+                android.R.layout.simple_spinner_item,
+                forSpinner
+        );
+        spinnerAdapter.setDropDownViewResource(
+                android.R.layout.simple_spinner_dropdown_item
+        );
+        spinner.setAdapter(spinnerAdapter);
+
+        // 去掉tag的叉
         List<String> tags = searchTags.getTags();
         searchTags.setEnableCross(false);
         searchTags.setTags(tags);
 
+        // 当前状态
         inResult = true;
     }
 
@@ -195,7 +230,7 @@ public class TagSearchActivity extends AppCompatActivity implements View.OnClick
 
         tb.setTitle("标签搜索");
 
-        // 可见、不可见
+        // 切换界面
         layoutResult.setVisibility(View.INVISIBLE);
         layoutAll.setVisibility(View.VISIBLE);
 
@@ -204,6 +239,10 @@ public class TagSearchActivity extends AppCompatActivity implements View.OnClick
         searchTags.setEnableCross(true);
         searchTags.setTags(tags);
 
+        // 清空adapter
+        resultAdapter.clear();
+
+        // 切换状态
         inResult = false;
     }
 
@@ -224,6 +263,8 @@ public class TagSearchActivity extends AppCompatActivity implements View.OnClick
 
     @Override
     public void onClick(View v) {
+        int temp;
+
         switch (v.getId()) {
             case R.id.search_button:
                 doSearch();
@@ -231,6 +272,20 @@ public class TagSearchActivity extends AppCompatActivity implements View.OnClick
 
             case R.id.back_button:
                 resultToSearch();
+                break;
+
+            case R.id.prev:
+                temp = resultAdapter.getCurrentPage() - 1;
+                rvResult.scrollToPosition(0);
+
+                spinner.setSelection(temp - 1);
+                break;
+
+            case R.id.next:
+                temp = resultAdapter.getCurrentPage() - 1;
+                rvResult.scrollToPosition(0);
+
+                spinner.setSelection(temp + 1);
                 break;
         }
     }
@@ -257,5 +312,21 @@ public class TagSearchActivity extends AppCompatActivity implements View.OnClick
         if (searchTags.getTags().isEmpty()) {
             searchButton.setEnabled(false);
         }
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        // adapter
+        resultAdapter.setPage(position + 1);
+        rvResult.scrollToPosition(0);
+
+        // 前后页按钮
+        prev.setEnabled(resultAdapter.hasPrev());
+        next.setEnabled(resultAdapter.hasNext());
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 }
