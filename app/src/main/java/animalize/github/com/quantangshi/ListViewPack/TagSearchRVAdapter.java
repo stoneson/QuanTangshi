@@ -38,7 +38,7 @@ public abstract class TagSearchRVAdapter
                         (i + 1) * PAGEITEMS;
             } else {
                 mForSpinner[i] = "" + (i * PAGEITEMS + 1) + "-" +
-                        (i * PAGEITEMS + mList.size() % PAGEITEMS);
+                        mList.size();
             }
         }
     }
@@ -126,7 +126,8 @@ public abstract class TagSearchRVAdapter
         }
 
         if (mPage == mLastPage) {
-            return mList.size() % PAGEITEMS;
+            int temp = mList.size() % PAGEITEMS;
+            return temp == 0 ? PAGEITEMS : temp;
         } else {
             return PAGEITEMS;
         }
