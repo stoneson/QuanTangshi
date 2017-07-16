@@ -53,7 +53,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:text="至少选择一个标签"
+                    android:text="选择至少一个标签"
                     android:textSize="20sp" />
 
                 <Button

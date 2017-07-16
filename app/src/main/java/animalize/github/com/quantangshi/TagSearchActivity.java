@@ -190,9 +190,6 @@ public class TagSearchActivity extends AppCompatActivity implements View.OnClick
                 android.R.layout.simple_spinner_item,
                 forSpinner
         );
-        spinnerAdapter.setDropDownViewResource(
-                android.R.layout.simple_spinner_dropdown_item
-        );
         spinner.setAdapter(spinnerAdapter);
 
         // 去掉tag的叉
