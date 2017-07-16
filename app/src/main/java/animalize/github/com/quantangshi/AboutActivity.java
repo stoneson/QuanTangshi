@@ -60,7 +60,7 @@ public class AboutActivity extends AppCompatActivity {
         // mail
         tv = (TextView) findViewById(R.id.about_mail);
         StringBuilder sb = new StringBuilder();
-        sb.append("反馈意见、发现错字：<br><a href=mailto:mal");
+        sb.append("反馈意见、勘误：<br><a href=mailto:mal");
         sb.append("incn");
         sb.append("s@163");
         sb.append(".com>m");

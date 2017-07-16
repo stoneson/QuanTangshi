@@ -5,8 +5,43 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="全唐诗数据库的修订版本： " />
+
+        <TextView
+            android:id="@+id/db_version"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="我的标签、最近列表数据库大小：" />
+
+    <TextView
+        android:id="@+id/mydb_size"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginBottom="6dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="6dp"
+        android:background="#663366" />
+
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="整理数据库文件中的碎片：" />
 
@@ -18,7 +53,7 @@
         android:text="紧凑数据库" />
 
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="通常不必执行此操作。" />
 
@@ -32,13 +67,13 @@
         android:background="#663366" />
 
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="将当前的标签、最近列表备份到主存储器的这个目录：" />
+        android:text="将我的标签、最近列表备份到主存储器的这个目录：" />
 
     <TextView
         android:id="@+id/loc_path"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <Button
@@ -49,7 +84,7 @@
         android:text="开始备份" />
 
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="文件名的模式为QTS170329_162710.db，其中的数字表示备份时间。" />
 
@@ -63,7 +98,7 @@
         android:background="#663366" />
 
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="选择一个文件进行还原操作：" />
 
@@ -75,7 +110,7 @@
         android:text="选择文件" />
 
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="文件名的模式须为QTS170329_162710.*，否则无法通过验证。" />
 

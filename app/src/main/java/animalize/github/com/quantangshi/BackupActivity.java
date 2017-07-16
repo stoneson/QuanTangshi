@@ -22,6 +22,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import animalize.github.com.quantangshi.Database.BackupUtil;
+import animalize.github.com.quantangshi.Database.MyAssetsDatabaseHelper;
 import animalize.github.com.quantangshi.Database.MyDatabaseHelper;
 import animalize.github.com.quantangshi.UIPoem.URI2Path;
 
@@ -53,6 +54,11 @@ public class BackupActivity extends AppCompatActivity implements View.OnClickLis
         bt.setOnClickListener(this);
         bt = (Button) findViewById(R.id.button_choose);
         bt.setOnClickListener(this);
+
+        TextView tv = (TextView) findViewById(R.id.db_version);
+        tv.setText("" + MyAssetsDatabaseHelper.DATABASE_VERSION);
+        tv = (TextView) findViewById(R.id.mydb_size);
+        tv.setText("" + MyDatabaseHelper.getDBSize() + " 字节");
     }
 
     @Override
