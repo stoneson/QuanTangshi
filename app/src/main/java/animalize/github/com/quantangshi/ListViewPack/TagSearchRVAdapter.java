@@ -74,7 +74,12 @@ public abstract class TagSearchRVAdapter
     }
 
     public String[] getForSpinner() {
-        return mForSpinner;
+        if (mForSpinner.length > 0) {
+            return mForSpinner;
+        } else {
+            return new String[]{"无"};
+        }
+
     }
 
     @Override
@@ -116,7 +121,7 @@ public abstract class TagSearchRVAdapter
 
     @Override
     public int getItemCount() {
-        if (mList == null) {
+        if (mList == null || mList.isEmpty()) {
             return 0;
         }
 
