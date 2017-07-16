@@ -263,8 +263,6 @@ public class TagSearchActivity extends AppCompatActivity implements View.OnClick
 
     @Override
     public void onClick(View v) {
-        int temp;
-
         switch (v.getId()) {
             case R.id.search_button:
                 doSearch();
@@ -275,17 +273,11 @@ public class TagSearchActivity extends AppCompatActivity implements View.OnClick
                 break;
 
             case R.id.prev:
-                temp = resultAdapter.getCurrentPage() - 1;
-                rvResult.scrollToPosition(0);
-
-                spinner.setSelection(temp - 1);
+                spinner.setSelection(spinner.getSelectedItemPosition() - 1);
                 break;
 
             case R.id.next:
-                temp = resultAdapter.getCurrentPage() - 1;
-                rvResult.scrollToPosition(0);
-
-                spinner.setSelection(temp + 1);
+                spinner.setSelection(spinner.getSelectedItemPosition() + 1);
                 break;
         }
     }
