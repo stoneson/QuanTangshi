@@ -75,12 +75,6 @@ public class TagSearchActivity extends AppCompatActivity {
             }
         });
 
-        // 由系统恢复activity
-        if (savedInstanceState != null) {
-            ArrayList<String> tags = savedInstanceState.getStringArrayList("search_tags");
-            searchTags.setTags(tags);
-        }
-
         // 所有tags 数组
         mAllTagList = TagAgent.getAllTagInfos();
         if (mAllTagList.isEmpty()) {
@@ -113,28 +107,7 @@ public class TagSearchActivity extends AppCompatActivity {
         bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                List<String> list = searchTags.getTags();
-                if (list.isEmpty()) {
-                    Toast.makeText(TagSearchActivity.this,
-                            "至少选择一个标签才能搜索",
-                            Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                ArrayList<InfoItem> l = MyDatabaseHelper.queryByTags(list);
-
-                tb.setTitle("标签搜索 - 找到" + l.size() + "首");
-
-                resultAdapter.setArrayList(l);
-
-                layoutAll.setVisibility(View.INVISIBLE);
-                layoutResult.setVisibility(View.VISIBLE);
-
-                List<String> tags = searchTags.getTags();
-                searchTags.setEnableCross(false);
-                searchTags.setTags(tags);
-
-                inResult = true;
+                doSearch();
             }
         });
 
@@ -166,12 +139,60 @@ public class TagSearchActivity extends AppCompatActivity {
         rvResult.setAdapter(resultAdapter);
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        List<String> tags = searchTags.getTags();
+        outState.putStringArrayList("search_tags", (ArrayList<String>) tags);
+
+        outState.putBoolean("in_result", inResult);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        ArrayList<String> tags = savedInstanceState.getStringArrayList("search_tags");
+        searchTags.setTags(tags);
+
+        inResult = savedInstanceState.getBoolean("in_result", false);
+        if (inResult) {
+            doSearch();
+        }
+    }
+
     public void clickOneAllTag(TagInfo info) {
         if (searchTags.getTags().contains(info.getName())) {
             return;
         }
 
         searchTags.addTag(info.getName());
+    }
+
+    private void doSearch() {
+        List<String> list = searchTags.getTags();
+        if (list.isEmpty()) {
+            Toast.makeText(TagSearchActivity.this,
+                    "至少选择一个标签才能搜索",
+                    Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        ArrayList<InfoItem> l = MyDatabaseHelper.queryByTags(list);
+
+        tb.setTitle("标签搜索 - 找到" + l.size() + "首");
+
+        resultAdapter.setArrayList(l);
+
+        layoutAll.setVisibility(View.INVISIBLE);
+        layoutResult.setVisibility(View.VISIBLE);
+
+        List<String> tags = searchTags.getTags();
+        searchTags.setEnableCross(false);
+        searchTags.setTags(tags);
+
+        inResult = true;
     }
 
     private void resultToSearch() {
@@ -210,14 +231,6 @@ public class TagSearchActivity extends AppCompatActivity {
         searchTags.setTags(tags);
 
         inResult = false;
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        List<String> tags = searchTags.getTags();
-        outState.putStringArrayList("search_tags", (ArrayList<String>) tags);
-
-        super.onSaveInstanceState(outState);
     }
 
     @Override

@@ -88,6 +88,7 @@ public class TagAgent {
     }
 
     // 整体，改名、合并
+    // 即使old不存在了，目前的逻辑也无妨
     public static synchronized boolean renameTag(String o, String n) {
         if (o.equals(n)) {
             return false;
