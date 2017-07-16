@@ -85,6 +85,26 @@ public class TagManageActivity extends AppCompatActivity implements View.OnClick
         if (mAllTagList.isEmpty()) {
             Toast.makeText(this, "尚未添加标签，请在添加后使用本功能。", Toast.LENGTH_LONG).show();
         }
+
+        // 旋转恢复
+        if (savedInstanceState != null) {
+            String temp = savedInstanceState.getString("current", null);
+            if (temp != null) {
+                currentTag.setText(temp);
+                renameButton.setEnabled(true);
+                delButton.setEnabled(true);
+            }
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        String temp = currentTag.getText().toString();
+        if (!temp.isEmpty()) {
+            outState.putString("current", temp);
+        }
     }
 
     private void refreshTags() {

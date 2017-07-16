@@ -5,8 +5,8 @@ import android.content.Context;
 public class MyAssetsDatabaseHelper extends com.readystatesoftware.sqliteasset.SQLiteAssetHelper {
 
     private static final String DATABASE_NAME = "tangshi.db";
-    // 更新数据库时，递增此变量
-    private static final int DATABASE_VERSION = 2;
+    // 更新全唐诗数据库时，仅需递增此变量，就可以在首次运行APP时更新数据
+    private static final int DATABASE_VERSION = 3;
     private static String mPath;
 
     private MyAssetsDatabaseHelper(Context context) {
