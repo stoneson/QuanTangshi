@@ -45,6 +45,9 @@ public abstract class TagSearchRVAdapter
 
     public void setPage(int page) {
         mPage = page > mLastPage ? mLastPage : page;
+        if (mPage < 1) {
+            mPage = 1;
+        }
         notifyDataSetChanged();
     }
 
