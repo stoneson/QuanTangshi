@@ -264,7 +264,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
                 "ON tm.tid = t.id " +
                 "WHERE t.name in (" + sb + ") " +
                 "GROUP BY p.id " +
-                "HAVING COUNT(DISTINCT t.id) = " + tags.size() + " " +
+                "HAVING COUNT(*) = " + tags.size() + " " +
                 "ORDER BY tm.id";
 
         Cursor c = mDb.rawQuery(sql, null);
