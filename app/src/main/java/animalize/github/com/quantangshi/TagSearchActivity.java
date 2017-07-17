@@ -224,6 +224,9 @@ public class TagSearchActivity extends AppCompatActivity implements View.OnClick
                 }
             }
         }
+        if (searchTags.getTags().isEmpty()) {
+            searchButton.setEnabled(false);
+        }
 
         tb.setTitle("标签搜索");
 
