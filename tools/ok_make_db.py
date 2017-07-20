@@ -48,6 +48,8 @@ def process_paragraphs(paragraphs):
 
     return '\n'.join(p for p in paragraphs if p != '')
 
+def findbrace(id, s):
+    return re.sub(r'\n([）」』〗])', r'\1', s)
 
 def load_poem():
     def key(s):
@@ -72,6 +74,7 @@ def load_poem():
 
             paras = d['paragraphs']
             text = process_paragraphs(paras)
+            text = findbrace(id, text)
 
             if not text:
                 global empty_count
