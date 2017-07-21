@@ -17,7 +17,10 @@ public class SpinnerAdapter extends ArrayAdapter<String> {
 
     private static final int[] IDs = {
             R.drawable.b1, R.drawable.b2,
-            R.drawable.b3, R.drawable.b4
+            R.drawable.b3, R.drawable.b4,
+            R.drawable.b5, R.drawable.b6,
+            R.drawable.b7, R.drawable.b8,
+            R.drawable.b9, R.drawable.b10,
     };
     private Context ctx;
 
