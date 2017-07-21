@@ -1,4 +1,4 @@
-package animalize.github.com.quantangshi.UIPoem;
+package animalize.github.com.quantangshi;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -10,8 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-
-import animalize.github.com.quantangshi.R;
 
 public class SpinnerAdapter extends ArrayAdapter<String> {
 

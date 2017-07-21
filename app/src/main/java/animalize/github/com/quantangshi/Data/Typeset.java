@@ -8,22 +8,26 @@ import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
 
 import animalize.github.com.quantangshi.MyApplication;
-import animalize.github.com.quantangshi.UIPoem.SpinnerAdapter;
+import animalize.github.com.quantangshi.SpinnerAdapter;
 
 /**
  * Created by anima on 17-3-10.
  */
 
 public class Typeset {
+    private static final String TAG_TITLE_LINES = "title_lines";
+    private static final String TAG_TITLE_SIZE = "title_size";
+    private static final String TAG_TEXT_SIZE = "text_size";
+    private static final String TAG_LINE_SPACE = "line_space";
+    private static final String TAG_LINE_BREAK = "line_break";
+    private static final String TAG_BG_IMG = "bg_img";
     private static Typeset singleTong;
-
     private int titleLines;
     private int titleSize;
     private int textSize;
     private int lineSpace;
     private int lineBreak;
     private int bgImg;
-
     private Bitmap bmp;
     private BitmapDrawable poemBMP, studyBMP;
 
@@ -44,26 +48,20 @@ public class Typeset {
                 "typeset",
                 Context.MODE_PRIVATE);
 
-        titleLines = sp.getInt("title_lines", 2);
-        titleSize = sp.getInt("title_size", 26);
-        textSize = sp.getInt("text_size", 26);
-        lineSpace = sp.getInt("line_space", 8);
-        lineBreak = sp.getInt("line_break", 5);
-        bgImg = sp.getInt("bg_img", 0);
+        titleLines = sp.getInt(TAG_TITLE_LINES, 2);
+        titleSize = sp.getInt(TAG_TITLE_SIZE, 26);
+        textSize = sp.getInt(TAG_TEXT_SIZE, 26);
+        lineSpace = sp.getInt(TAG_LINE_SPACE, 8);
+        lineBreak = sp.getInt(TAG_LINE_BREAK, 5);
+        bgImg = sp.getInt(TAG_BG_IMG, 0);
     }
 
-    public void saveConfig() {
+    private void saveOne(String name, int value) {
         Context c = MyApplication.getContext();
         SharedPreferences.Editor editor = c.getSharedPreferences(
                 "typeset",
                 Context.MODE_PRIVATE).edit();
-
-        editor.putInt("title_lines", titleLines);
-        editor.putInt("title_size", titleSize);
-        editor.putInt("text_size", textSize);
-        editor.putInt("line_space", lineSpace);
-        editor.putInt("line_break", lineBreak);
-        editor.putInt("bg_img", bgImg);
+        editor.putInt(name, value);
         editor.apply();
     }
 
@@ -108,7 +106,10 @@ public class Typeset {
     }
 
     public void setTitleLines(int titleLines) {
-        this.titleLines = titleLines;
+        if (this.titleLines != titleLines) {
+            this.titleLines = titleLines;
+            saveOne(TAG_TITLE_LINES, titleLines);
+        }
     }
 
     public int getTitleSize() {
@@ -116,7 +117,10 @@ public class Typeset {
     }
 
     public void setTitleSize(int titleSize) {
-        this.titleSize = titleSize;
+        if (this.titleSize != titleSize) {
+            this.titleSize = titleSize;
+            saveOne(TAG_TITLE_SIZE, titleSize);
+        }
     }
 
     public int getTextSize() {
@@ -124,7 +128,10 @@ public class Typeset {
     }
 
     public void setTextSize(int textSize) {
-        this.textSize = textSize;
+        if (this.textSize != textSize) {
+            this.textSize = textSize;
+            saveOne(TAG_TEXT_SIZE, textSize);
+        }
     }
 
     public int getLineBreak() {
@@ -132,7 +139,10 @@ public class Typeset {
     }
 
     public void setLineBreak(int lineBreak) {
-        this.lineBreak = lineBreak;
+        if (this.lineBreak != lineBreak) {
+            this.lineBreak = lineBreak;
+            saveOne(TAG_LINE_BREAK, lineBreak);
+        }
     }
 
     public int getLineSpace() {
@@ -140,7 +150,10 @@ public class Typeset {
     }
 
     public void setLineSpace(int lineSpace) {
-        this.lineSpace = lineSpace;
+        if (this.lineSpace != lineSpace) {
+            this.lineSpace = lineSpace;
+            saveOne(TAG_LINE_SPACE, lineSpace);
+        }
     }
 
     public int getBgImg() {
@@ -148,7 +161,10 @@ public class Typeset {
     }
 
     public void setBgImg(int bgImg) {
-        this.bgImg = bgImg;
+        if (this.bgImg != bgImg) {
+            this.bgImg = bgImg;
+            saveOne(TAG_BG_IMG, bgImg);
+        }
 
         bmp = null;
         poemBMP = studyBMP = null;

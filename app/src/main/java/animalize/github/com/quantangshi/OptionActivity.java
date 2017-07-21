@@ -16,7 +16,6 @@ import android.widget.TextView;
 import animalize.github.com.quantangshi.Data.RawPoem;
 import animalize.github.com.quantangshi.Data.Typeset;
 import animalize.github.com.quantangshi.UIPoem.PoemView;
-import animalize.github.com.quantangshi.UIPoem.SpinnerAdapter;
 
 public class OptionActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
@@ -93,7 +92,6 @@ public class OptionActivity extends AppCompatActivity implements AdapterView.OnI
 
                 Typeset typeset = poemView.getTypeset();
                 typeset.setTitleLines(progress);
-                typeset.saveConfig();
 
                 poemView.updateTypeset();
             }
@@ -120,7 +118,6 @@ public class OptionActivity extends AppCompatActivity implements AdapterView.OnI
 
                 Typeset typeset = poemView.getTypeset();
                 typeset.setTitleSize(progress);
-                typeset.saveConfig();
 
                 poemView.updateTypeset();
             }
@@ -147,7 +144,6 @@ public class OptionActivity extends AppCompatActivity implements AdapterView.OnI
 
                 Typeset typeset = poemView.getTypeset();
                 typeset.setTextSize(progress);
-                typeset.saveConfig();
 
                 poemView.updateTypeset();
             }
@@ -174,7 +170,6 @@ public class OptionActivity extends AppCompatActivity implements AdapterView.OnI
 
                 Typeset typeset = poemView.getTypeset();
                 typeset.setLineSpace(progress);
-                typeset.saveConfig();
 
                 poemView.updateTypeset();
             }
@@ -201,7 +196,6 @@ public class OptionActivity extends AppCompatActivity implements AdapterView.OnI
 
                 Typeset typeset = poemView.getTypeset();
                 typeset.setLineBreak(progress);
-                typeset.saveConfig();
 
                 poemView.updateTypeset();
             }
@@ -233,7 +227,6 @@ public class OptionActivity extends AppCompatActivity implements AdapterView.OnI
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         Typeset typeset = poemView.getTypeset();
         typeset.setBgImg(position);
-        typeset.saveConfig();
 
         bgTextView.setText("背景图: " + (position + 1));
         poemView.setBackgroundIMG();
