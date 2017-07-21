@@ -4,6 +4,8 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextPaint;
@@ -36,6 +38,7 @@ public class PoemView extends LinearLayout {
 
     private int mChineseMode = 2;
 
+    private LinearLayout mRoot;
     private TextView mId;
     private TextView mTitle;
     private TextView mAuthor;
@@ -45,6 +48,8 @@ public class PoemView extends LinearLayout {
     public PoemView(Context context, AttributeSet attrs) {
         super(context, attrs);
         LayoutInflater.from(context).inflate(R.layout.view_poem, this);
+
+        mRoot = (LinearLayout) findViewById(R.id.root);
 
         mId = (TextView) findViewById(R.id.poem_id);
         mId.setOnClickListener(new OnClickListener() {
@@ -99,6 +104,16 @@ public class PoemView extends LinearLayout {
         }
     }
 
+    public void setBackgroundIMG() {
+        BitmapDrawable bitmapDrawable = mTypeset.getPoemBGDrawable();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            mRoot.setBackground(bitmapDrawable);
+        } else {
+            mRoot.setBackgroundDrawable(bitmapDrawable);
+        }
+    }
+
     public Typeset getTypeset() {
         return mTypeset;
     }
@@ -114,6 +129,8 @@ public class PoemView extends LinearLayout {
 
     public void updateTypeset() {
         mPoemWrapper.setLineBreak(mTypeset.getLineBreak());
+
+        setBackgroundIMG();
 
         mTitle.setMaxLines(mTypeset.getTitleLines());
         mTitle.setTextSize(mTypeset.getTitleSize());

@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +22,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioGroup;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import java.lang.ref.WeakReference;
@@ -42,6 +45,7 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
     private PoemWrapper poemWrapper;
     private int mode;
 
+    private ScrollView root;
     private TextView title;
     private TextView author;
     private TextView text;
@@ -66,6 +70,16 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_study);
 
+        // 背景图
+        root = (ScrollView) findViewById(R.id.root);
+        BitmapDrawable bitmapDrawable = mTypeset.getStudyBGDrawable();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            root.setBackground(bitmapDrawable);
+        } else {
+            root.setBackgroundDrawable(bitmapDrawable);
+        }
+
+        // 各组件
         title = (TextView) findViewById(R.id.poem_title);
         title.setTextSize(mTypeset.getTextSize());
 

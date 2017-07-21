@@ -5,16 +5,20 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.SeekBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import animalize.github.com.quantangshi.Data.RawPoem;
 import animalize.github.com.quantangshi.Data.Typeset;
 import animalize.github.com.quantangshi.UIPoem.PoemView;
+import animalize.github.com.quantangshi.UIPoem.SpinnerAdapter;
 
-public class OptionActivity extends AppCompatActivity {
+public class OptionActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     // 编号一定要大于诗的总数
     private RawPoem samplePoem = new RawPoem(
@@ -41,6 +45,9 @@ public class OptionActivity extends AppCompatActivity {
 
     private TextView lineBreakTextView;
     private SeekBar lineBreakSeekbar;
+
+    private TextView bgTextView;
+    private Spinner bgSpinner;
 
     public static void actionStart(Context context) {
         Intent i = new Intent(context, OptionActivity.class);
@@ -210,5 +217,30 @@ public class OptionActivity extends AppCompatActivity {
             }
         });
         lineBreakSeekbar.setProgress(poemView.getTypeset().getLineBreak());
+
+        // 背景图
+        bgTextView = (TextView) findViewById(R.id.bg_img);
+        bgSpinner = (Spinner) findViewById(R.id.bg_spinner);
+        bgSpinner.setOnItemSelectedListener(this);
+
+        SpinnerAdapter sa = new SpinnerAdapter(this);
+        bgSpinner.setAdapter(sa);
+        Typeset typeset = poemView.getTypeset();
+        bgSpinner.setSelection(typeset.getBgImg());
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        Typeset typeset = poemView.getTypeset();
+        typeset.setBgImg(position);
+        typeset.saveConfig();
+
+        bgTextView.setText("背景图: " + (position + 1));
+        poemView.setBackgroundIMG();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 }
