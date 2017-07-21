@@ -22,6 +22,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import animalize.github.com.quantangshi.Database.MyAssetsDatabaseHelper;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -49,9 +50,10 @@ public class AboutActivity extends AppCompatActivity {
 
         // 版本
         TextView tv = (TextView) findViewById(R.id.version);
-        tv.setLines(2);
 
-        String versionName = "版本：" + BuildConfig.VERSION_NAME + '\n';
+        String versionName = "程序版本：" + BuildConfig.VERSION_NAME +
+                "\n全唐诗数据修订：" + MyAssetsDatabaseHelper.DATABASE_VERSION +
+                "\n";
 
         Date buildDate = new Date(BuildConfig.TIMESTAMP);
         DateFormat df = new SimpleDateFormat("编译于：yyyy-MM-dd E HH:mm", Locale.getDefault());
