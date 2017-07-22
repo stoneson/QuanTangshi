@@ -101,7 +101,7 @@ public class AboutActivity extends AppCompatActivity {
         if (s == null) {
             versionInfo.setText("检查失败");
         } else {
-            versionInfo.setText("GitHub上最新版本: " + s);
+            versionInfo.setText(s);
         }
 
         versionInfo.setVisibility(View.VISIBLE);
@@ -135,7 +135,7 @@ public class AboutActivity extends AppCompatActivity {
                 return null;
             }
 
-            String p = "versionName \"(.*?)\"";
+            String p = "versionName\\s*\"(.*?)\".*?dataRev\\s*\"(.*?)\"";
 
             Pattern pattern = Pattern.compile(p, Pattern.DOTALL);
             Matcher matcher = pattern.matcher(html);
@@ -143,7 +143,8 @@ public class AboutActivity extends AppCompatActivity {
                 return null;
             }
 
-            return matcher.group(1);
+            return "GitHub上最新版本: " + matcher.group(1) +
+                    "\n最新全唐诗数据修订: " + matcher.group(2);
         }
 
         @Override
