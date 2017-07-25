@@ -141,10 +141,7 @@ public class StudyResultActivity extends AppCompatActivity implements Toolbar.On
 
             case R.id.open_it:
                 url = webView.getUrl();
-
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse(url));
-                startActivity(intent);
+                Utils.openInSysBrowser(this, url);
                 break;
 
             case R.id.set_font_ratio:

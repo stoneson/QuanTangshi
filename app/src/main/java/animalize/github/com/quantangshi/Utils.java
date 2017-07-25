@@ -1,5 +1,8 @@
 package animalize.github.com.quantangshi;
 
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.text.Html;
 import android.text.Spanned;
 
@@ -17,5 +20,11 @@ public class Utils {
             s = Html.fromHtml(html);
         }
         return s;
+    }
+
+    public static void openInSysBrowser(Context context, String url) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse(url));
+        context.startActivity(intent);
     }
 }
