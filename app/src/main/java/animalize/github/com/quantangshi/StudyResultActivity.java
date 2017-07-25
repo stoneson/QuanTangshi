@@ -134,7 +134,7 @@ public class StudyResultActivity extends AppCompatActivity implements Toolbar.On
         switch (item.getItemId()) {
             case R.id.copy_url:
                 String url = webView.getUrl();
-                
+
                 ClipboardManager clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
                 clipboardManager.setPrimaryClip(ClipData.newPlainText(null, url));
                 break;
