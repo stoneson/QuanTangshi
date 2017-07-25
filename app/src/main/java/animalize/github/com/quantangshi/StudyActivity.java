@@ -397,7 +397,9 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
 
         if (url != null) {
             if (sys_browser.isChecked()) {
-                Utils.openInSysBrowser(this, url);
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(url));
+                startActivity(intent);
             } else {
                 StudyResultActivity.actionStart(this, text, url);
             }
