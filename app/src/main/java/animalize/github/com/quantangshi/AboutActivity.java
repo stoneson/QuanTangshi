@@ -143,8 +143,8 @@ public class AboutActivity extends AppCompatActivity {
                 return null;
             }
 
-            return "GitHub上最新版本: " + matcher.group(1) +
-                    "\n最新全唐诗数据修订: " + matcher.group(2);
+            return "GitHub上最新版本：" + matcher.group(1) +
+                    "\n最新全唐诗数据修订：" + matcher.group(2);
         }
 
         @Override

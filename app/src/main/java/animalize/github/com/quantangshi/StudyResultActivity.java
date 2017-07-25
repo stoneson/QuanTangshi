@@ -1,8 +1,11 @@
 package animalize.github.com.quantangshi;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -23,7 +26,7 @@ import android.widget.Toast;
 
 public class StudyResultActivity extends AppCompatActivity implements Toolbar.OnMenuItemClickListener, View.OnClickListener, SeekBar.OnSeekBarChangeListener {
 
-    private static final String PREFIX = "缩放比例：";
+    private static final String PREFIX = "缩放百分比：";
     private WebView webView;
     private LinearLayout ratioPanel;
     private Button ratioOK, ratioCancel;
@@ -122,13 +125,28 @@ public class StudyResultActivity extends AppCompatActivity implements Toolbar.On
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.browser, menu);
+        getMenuInflater().inflate(R.menu.studyresult_menu, menu);
         return true;
     }
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.copy_url:
+                String url = webView.getUrl();
+                
+                ClipboardManager clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                clipboardManager.setPrimaryClip(ClipData.newPlainText(null, url));
+                break;
+
+            case R.id.open_it:
+                url = webView.getUrl();
+
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(url));
+                startActivity(intent);
+                break;
+
             case R.id.set_font_ratio:
                 initWidgets();
                 ratioPanel.setVisibility(View.VISIBLE);
