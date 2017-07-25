@@ -137,6 +137,11 @@ public class StudyResultActivity extends AppCompatActivity implements Toolbar.On
 
                 ClipboardManager clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
                 clipboardManager.setPrimaryClip(ClipData.newPlainText(null, url));
+
+                Toast.makeText(
+                        this,
+                        "已复制本页链接",
+                        Toast.LENGTH_SHORT).show();
                 break;
 
             case R.id.open_it:
