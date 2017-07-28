@@ -260,23 +260,6 @@ public class StudyResultActivity
     }
 
     @Override
-    public void onPause() {
-        webView.onPause();
-        webView.pauseTimers();
-
-        super.onPause();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        webView.resumeTimers();
-        webView.onResume();
-    }
-
-
-    @Override
     protected void onDestroy() {
         webView.destroy();
         webView = null;
