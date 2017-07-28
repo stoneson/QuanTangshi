@@ -3,11 +3,13 @@ package animalize.github.com.quantangshi;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
@@ -24,15 +26,27 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class StudyResultActivity extends AppCompatActivity implements Toolbar.OnMenuItemClickListener, View.OnClickListener, SeekBar.OnSeekBarChangeListener {
+public class StudyResultActivity
+        extends AppCompatActivity
+        implements Toolbar.OnMenuItemClickListener,
+        View.OnClickListener,
+        SeekBar.OnSeekBarChangeListener,
+        DialogInterface.OnClickListener {
 
+    private static final String[] engines =
+            {
+                    "百度", "汉语", "百科搜索", "百科词条", "图片"
+            };
     private static final String PREFIX = "缩放百分比：";
+
     private WebView webView;
     private LinearLayout ratioPanel;
     private Button ratioOK, ratioCancel;
-    private TextView ratioText;
+    private TextView ratioText, barTitle;
     private SeekBar ratioBar;
+
     private int ratio;
+    private String word;
 
     public static void actionStart(Context context, String word, String url) {
         Intent i = new Intent(context, StudyResultActivity.class);
@@ -47,14 +61,13 @@ public class StudyResultActivity extends AppCompatActivity implements Toolbar.On
 
         // intent
         Intent intent = getIntent();
-        String word = intent.getStringExtra("word");
+        word = intent.getStringExtra("word");
         String url = intent.getStringExtra("url");
 
         setContentView(R.layout.activity_study_result);
 
         // toolbar
-        Toolbar tb = (Toolbar) findViewById(R.id.browser_toolbar);
-        tb.setTitle(word);
+        Toolbar tb = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(tb);
 
         // 要在setSupportActionBar之后
@@ -62,6 +75,12 @@ public class StudyResultActivity extends AppCompatActivity implements Toolbar.On
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
 
+        // 标题
+        barTitle = (TextView) findViewById(R.id.title_name);
+        barTitle.setText(word);
+        barTitle.setOnClickListener(this);
+
+        // 缩放比例
         ratio = loadRatio();
 
         // webview
@@ -210,6 +229,14 @@ public class StudyResultActivity extends AppCompatActivity implements Toolbar.On
                 ratio = webView.getSettings().getTextZoom();
                 saveRatio(ratio);
                 break;
+
+            case R.id.title_name:
+                new AlertDialog.Builder(this)
+                        .setTitle("切换搜索引擎")
+                        .setItems(engines, this)
+                        .setNegativeButton("取消", null)
+                        .show();
+                break;
         }
     }
 
@@ -255,5 +282,30 @@ public class StudyResultActivity extends AppCompatActivity implements Toolbar.On
         webView = null;
 
         super.onDestroy();
+    }
+
+    @Override
+    public void onClick(DialogInterface dialog, int which) {
+        String url;
+        switch (which) {
+            case 0:
+                url = "http://www.baidu.com/s?wd=" + word;
+                break;
+            case 1:
+                url = "http://hanyu.baidu.com/zici/s?wd=" + word;
+                break;
+            case 2:
+                url = "http://baike.baidu.com/search?word=" + word;
+                break;
+            case 3:
+                url = "http://baike.baidu.com/item/" + word;
+                break;
+            case 4:
+                url = "http://image.baidu.com/search/wiseala?tn=wiseala&word=" + word;
+                break;
+            default:
+                url = "http://www.baidu.com";
+        }
+        webView.loadUrl(url);
     }
 }

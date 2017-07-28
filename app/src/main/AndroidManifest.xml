@@ -35,7 +35,8 @@
         <activity android:name=".TagManageActivity" />
         <activity
             android:name=".StudyResultActivity"
-            android:configChanges="orientation|screenSize" />
+            android:configChanges="orientation|screenSize"
+            android:label="" />
     </application>
 
 </manifest>
