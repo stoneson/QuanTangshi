@@ -28,11 +28,19 @@
         <activity
             android:name=".StudyActivity"
             android:launchMode="singleTask" />
-        <activity android:name=".TagSearchActivity" />
-        <activity android:name=".AboutActivity" />
-        <activity android:name=".TipActivity" />
+        <activity
+            android:name=".TagSearchActivity"
+            android:label="标签搜索" />
+        <activity
+            android:name=".AboutActivity"
+            android:label="关于本应用" />
+        <activity
+            android:name=".TipActivity"
+            android:label="使用帮助" />
         <activity android:name=".BackupActivity" />
-        <activity android:name=".TagManageActivity" />
+        <activity
+            android:name=".TagManageActivity"
+            android:label="标签管理" />
         <activity
             android:name=".StudyResultActivity"
             android:configChanges="orientation|screenSize"

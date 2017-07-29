@@ -59,7 +59,6 @@ public class TagSearchActivity extends AppCompatActivity implements View.OnClick
 
         // toolbar
         tb = (Toolbar) findViewById(R.id.tag_search_toolbar);
-        tb.setTitle("标签搜索");
         setSupportActionBar(tb);
 
         // 要在setSupportActionBar之后

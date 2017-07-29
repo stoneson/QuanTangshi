@@ -40,7 +40,6 @@ public class TagManageActivity extends AppCompatActivity implements View.OnClick
 
         // toolbar
         Toolbar tb = (Toolbar) findViewById(R.id.tag_manage_toolbar);
-        tb.setTitle("标签管理");
         setSupportActionBar(tb);
 
         // 要在setSupportActionBar之后

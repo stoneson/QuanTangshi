@@ -23,8 +23,10 @@ public class TipActivity extends AppCompatActivity {
 
         // toolbar
         Toolbar tb = (Toolbar) findViewById(R.id.tip_toolbar);
-        tb.setTitle("使用帮助");
         setSupportActionBar(tb);
+
+        // 要在setSupportActionBar之后
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // html
         TextView tv = (TextView) findViewById(R.id.tip_text);
@@ -32,5 +34,11 @@ public class TipActivity extends AppCompatActivity {
 
         tv.setMovementMethod(LinkMovementMethod.getInstance());
         tv.setText(s);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
     }
 }

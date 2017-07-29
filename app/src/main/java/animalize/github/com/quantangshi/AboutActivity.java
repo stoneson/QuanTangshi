@@ -45,8 +45,10 @@ public class AboutActivity extends AppCompatActivity {
 
         // toolbar
         Toolbar tb = (Toolbar) findViewById(R.id.about_toolbar);
-        tb.setTitle("关于本应用");
         setSupportActionBar(tb);
+
+        // 要在setSupportActionBar之后
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // 版本
         TextView tv = (TextView) findViewById(R.id.version);
@@ -105,6 +107,12 @@ public class AboutActivity extends AppCompatActivity {
         }
 
         versionInfo.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
     }
 
     private static class CheckTask extends AsyncTask<Void, Void, String> {
