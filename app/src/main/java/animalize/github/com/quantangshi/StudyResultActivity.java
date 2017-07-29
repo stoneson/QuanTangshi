@@ -43,6 +43,11 @@ public class StudyResultActivity
             {
                     "百度", "汉语", "百科搜索", "百科词条", "图片", "<跳转通假字>"
             };
+    private static final String[] engines_tongjia =
+            {
+                    "百度", "汉语", "百科搜索", "百科词条", "图片", "<跳转通假字>"
+            };
+
     private static final String PREFIX = "缩放百分比：";
     private static Pattern hanyu_url = Pattern.compile(
             "hanyu\\.baidu\\.com",
@@ -251,9 +256,16 @@ public class StudyResultActivity
                 break;
 
             case R.id.title_name:
+                String[] temp;
+                if (hanyu_url.matcher(webView.getUrl()).find()) {
+                    temp = engines_tongjia;
+                } else {
+                    temp = engines;
+                }
+
                 new AlertDialog.Builder(this)
                         .setTitle("切换搜索引擎")
-                        .setItems(engines, this)
+                        .setItems(temp, this)
                         .setNegativeButton("取消", null)
                         .show();
                 break;
