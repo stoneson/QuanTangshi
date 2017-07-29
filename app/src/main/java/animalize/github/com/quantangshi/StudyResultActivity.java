@@ -345,7 +345,9 @@ public class StudyResultActivity
         ArrayList<String> list = new ArrayList<>();
         while (matcher.find()) {
             String temp = matcher.group(1);
-            list.add(temp);
+            if (!list.contains(temp)) {
+                list.add(temp);
+            }
         }
 
         if (list.isEmpty()) {
