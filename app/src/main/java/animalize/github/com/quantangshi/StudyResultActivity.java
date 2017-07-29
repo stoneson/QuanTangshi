@@ -41,7 +41,7 @@ public class StudyResultActivity
 
     private static final String[] engines =
             {
-                    "百度", "汉语", "百科搜索", "百科词条", "图片", "<跳转通假字>"
+                    "百度", "汉语", "百科搜索", "百科词条", "图片"
             };
     private static final String[] engines_tongjia =
             {
