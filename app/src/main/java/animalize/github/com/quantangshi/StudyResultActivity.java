@@ -313,10 +313,6 @@ public class StudyResultActivity
         webView.loadUrl(url);
     }
 
-    public void setHtml(String html) {
-        this.html = html;
-    }
-
     private void tongJiaZi() {
         // 判断当前链接
         if (!hanyu_url.matcher(webView.getUrl()).find()) {
@@ -328,9 +324,9 @@ public class StudyResultActivity
         }
 
         // 提取通假字
-        String p = "(?:同|见|通|作)\\s{0,3}+" +
+        String p = "(?:同|见|通|作)\\s{0,3}" +
                 "[“\"”]\\s{0,3}" +
-                "([^\\s\\d]{1,8})(?:\\d)?\\s{0,3}[”\"“]";
+                "([^\\s\\d”\"“a-zA-Z]{1,10})(?:\\d{1,2})?\\s{0,3}[”\"“]";
         Pattern tongjiazi = Pattern.compile(p);
         Matcher matcher = tongjiazi.matcher(html);
 
@@ -368,7 +364,7 @@ public class StudyResultActivity
         @JavascriptInterface
         @SuppressWarnings("unused")
         public void processHTML(String html) {
-            setHtml(html);
+            StudyResultActivity.this.html = html;
         }
     }
 }
