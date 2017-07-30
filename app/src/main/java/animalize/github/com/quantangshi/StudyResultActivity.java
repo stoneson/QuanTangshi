@@ -43,10 +43,6 @@ public class StudyResultActivity
             {
                     "百度", "汉语", "百科搜索", "百科词条", "图片"
             };
-    private static final String[] engines_tongjia =
-            {
-                    "百度", "汉语", "百科搜索", "百科词条", "图片", "<提取通假字>"
-            };
 
     private static final String PREFIX = "缩放百分比：";
     private static Pattern hanyu_url = Pattern.compile(
@@ -57,11 +53,15 @@ public class StudyResultActivity
     private Button ratioOK, ratioCancel;
     private TextView ratioText;
     private SeekBar ratioBar;
+
     private int ratio;
     private String word;
+
     // 跳转通假字用
+    private boolean isHanyu = false;
     private String html;
     private String[] array;
+    private MenuItem extractTongjiazi;
 
     public static void actionStart(Context context, String word, String url) {
         Intent i = new Intent(context, StudyResultActivity.class);
@@ -112,7 +112,8 @@ public class StudyResultActivity
             webView.setWebViewClient(new WebViewClient() {
                 @Override
                 public void onPageFinished(WebView view, String url) {
-                    if (hanyu_url.matcher(url).find()) {
+                    isHanyu = hanyu_url.matcher(url).find();
+                    if (isHanyu) {
                         webView.loadUrl("javascript:HTMLOUT.processHTML(document.documentElement.outerHTML);");
                     }
                 }
@@ -170,12 +171,24 @@ public class StudyResultActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.studyresult_menu, menu);
+        extractTongjiazi = menu.findItem(R.id.extract_tongjiazi);
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        extractTongjiazi.setEnabled(isHanyu);
         return true;
     }
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.extract_tongjiazi:
+                tongJiaZi();
+                break;
+
             case R.id.copy_url:
                 String url = webView.getUrl();
 
@@ -256,16 +269,9 @@ public class StudyResultActivity
                 break;
 
             case R.id.title_name:
-                String[] temp;
-                if (hanyu_url.matcher(webView.getUrl()).find()) {
-                    temp = engines_tongjia;
-                } else {
-                    temp = engines;
-                }
-
                 new AlertDialog.Builder(this)
                         .setTitle("切换搜索引擎")
-                        .setItems(temp, this)
+                        .setItems(engines, this)
                         .setNegativeButton("取消", null)
                         .show();
                 break;
