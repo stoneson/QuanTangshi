@@ -322,9 +322,6 @@ public class StudyResultActivity
             case 4:
                 url = "http://image.baidu.com/search/wiseala?tn=wiseala&word=" + word;
                 break;
-            case 5:
-                tongJiaZi();
-                return;
             default:
                 url = "http://www.baidu.com";
         }
