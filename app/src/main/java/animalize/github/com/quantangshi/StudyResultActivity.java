@@ -45,15 +45,18 @@ public class StudyResultActivity
             };
 
     private static final String PREFIX = "缩放百分比：";
-    // 跳转通假字用
-    private static Pattern hanyu_url;
+
+    private String word;
     private WebView webView;
+
     private LinearLayout ratioPanel;
     private Button ratioOK, ratioCancel;
     private TextView ratioText;
     private SeekBar ratioBar;
     private int ratio;
-    private String word;
+
+    // 跳转通假字用
+    private static Pattern hanyu_url;
     private boolean isHanyu = false;
     private String html;
     private String[] array;
@@ -336,7 +339,7 @@ public class StudyResultActivity
 
     private void tongJiaZi() {
         // 判断当前链接
-        if (!hanyuURL(webView.getUrl())) {
+        if (!hanyuURL(webView.getUrl()) || html == null) {
             Toast.makeText(
                     this,
                     "当前页不是百度汉语，无法提取通假字",
