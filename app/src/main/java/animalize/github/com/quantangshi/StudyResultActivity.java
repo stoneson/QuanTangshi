@@ -45,18 +45,19 @@ public class StudyResultActivity
             };
 
     private static final String PREFIX = "缩放百分比：";
+    // 跳转通假字用
+    private static Pattern hanyu_url;
 
     private String word;
     private WebView webView;
 
+    // 设置缩放
     private LinearLayout ratioPanel;
-    private Button ratioOK, ratioCancel;
     private TextView ratioText;
     private SeekBar ratioBar;
     private int ratio;
 
     // 跳转通假字用
-    private static Pattern hanyu_url;
     private boolean isHanyu = false;
     private String html;
     private String[] array;
@@ -142,11 +143,11 @@ public class StudyResultActivity
 
         ratioPanel = (LinearLayout) findViewById(R.id.ratio_panel);
 
-        ratioOK = (Button) findViewById(R.id.ratio_ok);
-        ratioOK.setOnClickListener(this);
+        Button bt = (Button) findViewById(R.id.ratio_ok);
+        bt.setOnClickListener(this);
 
-        ratioCancel = (Button) findViewById(R.id.ratio_cancel);
-        ratioCancel.setOnClickListener(this);
+        bt = (Button) findViewById(R.id.ratio_cancel);
+        bt.setOnClickListener(this);
 
         ratioText = (TextView) findViewById(R.id.ratio_text);
         ratioText.setText(PREFIX + ratio);
