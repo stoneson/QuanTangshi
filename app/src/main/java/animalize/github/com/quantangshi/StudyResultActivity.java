@@ -45,19 +45,15 @@ public class StudyResultActivity
             };
 
     private static final String PREFIX = "缩放百分比：";
-    private static Pattern hanyu_url = Pattern.compile(
-            "hanyu\\.baidu\\.com",
-            Pattern.CASE_INSENSITIVE);
+    // 跳转通假字用
+    private static Pattern hanyu_url;
     private WebView webView;
     private LinearLayout ratioPanel;
     private Button ratioOK, ratioCancel;
     private TextView ratioText;
     private SeekBar ratioBar;
-
     private int ratio;
     private String word;
-
-    // 跳转通假字用
     private boolean isHanyu = false;
     private String html;
     private String[] array;
@@ -112,7 +108,7 @@ public class StudyResultActivity
             webView.setWebViewClient(new WebViewClient() {
                 @Override
                 public void onPageFinished(WebView view, String url) {
-                    isHanyu = hanyu_url.matcher(url).find();
+                    isHanyu = hanyuURL(url);
                     if (isHanyu) {
                         webView.loadUrl("javascript:HTMLOUT.processHTML(document.documentElement.outerHTML);");
                     }
@@ -328,9 +324,19 @@ public class StudyResultActivity
         webView.loadUrl(url);
     }
 
+    private boolean hanyuURL(String url) {
+        if (hanyu_url == null) {
+            hanyu_url = Pattern.compile(
+                    "hanyu\\.baidu\\.com",
+                    Pattern.CASE_INSENSITIVE);
+        }
+
+        return hanyu_url.matcher(url).find();
+    }
+
     private void tongJiaZi() {
         // 判断当前链接
-        if (!hanyu_url.matcher(webView.getUrl()).find()) {
+        if (!hanyuURL(webView.getUrl())) {
             Toast.makeText(
                     this,
                     "当前页不是百度汉语，无法提取通假字",
