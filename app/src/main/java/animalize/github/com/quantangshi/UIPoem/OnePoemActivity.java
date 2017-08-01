@@ -44,7 +44,6 @@ public class OnePoemActivity
     private RecentView recentView;
     private NeighbourView neighbourView;
 
-    private Button mDicButton;
     private Button mTButton;
     private Button mSButton;
     private Button mSpButton;
@@ -101,7 +100,7 @@ public class OnePoemActivity
         neighborButton.setOnClickListener(this);
 
         // 学习
-        mDicButton = (Button) findViewById(R.id.start_study);
+        Button mDicButton = (Button) findViewById(R.id.start_study);
         mDicButton.setOnClickListener(this);
 
         // 繁体、简体、简体+

@@ -56,7 +56,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     }
 
     // 得到一个必然的整数结果
-    private final static int getOneInt(String sql, String[] selectionArgs) {
+    private static int getOneInt(String sql, String[] selectionArgs) {
         Cursor c = mDb.rawQuery(sql, selectionArgs);
         c.moveToFirst();
         int ret = c.getInt(0);

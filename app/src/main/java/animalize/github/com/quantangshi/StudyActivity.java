@@ -45,7 +45,6 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
     private PoemWrapper poemWrapper;
     private int mode;
 
-    private ScrollView root;
     private TextView title;
     private TextView author;
     private TextView text;
@@ -71,7 +70,7 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_study);
 
         // 背景图
-        root = (ScrollView) findViewById(R.id.root);
+        ScrollView root = (ScrollView) findViewById(R.id.root);
         BitmapDrawable bitmapDrawable = mTypeset.getStudyBGDrawable();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             root.setBackground(bitmapDrawable);

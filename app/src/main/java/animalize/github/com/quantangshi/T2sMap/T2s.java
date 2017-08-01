@@ -9,8 +9,6 @@ import java.util.ArrayList;
 import animalize.github.com.quantangshi.Data.PoemWrapper;
 
 public class T2s {
-    private static final String TAG = "T2s";
-
     private static T2s mT2s;
     private static SparseIntArray map;
     private static SparseBooleanArray set;

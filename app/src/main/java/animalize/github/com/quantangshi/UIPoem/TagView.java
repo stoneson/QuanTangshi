@@ -30,8 +30,6 @@ public class TagView extends LinearLayout {
     private TagContainerLayout mAllTags;
     private EditText mEdit;
 
-    private Button mAddTag;
-
     public TagView(Context context, AttributeSet attrs) {
         super(context, attrs);
         LayoutInflater.from(context).inflate(R.layout.view_tag, this);
@@ -42,7 +40,7 @@ public class TagView extends LinearLayout {
 
         mEdit = (EditText) findViewById(R.id.tag_edit);
 
-        mAddTag = (Button) findViewById(R.id.tag_add);
+        Button mAddTag = (Button) findViewById(R.id.tag_add);
         mAddTag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

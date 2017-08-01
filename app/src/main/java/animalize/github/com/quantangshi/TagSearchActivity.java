@@ -30,7 +30,6 @@ import co.lujun.androidtagview.TagView;
 public class TagSearchActivity extends AppCompatActivity implements View.OnClickListener, TagView.OnTagClickListener, AdapterView.OnItemSelectedListener {
 
     private boolean inResult = false;
-    private ArrayList<InfoItem> searchResultList;
 
     private List<TagInfo> mAllTagList;
     private TagContainerLayout searchTags;
@@ -167,7 +166,7 @@ public class TagSearchActivity extends AppCompatActivity implements View.OnClick
         }
 
         // 查询
-        searchResultList = MyDatabaseHelper.queryByTags(list);
+        ArrayList<InfoItem> searchResultList = MyDatabaseHelper.queryByTags(list);
         tb.setTitle("标签搜索 - 找到" + searchResultList.size() + "首");
 
         // adapter

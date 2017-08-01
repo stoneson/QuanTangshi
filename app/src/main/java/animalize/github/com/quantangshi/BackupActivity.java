@@ -28,9 +28,6 @@ import animalize.github.com.quantangshi.UIPoem.URI2Path;
 public class BackupActivity extends AppCompatActivity implements View.OnClickListener {
 
     private final static int FILE_SELECT_CODE = 22;
-    // 备份
-    private TextView locPath;
-    private String path;
 
     public static void actionStart(Context context) {
         Intent i = new Intent(context, BackupActivity.class);
@@ -42,9 +39,9 @@ public class BackupActivity extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_backup);
 
-        locPath = (TextView) findViewById(R.id.loc_path);
+        TextView locPath = (TextView) findViewById(R.id.loc_path);
 
-        path = "/" + BackupUtil.getDirName();
+        String path = "/" + BackupUtil.getDirName();
         locPath.setText(path);
 
         Button bt = (Button) findViewById(R.id.button_vacuum);
