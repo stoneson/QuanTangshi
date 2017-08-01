@@ -20,6 +20,7 @@ def fun():
              '遶 绕',
              '疎 疏',
              '嬾 懒',
+             '鴈 雁',
              )
     all_lines.extend(extra)
         
