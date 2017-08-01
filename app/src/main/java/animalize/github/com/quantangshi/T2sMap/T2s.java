@@ -1,30 +1,21 @@
 package animalize.github.com.quantangshi.T2sMap;
 
 
-import android.util.SparseBooleanArray;
-import android.util.SparseIntArray;
-
 import java.util.ArrayList;
 
 import animalize.github.com.quantangshi.Data.PoemWrapper;
 
 public class T2s {
     private static T2s mT2s;
-    private static SparseIntArray map;
-    private static SparseBooleanArray set;
+    private static FastLoadSparseIntArray map;
+    private static FastLoadSetArray set;
 
     private T2s() {
         // 繁->简
-        map = new SparseIntArray();
-        for (int i = 0; i < T2SData.key.length; i++) {
-            map.append(T2SData.key[i], T2SData.value[i]);
-        }
+        map = new FastLoadSparseIntArray(T2SData.key, T2SData.value);
 
         // 多繁对一简
-        set = new SparseBooleanArray();
-        for (int i = 0; i < T2SData.multi_s.length; i++) {
-            set.append(T2SData.multi_s[i], true);
-        }
+        set = new FastLoadSetArray(T2SData.multi_s);
     }
 
     /*
@@ -68,7 +59,7 @@ public class T2s {
                 // 可转换
                 if (lst != null) {
                     // 简体+ 模式
-                    if (!set.get(temp_codepoint, false)) {
+                    if (!set.contains(temp_codepoint)) {
                         // 不在集合，直接采用结果
                         codepoint = temp_codepoint;
                     } else if (codepoint != temp_codepoint) {

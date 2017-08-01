@@ -19,6 +19,7 @@ def fun():
              '歛 敛',  # 有丢失意义的可能
              '遶 绕',
              '疎 疏',
+             '嬾 懒',
              )
     all_lines.extend(extra)
         
