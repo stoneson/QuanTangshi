@@ -305,7 +305,7 @@ public class OnePoemActivity
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == STUDY_REQ_CODE && resultCode == RESULT_FIRST_USER) {
-            studyPosi = data.getFloatExtra("studyPosi", 0);
+            studyPosi = data.getFloatExtra("posi", 0);
         }
     }
 
