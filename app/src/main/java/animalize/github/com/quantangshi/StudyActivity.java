@@ -40,10 +40,13 @@ import co.lujun.androidtagview.TagView;
 public class StudyActivity extends AppCompatActivity implements View.OnClickListener, TagView.OnTagClickListener, RadioGroup.OnCheckedChangeListener, CompoundButton.OnCheckedChangeListener {
     private final static String SAVE_ID = "poem_id";
     private final static String SAVE_WORDS = "search_words";
+    private final static String SAVE_POSI = "y_posi";
 
     private Typeset mTypeset = Typeset.getInstance();
     private PoemWrapper poemWrapper;
     private int mode;
+
+    private ScrollView root;
 
     private TextView title;
     private TextView author;
@@ -70,7 +73,7 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_study);
 
         // 背景图
-        ScrollView root = (ScrollView) findViewById(R.id.root);
+        root = (ScrollView) findViewById(R.id.root);
         BitmapDrawable bitmapDrawable = mTypeset.getStudyBGDrawable();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             root.setBackground(bitmapDrawable);
@@ -120,10 +123,6 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
         int id;
         if (savedInstanceState != null) {
             id = savedInstanceState.getInt(SAVE_ID, 1);
-
-            // 恢复标签
-            ArrayList<String> tags = savedInstanceState.getStringArrayList(SAVE_WORDS);
-            items.setTags(tags);
         } else {
             Intent intent = getIntent();
             id = intent.getIntExtra("id", 1);
@@ -138,9 +137,7 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
         boolean isSysBroswer = pref.getBoolean("sysbroswer", false);
 
         changeButtonMode(mode, false);
-        if (savedInstanceState == null) {
-            showPoem();
-        }
+        showPoem();
 
         sys_browser.setChecked(isSysBroswer);
 
@@ -164,11 +161,15 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        // 保存信息
+        // 诗id
         outState.putInt(SAVE_ID, poemWrapper.getID());
 
+        // tags
         List<String> tags = items.getTags();
         outState.putStringArrayList(SAVE_WORDS, (ArrayList<String>) tags);
+
+        // 滚动条位置
+        outState.putFloat(SAVE_POSI, getYPosi());
 
         super.onSaveInstanceState(outState);
     }
@@ -177,7 +178,24 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
 
-        showPoem();
+        // tags
+        ArrayList<String> tags = savedInstanceState.getStringArrayList(SAVE_WORDS);
+        items.setTags(tags);
+
+        // 滚动条位置
+        float posi = savedInstanceState.getFloat(SAVE_POSI);
+        setYPosi(posi);
+    }
+
+    private float getYPosi() {
+        return (float) root.getHeight() / root.getScrollY();
+    }
+
+    private void setYPosi(float posi) {
+        if (posi != 0) {
+            int t = (int) (root.getHeight() / posi);
+            root.scrollTo(0, t);
+        }
     }
 
     private void showPoem() {
