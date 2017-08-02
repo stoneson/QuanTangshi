@@ -38,7 +38,7 @@ import co.lujun.androidtagview.TagContainerLayout;
 import co.lujun.androidtagview.TagView;
 
 
-public class StudyActivity extends AppCompatActivity implements View.OnClickListener, TagView.OnTagClickListener, RadioGroup.OnCheckedChangeListener, CompoundButton.OnCheckedChangeListener, ViewTreeObserver.OnGlobalLayoutListener {
+public class StudyActivity extends AppCompatActivity implements View.OnClickListener, TagView.OnTagClickListener, RadioGroup.OnCheckedChangeListener, CompoundButton.OnCheckedChangeListener, ViewTreeObserver.OnGlobalLayoutListener, View.OnLongClickListener {
     private final static String SAVE_ID = "poem_id";
     private final static String SAVE_WORDS = "search_words";
     private final static String SAVE_POSI = "y_posi";
@@ -118,6 +118,7 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
         b.setOnClickListener(this);
         b = (Button) findViewById(R.id.edit_clear);
         b.setOnClickListener(this);
+        b.setOnLongClickListener(this);
 
         b = (Button) findViewById(R.id.edit_space);
         if (b != null) {
@@ -510,6 +511,12 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
         } else {
             observer.removeGlobalOnLayoutListener(this);
         }
+    }
+
+    @Override
+    public boolean onLongClick(View v) {
+        items.removeAllTags();
+        return true;
     }
 
     private static class Position {
