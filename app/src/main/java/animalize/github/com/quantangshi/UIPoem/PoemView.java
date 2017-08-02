@@ -182,12 +182,12 @@ public class PoemView extends LinearLayout {
     }
 
     public float getYPosi() {
-        return (float) mScroller.getHeight() / mScroller.getScrollY();
+        return (float) mScroller.getScrollY() / mScroller.getHeight();
     }
 
     public void setYPosi(float posi) {
         if (posi != 0) {
-            int t = (int) (mScroller.getHeight() / posi);
+            int t = (int) (mScroller.getHeight() * posi);
             mScroller.scrollTo(0, t);
         }
     }

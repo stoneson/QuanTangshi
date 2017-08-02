@@ -18,6 +18,8 @@ import android.widget.LinearLayout;
 
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
+import java.util.ArrayList;
+
 import animalize.github.com.quantangshi.Data.RawPoem;
 import animalize.github.com.quantangshi.Database.MyDatabaseHelper;
 import animalize.github.com.quantangshi.R;
@@ -55,7 +57,7 @@ public class OnePoemActivity
     private Button neighborButton, recentButton, tagButton;
 
     private float studyPosi = 0;
-    private String[] studyTags;
+    private ArrayList<String> studyTags;
 
     public static void actionStart(Context context) {
         Intent i = new Intent(context, OnePoemActivity.class);
@@ -310,7 +312,7 @@ public class OnePoemActivity
 
         if (requestCode == STUDY_REQ_CODE && resultCode == RESULT_FIRST_USER) {
             studyPosi = data.getFloatExtra("posi", 0);
-            studyTags = data.getStringArrayExtra("tags");
+            studyTags = data.getStringArrayListExtra("tags");
         }
     }
 
@@ -321,7 +323,7 @@ public class OnePoemActivity
 
         outState.putFloat("posi", poemView.getYPosi());
         outState.putFloat("study_posi", studyPosi);
-        outState.putStringArray("study_tags", studyTags);
+        outState.putStringArrayList("study_tags", studyTags);
 
         super.onSaveInstanceState(outState);
     }
@@ -342,7 +344,7 @@ public class OnePoemActivity
         poemView.setYPosi(posi);
 
         studyPosi = savedInstanceState.getFloat("study_posi");
-        studyTags = savedInstanceState.getStringArray("study_tags");
+        studyTags = savedInstanceState.getStringArrayList("study_tags");
     }
 
     @Override

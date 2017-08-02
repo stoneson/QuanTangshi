@@ -68,7 +68,7 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
                                    int requestCode,
                                    int id,
                                    float posi,
-                                   String[] tags) {
+                                   ArrayList<String> tags) {
         Intent i = new Intent(activity, StudyActivity.class);
         i.putExtra("id", id);
         i.putExtra("posi", posi);
@@ -138,7 +138,7 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
             id = intent.getIntExtra("id", 1);
             posi = intent.getFloatExtra("posi", 0);
 
-            String[] tags = intent.getStringArrayExtra("tags");
+            ArrayList<String> tags = intent.getStringArrayListExtra("tags");
             if (tags != null) {
                 items.setTags(tags);
             }
@@ -212,8 +212,7 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
         Intent i = new Intent();
 
         i.putExtra("posi", getYPosi());
-        List<String> t = items.getTags();
-        i.putExtra("tags", t.toArray(new String[t.size()]));
+        i.putStringArrayListExtra("tags", (ArrayList<String>) items.getTags());
 
         setResult(RESULT_FIRST_USER, i);
 
@@ -221,12 +220,12 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private float getYPosi() {
-        return (float) root.getHeight() / root.getScrollY();
+        return (float) root.getScrollY() / root.getHeight();
     }
 
     private void setYPosi(float posi) {
         if (posi != 0) {
-            int t = (int) (root.getHeight() / posi);
+            int t = (int) (root.getHeight() * posi);
             root.scrollTo(0, t);
         }
     }
@@ -502,8 +501,15 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onGlobalLayout() {
         setYPosi(posi);
-        // 清空位置，因为输入法也会触发这里
-        posi = 0;
+
+        // 去掉监听器，因为输入法也会触发这里
+        final ViewTreeObserver observer = root.getViewTreeObserver();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            observer.removeOnGlobalLayoutListener(this);
+        } else {
+            observer.removeGlobalOnLayoutListener(this);
+        }
     }
 
     private static class Position {
