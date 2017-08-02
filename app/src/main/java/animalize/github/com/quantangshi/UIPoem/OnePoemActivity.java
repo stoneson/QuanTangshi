@@ -321,6 +321,7 @@ public class OnePoemActivity
 
         outState.putFloat("posi", poemView.getYPosi());
         outState.putFloat("study_posi", studyPosi);
+        outState.putStringArray("study_tags", studyTags);
 
         super.onSaveInstanceState(outState);
     }
@@ -341,6 +342,7 @@ public class OnePoemActivity
         poemView.setYPosi(posi);
 
         studyPosi = savedInstanceState.getFloat("study_posi");
+        studyTags = savedInstanceState.getStringArray("study_tags");
     }
 
     @Override

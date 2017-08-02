@@ -206,7 +206,7 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onBackPressed() {
         Intent i = new Intent();
-        
+
         i.putExtra("posi", getYPosi());
         List<String> t = items.getTags();
         i.putExtra("tags", t.toArray(new String[t.size()]));
