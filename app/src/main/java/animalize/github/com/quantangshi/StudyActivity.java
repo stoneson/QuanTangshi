@@ -15,7 +15,9 @@ import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -37,10 +39,12 @@ import co.lujun.androidtagview.TagContainerLayout;
 import co.lujun.androidtagview.TagView;
 
 
-public class StudyActivity extends AppCompatActivity implements View.OnClickListener, TagView.OnTagClickListener, RadioGroup.OnCheckedChangeListener, CompoundButton.OnCheckedChangeListener {
+public class StudyActivity extends AppCompatActivity implements View.OnClickListener, TagView.OnTagClickListener, RadioGroup.OnCheckedChangeListener, CompoundButton.OnCheckedChangeListener, ViewTreeObserver.OnGlobalLayoutListener {
     private final static String SAVE_ID = "poem_id";
     private final static String SAVE_WORDS = "search_words";
     private final static String SAVE_POSI = "y_posi";
+
+    private float posi = 0;
 
     private Typeset mTypeset = Typeset.getInstance();
     private PoemWrapper poemWrapper;
@@ -61,10 +65,14 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
 
     private RadioGroup engines;
 
-    public static void actionStart(Context context, int id) {
-        Intent i = new Intent(context, StudyActivity.class);
+    public static void actionStart(AppCompatActivity activity,
+                                   int requestCode,
+                                   int id,
+                                   float posi) {
+        Intent i = new Intent(activity, StudyActivity.class);
         i.putExtra("id", id);
-        context.startActivity(i);
+        i.putExtra("posi", posi);
+        activity.startActivityForResult(i, requestCode);
     }
 
     @Override
@@ -123,9 +131,11 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
         int id;
         if (savedInstanceState != null) {
             id = savedInstanceState.getInt(SAVE_ID, 1);
+            posi = savedInstanceState.getFloat(SAVE_POSI);
         } else {
             Intent intent = getIntent();
             id = intent.getIntExtra("id", 1);
+            posi = intent.getFloatExtra("posi", 0);
         }
         RawPoem poem = MyDatabaseHelper.getPoemById(id);
         poemWrapper = PoemWrapper.getPoemWrapper(poem, mTypeset.getLineBreak());
@@ -138,6 +148,10 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
 
         changeButtonMode(mode, false);
         showPoem();
+
+        // 滚动条位置
+        final ViewTreeObserver observer = root.getViewTreeObserver();
+        observer.addOnGlobalLayoutListener(this);
 
         sys_browser.setChecked(isSysBroswer);
 
@@ -181,10 +195,15 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
         // tags
         ArrayList<String> tags = savedInstanceState.getStringArrayList(SAVE_WORDS);
         items.setTags(tags);
+    }
 
-        // 滚动条位置
-        float posi = savedInstanceState.getFloat(SAVE_POSI);
-        setYPosi(posi);
+    @Override
+    public void onBackPressed() {
+        Intent i = new Intent();
+        i.putExtra("posi", getYPosi());
+        setResult(RESULT_FIRST_USER, i);
+
+        super.onBackPressed();
     }
 
     private float getYPosi() {
@@ -464,6 +483,11 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
         SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
         editor.putBoolean("sysbroswer", isChecked);
         editor.apply();
+    }
+
+    @Override
+    public void onGlobalLayout() {
+        setYPosi(posi);
     }
 
     private static class Position {

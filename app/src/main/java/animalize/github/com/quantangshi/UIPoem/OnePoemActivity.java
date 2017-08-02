@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -27,6 +28,8 @@ import animalize.github.com.quantangshi.StudyActivity;
 public class OnePoemActivity
         extends AppCompatActivity
         implements PoemController, View.OnClickListener, SlidingUpPanelLayout.PanelSlideListener {
+
+    private final static int STUDY_REQ_CODE = 666;
 
     private final static int NO = 1;
     private final static int NEIGHBOR = 2;
@@ -51,6 +54,7 @@ public class OnePoemActivity
     private int currentView = TAG;
     private boolean collapsed = true;
     private Button neighborButton, recentButton, tagButton;
+    private float posi = 0;
 
     public static void actionStart(Context context) {
         Intent i = new Intent(context, OnePoemActivity.class);
@@ -144,15 +148,28 @@ public class OnePoemActivity
         if (currentPoem == null || currentPoem.getId() != id) {
             toPoemByID(id);
             updateUIForPoem(true, true);
+
+            posi = 0;
         }
     }
 
     private void randomPoem() {
         // 随机一首诗
-        currentPoem = MyDatabaseHelper.randomPoem();
+        int temp;
+        if (currentPoem != null) {
+            temp = currentPoem.getId();
+        } else {
+            temp = 1;
+        }
+
+        do {
+            currentPoem = MyDatabaseHelper.randomPoem();
+        } while (currentPoem.getId() == temp);
+
+        posi = 0;
     }
 
-    public void toPoemByID(int id) {
+    private void toPoemByID(int id) {
         currentPoem = MyDatabaseHelper.getPoemById(id);
     }
 
@@ -283,6 +300,17 @@ public class OnePoemActivity
     }
 
     @Override
+    protected void onActivityResult(int requestCode,
+                                    int resultCode,
+                                    Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == STUDY_REQ_CODE && resultCode == RESULT_FIRST_USER) {
+            posi = data.getFloatExtra("posi", 0);
+        }
+    }
+
+    @Override
     protected void onSaveInstanceState(Bundle outState) {
         outState.putInt("view", currentView);
         outState.putBoolean("collapsed", collapsed);
@@ -338,7 +366,12 @@ public class OnePoemActivity
                 break;
 
             case R.id.start_study:
-                StudyActivity.actionStart(OnePoemActivity.this, currentPoem.getId());
+                StudyActivity.actionStart(
+                        OnePoemActivity.this,
+                        STUDY_REQ_CODE,
+                        currentPoem.getId(),
+                        posi
+                );
                 break;
 
             case R.id.button_t:

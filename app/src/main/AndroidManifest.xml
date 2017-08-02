@@ -26,8 +26,7 @@
             android:launchMode="singleTask" />
         <activity android:name=".OptionActivity" />
         <activity
-            android:name=".StudyActivity"
-            android:launchMode="singleTask" />
+            android:name=".StudyActivity" />
         <activity
             android:name=".TagSearchActivity"
             android:label="标签搜索" />
