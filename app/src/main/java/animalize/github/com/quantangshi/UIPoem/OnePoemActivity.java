@@ -53,7 +53,9 @@ public class OnePoemActivity
     private int currentView = TAG;
     private boolean collapsed = true;
     private Button neighborButton, recentButton, tagButton;
+
     private float studyPosi = 0;
+    private String[] studyTags;
 
     public static void actionStart(Context context) {
         Intent i = new Intent(context, OnePoemActivity.class);
@@ -149,6 +151,7 @@ public class OnePoemActivity
             updateUIForPoem(true, true);
 
             studyPosi = 0;
+            studyTags = null;
         }
     }
 
@@ -166,6 +169,7 @@ public class OnePoemActivity
         } while (currentPoem.getId() == temp);
 
         studyPosi = 0;
+        studyTags = null;
     }
 
     private void toPoemByID(int id) {
@@ -306,6 +310,7 @@ public class OnePoemActivity
 
         if (requestCode == STUDY_REQ_CODE && resultCode == RESULT_FIRST_USER) {
             studyPosi = data.getFloatExtra("posi", 0);
+            studyTags = data.getStringArrayExtra("tags");
         }
     }
 
@@ -377,7 +382,8 @@ public class OnePoemActivity
                         OnePoemActivity.this,
                         STUDY_REQ_CODE,
                         currentPoem.getId(),
-                        studyPosi
+                        studyPosi,
+                        studyTags
                 );
                 break;
 

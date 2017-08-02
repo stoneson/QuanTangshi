@@ -67,10 +67,12 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
     public static void actionStart(AppCompatActivity activity,
                                    int requestCode,
                                    int id,
-                                   float posi) {
+                                   float posi,
+                                   String[] tags) {
         Intent i = new Intent(activity, StudyActivity.class);
         i.putExtra("id", id);
         i.putExtra("posi", posi);
+        i.putExtra("tags", tags);
         activity.startActivityForResult(i, requestCode);
     }
 
@@ -135,6 +137,11 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
             Intent intent = getIntent();
             id = intent.getIntExtra("id", 1);
             posi = intent.getFloatExtra("posi", 0);
+
+            String[] tags = intent.getStringArrayExtra("tags");
+            if (tags != null) {
+                items.setTags(tags);
+            }
         }
         RawPoem poem = MyDatabaseHelper.getPoemById(id);
         poemWrapper = PoemWrapper.getPoemWrapper(poem, mTypeset.getLineBreak());
@@ -199,7 +206,11 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onBackPressed() {
         Intent i = new Intent();
+        
         i.putExtra("posi", getYPosi());
+        List<String> t = items.getTags();
+        i.putExtra("tags", t.toArray(new String[t.size()]));
+
         setResult(RESULT_FIRST_USER, i);
 
         super.onBackPressed();
