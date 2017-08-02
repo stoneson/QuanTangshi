@@ -11,7 +11,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -54,7 +53,7 @@ public class OnePoemActivity
     private int currentView = TAG;
     private boolean collapsed = true;
     private Button neighborButton, recentButton, tagButton;
-    private float posi = 0;
+    private float studyPosi = 0;
 
     public static void actionStart(Context context) {
         Intent i = new Intent(context, OnePoemActivity.class);
@@ -149,7 +148,7 @@ public class OnePoemActivity
             toPoemByID(id);
             updateUIForPoem(true, true);
 
-            posi = 0;
+            studyPosi = 0;
         }
     }
 
@@ -166,7 +165,7 @@ public class OnePoemActivity
             currentPoem = MyDatabaseHelper.randomPoem();
         } while (currentPoem.getId() == temp);
 
-        posi = 0;
+        studyPosi = 0;
     }
 
     private void toPoemByID(int id) {
@@ -306,7 +305,7 @@ public class OnePoemActivity
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == STUDY_REQ_CODE && resultCode == RESULT_FIRST_USER) {
-            posi = data.getFloatExtra("posi", 0);
+            studyPosi = data.getFloatExtra("studyPosi", 0);
         }
     }
 
@@ -314,6 +313,9 @@ public class OnePoemActivity
     protected void onSaveInstanceState(Bundle outState) {
         outState.putInt("view", currentView);
         outState.putBoolean("collapsed", collapsed);
+
+        outState.putFloat("posi", poemView.getYPosi());
+        outState.putFloat("study_posi", studyPosi);
 
         super.onSaveInstanceState(outState);
     }
@@ -329,6 +331,11 @@ public class OnePoemActivity
 
         collapsed = savedInstanceState.getBoolean("collapsed");
         setBoldButton();
+
+        float posi = savedInstanceState.getFloat("posi");
+        poemView.setYPosi(posi);
+
+        studyPosi = savedInstanceState.getFloat("study_posi");
     }
 
     @Override
@@ -370,7 +377,7 @@ public class OnePoemActivity
                         OnePoemActivity.this,
                         STUDY_REQ_CODE,
                         currentPoem.getId(),
-                        posi
+                        studyPosi
                 );
                 break;
 
