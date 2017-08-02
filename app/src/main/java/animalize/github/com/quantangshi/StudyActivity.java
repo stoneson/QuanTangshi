@@ -153,7 +153,9 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
         boolean isSysBroswer = pref.getBoolean("sysbroswer", false);
 
         changeButtonMode(mode, false);
-        showPoem();
+        if (savedInstanceState == null) {
+            showPoem();
+        }
 
         // 滚动条位置
         final ViewTreeObserver observer = root.getViewTreeObserver();
@@ -197,6 +199,8 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
+
+        showPoem();
 
         // tags
         ArrayList<String> tags = savedInstanceState.getStringArrayList(SAVE_WORDS);
@@ -498,6 +502,8 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onGlobalLayout() {
         setYPosi(posi);
+        // 清空位置，因为输入法也会触发这里
+        posi = 0;
     }
 
     private static class Position {
