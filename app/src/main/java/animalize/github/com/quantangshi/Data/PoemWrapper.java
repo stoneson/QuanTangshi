@@ -41,7 +41,7 @@ public class PoemWrapper {
         has_s = false;
         has_sp = false;
 
-        String pattern = "([^，。！？…\\n]{" +
+        String pattern = "([^\\n]{" +
                 lineBreak +
                 ",}?[，。！？…])(?!(?:\\n|$))";
         text = poem.getText().replaceAll(pattern, "$1\n");

@@ -57,7 +57,7 @@ public class OnePoemActivity
     private Button neighborButton, recentButton, tagButton;
 
     private float studyPosi = 0;
-    private ArrayList<String> studyTags;
+    private String[] studyTags;
 
     public static void actionStart(Context context) {
         Intent i = new Intent(context, OnePoemActivity.class);
@@ -312,7 +312,7 @@ public class OnePoemActivity
 
         if (requestCode == STUDY_REQ_CODE && resultCode == RESULT_FIRST_USER) {
             studyPosi = data.getFloatExtra("posi", 0);
-            studyTags = data.getStringArrayListExtra("tags");
+            studyTags = data.getStringArrayExtra("tags");
         }
     }
 
@@ -323,7 +323,7 @@ public class OnePoemActivity
 
         outState.putFloat("posi", poemView.getYPosi());
         outState.putFloat("study_posi", studyPosi);
-        outState.putStringArrayList("study_tags", studyTags);
+        outState.putStringArray("study_tags", studyTags);
 
         super.onSaveInstanceState(outState);
     }
@@ -344,7 +344,7 @@ public class OnePoemActivity
         poemView.setYPosi(posi);
 
         studyPosi = savedInstanceState.getFloat("study_posi");
-        studyTags = savedInstanceState.getStringArrayList("study_tags");
+        studyTags = savedInstanceState.getStringArray("study_tags");
     }
 
     @Override

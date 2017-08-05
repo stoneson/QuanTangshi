@@ -68,7 +68,7 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
                                    int requestCode,
                                    int id,
                                    float posi,
-                                   ArrayList<String> tags) {
+                                   String[] tags) {
         Intent i = new Intent(activity, StudyActivity.class);
         i.putExtra("id", id);
         i.putExtra("posi", posi);
@@ -139,7 +139,7 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
             id = intent.getIntExtra("id", 1);
             posi = intent.getFloatExtra("posi", 0);
 
-            ArrayList<String> tags = intent.getStringArrayListExtra("tags");
+            String[] tags = intent.getStringArrayExtra("tags");
             if (tags != null) {
                 items.setTags(tags);
             }
@@ -188,8 +188,8 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
         outState.putInt(SAVE_ID, poemWrapper.getID());
 
         // tags
-        List<String> tags = items.getTags();
-        outState.putStringArrayList(SAVE_WORDS, (ArrayList<String>) tags);
+        List<String> t = items.getTags();
+        outState.putStringArray(SAVE_WORDS, t.toArray(new String[t.size()]));
 
         // 滚动条位置
         outState.putFloat(SAVE_POSI, getYPosi());
@@ -204,7 +204,7 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
         showPoem();
 
         // tags
-        ArrayList<String> tags = savedInstanceState.getStringArrayList(SAVE_WORDS);
+        String[] tags = savedInstanceState.getStringArray(SAVE_WORDS);
         items.setTags(tags);
     }
 
@@ -213,7 +213,9 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
         Intent i = new Intent();
 
         i.putExtra("posi", getYPosi());
-        i.putStringArrayListExtra("tags", (ArrayList<String>) items.getTags());
+
+        List<String> t = items.getTags();
+        i.putExtra("tags", t.toArray(new String[t.size()]));
 
         setResult(RESULT_FIRST_USER, i);
 

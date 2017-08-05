@@ -119,8 +119,8 @@ public class TagSearchActivity extends AppCompatActivity implements View.OnClick
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        List<String> tags = searchTags.getTags();
-        outState.putStringArrayList("search_tags", (ArrayList<String>) tags);
+        List<String> t = searchTags.getTags();
+        outState.putStringArray("search_tags", t.toArray(new String[t.size()]));
 
         outState.putBoolean("in_result", inResult);
 
@@ -133,12 +133,12 @@ public class TagSearchActivity extends AppCompatActivity implements View.OnClick
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
 
-        ArrayList<String> tags = savedInstanceState.getStringArrayList("search_tags");
+        String[] tags = savedInstanceState.getStringArray("search_tags");
         searchTags.setTags(tags);
 
         inResult = savedInstanceState.getBoolean("in_result", false);
 
-        searchButton.setEnabled(!tags.isEmpty());
+        searchButton.setEnabled(tags.length > 0);
         if (inResult) {
             doSearch();
 
