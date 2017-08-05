@@ -270,7 +270,7 @@ public class StudyResultActivity
 
             case R.id.title_name:
                 new AlertDialog.Builder(this)
-                        .setTitle("切换搜索引擎")
+                        .setTitle(word + " - 切换搜索引擎")
                         .setItems(engines, this)
                         .setNegativeButton("取消", null)
                         .show();
