@@ -12,20 +12,20 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import java.io.IOException;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.lang.ref.WeakReference;
+import java.net.URL;
+import java.net.URLConnection;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import animalize.github.com.quantangshi.Database.MyAssetsDatabaseHelper;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 public class AboutActivity extends AppCompatActivity {
 
@@ -125,21 +125,24 @@ public class AboutActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(Void... params) {
-            OkHttpClient client = new OkHttpClient.Builder()
-                    .connectTimeout(10, TimeUnit.SECONDS)
-                    .readTimeout(15, TimeUnit.SECONDS)
-                    .build();
-
             String html;
-            try {
-                Request request = new Request.Builder()
-                        .url(verURL)
-                        .build();
 
-                Response response = client.newCall(request).execute();
-                html = response.body().string();
-            } catch (IOException e) {
-                //e.printStackTrace();
+            try {
+                URL url = new URL(verURL);
+                URLConnection con = url.openConnection();
+                con.setConnectTimeout(10 * 1000);
+                con.setReadTimeout(10 * 1000);
+                InputStream in = con.getInputStream();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+
+                html = "";
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    html += line;
+                }
+
+                reader.close();
+            } catch (Exception e) {
                 return null;
             }
 
