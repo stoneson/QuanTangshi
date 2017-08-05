@@ -32,7 +32,7 @@ import animalize.github.com.quantangshi.Data.Typeset;
 import animalize.github.com.quantangshi.R;
 
 
-public class PoemView extends LinearLayout {
+public class PoemView extends LinearLayout implements View.OnClickListener {
     private PoemWrapper mPoemWrapper;
     private Typeset mTypeset = Typeset.getInstance();
 
@@ -52,36 +52,17 @@ public class PoemView extends LinearLayout {
         mRoot = (LinearLayout) findViewById(R.id.root);
 
         mId = (TextView) findViewById(R.id.poem_id);
-        mId.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                StringBuilder sb = new StringBuilder();
-                sb.append("标题：");
-                sb.append(mPoemWrapper.getTitle(mChineseMode));
-                sb.append('\n');
-
-                sb.append("作者：");
-                sb.append(mPoemWrapper.getAuthor(mChineseMode));
-                sb.append('\n');
-
-                sb.append("编号：");
-                sb.append(mPoemWrapper.getID());
-                sb.append("\n\n");
-
-                sb.append(mPoemWrapper.getText(mChineseMode));
-
-                ClipboardManager clipboardManager = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
-                clipboardManager.setPrimaryClip(ClipData.newPlainText(null, sb));
-
-                Toast.makeText(getContext(),
-                        "已复制本诗到剪贴板",
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
+        mId.setOnClickListener(this);
         mTitle = (TextView) findViewById(R.id.poem_title);
         mAuthor = (TextView) findViewById(R.id.poem_author);
         mText = (TextView) findViewById(R.id.poem_text);
         mScroller = (ScrollView) findViewById(R.id.poem_scroller);
+
+        setScreenOn();
+    }
+
+    public void setScreenOn() {
+        setKeepScreenOn(mTypeset.isScreenOn());
     }
 
     public void setPoem(RawPoem poem, boolean showPoem) {
@@ -190,6 +171,31 @@ public class PoemView extends LinearLayout {
             int t = (int) (mScroller.getHeight() * posi);
             mScroller.scrollTo(0, t);
         }
+    }
+
+    @Override
+    public void onClick(View v) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("标题：");
+        sb.append(mPoemWrapper.getTitle(mChineseMode));
+        sb.append('\n');
+
+        sb.append("作者：");
+        sb.append(mPoemWrapper.getAuthor(mChineseMode));
+        sb.append('\n');
+
+        sb.append("编号：");
+        sb.append(mPoemWrapper.getID());
+        sb.append("\n\n");
+
+        sb.append(mPoemWrapper.getText(mChineseMode));
+
+        ClipboardManager clipboardManager = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+        clipboardManager.setPrimaryClip(ClipData.newPlainText(null, sb));
+
+        Toast.makeText(getContext(),
+                "已复制本诗到剪贴板",
+                Toast.LENGTH_SHORT).show();
     }
 
     private static class MyClickableSpan extends ClickableSpan {

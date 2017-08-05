@@ -49,14 +49,14 @@ public class OptionActivity extends AppCompatActivity implements AdapterView.OnI
         poemView.setPoem(samplePoem, true);
 
         // 启动后跳转
-        CheckBox jumpToRead = (CheckBox) findViewById(R.id.jump_to_read);
+        CheckBox cb = (CheckBox) findViewById(R.id.jump_to_read);
         Context c = MyApplication.getContext();
         SharedPreferences sp = c.getSharedPreferences(
                 "global",
                 Context.MODE_PRIVATE);
-        jumpToRead.setChecked(sp.getBoolean("jump", false));
+        cb.setChecked(sp.getBoolean("jump", false));
 
-        jumpToRead.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 Context c = MyApplication.getContext();
@@ -66,6 +66,20 @@ public class OptionActivity extends AppCompatActivity implements AdapterView.OnI
 
                 editor.putBoolean("jump", isChecked);
                 editor.apply();
+            }
+        });
+
+        // 屏幕常亮
+        boolean screenOn = poemView.getTypeset().isScreenOn();
+        cb = (CheckBox) findViewById(R.id.keep_screen_on);
+        cb.setChecked(screenOn);
+        cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Typeset typeset = poemView.getTypeset();
+                typeset.setScreenOn(isChecked);
+
+                poemView.setScreenOn();
             }
         });
 

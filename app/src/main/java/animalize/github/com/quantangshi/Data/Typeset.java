@@ -21,13 +21,18 @@ public class Typeset {
     private static final String TAG_LINE_SPACE = "line_space";
     private static final String TAG_LINE_BREAK = "line_break";
     private static final String TAG_BG_IMG = "bg_img";
+    private static final String TAG_SCREEN_ON = "screen_on";
+
     private static Typeset singleTong;
+
     private int titleLines;
     private int titleSize;
     private int textSize;
     private int lineSpace;
     private int lineBreak;
     private int bgImg;
+    private boolean screenOn;
+
     private Bitmap bmp;
     private BitmapDrawable poemBMP, studyBMP;
 
@@ -54,6 +59,7 @@ public class Typeset {
         lineSpace = sp.getInt(TAG_LINE_SPACE, 8);
         lineBreak = sp.getInt(TAG_LINE_BREAK, 5);
         bgImg = sp.getInt(TAG_BG_IMG, 0);
+        screenOn = sp.getBoolean(TAG_SCREEN_ON, false);
     }
 
     private void saveOne(String name, int value) {
@@ -62,6 +68,15 @@ public class Typeset {
                 "typeset",
                 Context.MODE_PRIVATE).edit();
         editor.putInt(name, value);
+        editor.apply();
+    }
+
+    private void saveOne(String name, boolean value) {
+        Context c = MyApplication.getContext();
+        SharedPreferences.Editor editor = c.getSharedPreferences(
+                "typeset",
+                Context.MODE_PRIVATE).edit();
+        editor.putBoolean(name, value);
         editor.apply();
     }
 
@@ -168,5 +183,16 @@ public class Typeset {
 
         bmp = null;
         poemBMP = studyBMP = null;
+    }
+
+    public boolean isScreenOn() {
+        return screenOn;
+    }
+
+    public void setScreenOn(boolean screenOn) {
+        if (this.screenOn != screenOn) {
+            this.screenOn = screenOn;
+            saveOne(TAG_SCREEN_ON, screenOn);
+        }
     }
 }
