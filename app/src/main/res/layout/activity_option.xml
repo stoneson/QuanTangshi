@@ -11,7 +11,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="启动后立即跳转到阅读界面: " />
+            android:text="启动后立即跳转到诗界面: " />
 
         <CheckBox
             android:id="@+id/jump_to_read"
