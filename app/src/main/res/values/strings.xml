@@ -10,7 +10,7 @@
 三、在学习的搜索结果界面：<br>
 1、点击上方标题的白色文字可以切换搜索引擎。<br>
 2、浏览<u>百度汉语</u>页面时，在右上菜单里可以提取通假字并跳转。<br><br>
-四、如果设备性能较差，可以把本应用加入系统后台保护，并在退出时使用Home键切出应用。这样在切入时更流畅。<br>]]></string>
+四、建议把本应用加入系统后台保护，并在退出时使用Home键切出应用。这样在切入时更流畅，并且能保存一些使用状态。<br>]]></string>
 
     <string name="about"><![CDATA[下载最新版、访问源代码：<br><a href="https://github.com/animalize/QuanTangshi">https://github.com/animalize/QuanTangshi</a><br><br>使用了jackeyGao网友整理的全唐诗数据库（原始数据为繁体字）：<br><a href="https://github.com/jackeyGao/chinese-poetry">https://github.com/jackeyGao/chinese-poetry</a><br><br>参考了OpenCC提供的繁体->简体转换表：<br><a href="https://github.com/BYVoid/OpenCC">https://github.com/BYVoid/OpenCC</a>]]></string>
 </resources>

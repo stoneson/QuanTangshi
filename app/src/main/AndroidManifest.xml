@@ -12,6 +12,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity
             android:name=".MainActivity"
             android:alwaysRetainTaskState="true">
@@ -21,29 +22,31 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".UIPoem.OnePoemActivity"
-            android:launchMode="singleTask" />
-        <activity android:name=".OptionActivity" />
-        <activity
-            android:name=".StudyActivity" />
-        <activity
-            android:name=".TagSearchActivity"
-            android:label="标签搜索" />
-        <activity
-            android:name=".AboutActivity"
-            android:label="关于本应用" />
-        <activity
-            android:name=".TipActivity"
-            android:label="使用帮助" />
-        <activity android:name=".BackupActivity" />
-        <activity
-            android:name=".TagManageActivity"
-            android:label="标签管理" />
+
+        <activity android:name=".UIPoem.OnePoemActivity" />
+
+        <activity android:name=".StudyActivity" />
         <activity
             android:name=".StudyResultActivity"
             android:configChanges="orientation|screenSize"
             android:label="" />
+
+        <activity
+            android:name=".TagSearchActivity"
+            android:label="标签搜索" />
+        <activity
+            android:name=".TagManageActivity"
+            android:label="标签管理" />
+
+        <activity android:name=".OptionActivity" />
+        <activity android:name=".BackupActivity" />
+
+        <activity
+            android:name=".TipActivity"
+            android:label="使用帮助" />
+        <activity
+            android:name=".AboutActivity"
+            android:label="关于本应用" />
     </application>
 
 </manifest>
