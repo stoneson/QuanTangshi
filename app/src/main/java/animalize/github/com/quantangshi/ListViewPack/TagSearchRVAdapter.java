@@ -1,6 +1,5 @@
 package animalize.github.com.quantangshi.ListViewPack;
 
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +8,7 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import animalize.github.com.quantangshi.Data.InfoItem;
+import animalize.github.com.quantangshi.Data.MyColors;
 import animalize.github.com.quantangshi.R;
 
 public abstract class TagSearchRVAdapter
@@ -107,9 +107,9 @@ public abstract class TagSearchRVAdapter
         InfoItem ri = mList.get((mPage - 1) * PAGEITEMS + position);
 
         if (position % 2 == 0) {
-            holder.root.setBackgroundColor(Color.rgb(0xff, 0xcc, 0xcc));
+            holder.root.setBackgroundColor(MyColors.c1);
         } else {
-            holder.root.setBackgroundColor(Color.rgb(0xcc, 0xcc, 0xff));
+            holder.root.setBackgroundColor(MyColors.c2);
         }
 
         holder.order.setText(String.valueOf((mPage - 1) * PAGEITEMS + position + 1));

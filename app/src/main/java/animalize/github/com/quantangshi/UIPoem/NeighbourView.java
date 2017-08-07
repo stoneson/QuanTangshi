@@ -1,7 +1,6 @@
 package animalize.github.com.quantangshi.UIPoem;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import animalize.github.com.quantangshi.Data.InfoItem;
+import animalize.github.com.quantangshi.Data.MyColors;
 import animalize.github.com.quantangshi.Data.RawPoem;
 import animalize.github.com.quantangshi.Database.MyDatabaseHelper;
 import animalize.github.com.quantangshi.R;
@@ -122,11 +122,11 @@ public class NeighbourView extends LinearLayout {
 
             if (position == NeighbourView.this.poem.getId() -
                     mRecentList.get(0).getId()) {
-                holder.root.setBackgroundColor(Color.rgb(0x99, 0xcc, 0x99));
+                holder.root.setBackgroundColor(MyColors.zero);
             } else if (position % 2 == 0) {
-                holder.root.setBackgroundColor(Color.rgb(0xff, 0xcc, 0xcc));
+                holder.root.setBackgroundColor(MyColors.c1);
             } else {
-                holder.root.setBackgroundColor(Color.rgb(0xcc, 0xcc, 0xff));
+                holder.root.setBackgroundColor(MyColors.c2);
             }
 
             int temp = ri.getId() - NeighbourView.this.getPoemID();

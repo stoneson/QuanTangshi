@@ -542,7 +542,7 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
         @Override
         public void updateDrawState(TextPaint ds) {
             super.updateDrawState(ds);
-            ds.setColor(Color.rgb(0, 0, 0));
+            ds.setColor(Color.BLACK);
             ds.setUnderlineText(false);
         }
 
