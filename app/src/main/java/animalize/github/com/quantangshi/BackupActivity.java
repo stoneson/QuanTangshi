@@ -23,7 +23,6 @@ import java.util.regex.Pattern;
 
 import animalize.github.com.quantangshi.Database.BackupUtil;
 import animalize.github.com.quantangshi.Database.MyDatabaseHelper;
-import animalize.github.com.quantangshi.UIPoem.URI2Path;
 
 public class BackupActivity extends AppCompatActivity implements View.OnClickListener {
 

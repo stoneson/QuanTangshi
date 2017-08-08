@@ -1,4 +1,4 @@
-package animalize.github.com.quantangshi.UIPoem;
+package animalize.github.com.quantangshi;
 
 import android.content.ContentUris;
 import android.content.Context;

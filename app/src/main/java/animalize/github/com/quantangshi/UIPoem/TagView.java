@@ -21,7 +21,7 @@ import animalize.github.com.quantangshi.R;
 import co.lujun.androidtagview.TagContainerLayout;
 
 
-public class TagView extends LinearLayout {
+public class TagView extends LinearLayout implements View.OnClickListener, co.lujun.androidtagview.TagView.OnTagClickListener {
     InputMethodManager imm;
     private int mPid;
     private List<TagInfo> mTagList;
@@ -41,76 +41,15 @@ public class TagView extends LinearLayout {
         mEdit = (EditText) findViewById(R.id.tag_edit);
 
         Button mAddTag = (Button) findViewById(R.id.tag_add);
-        mAddTag.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String tag = mEdit.getText().toString().trim();
-                if ("".equals(tag)) {
-                    return;
-                }
-                addTag(tag);
-                mEdit.setText("");
-
-                // 关闭输入法
-                hideSoftInput();
-            }
-        });
+        mAddTag.setOnClickListener(this);
 
         // tag
         mPoemTags = (TagContainerLayout) findViewById(R.id.poem_tags);
-        mPoemTags.setOnTagClickListener(new co.lujun.androidtagview.TagView.OnTagClickListener() {
-            @Override
-            public void onTagClick(int position, String text) {
-
-            }
-
-            @Override
-            public void onTagLongClick(int position, String text) {
-
-            }
-
-            @Override
-            public void onTagCrossClick(int position) {
-                final TagInfo info = mTagList.get(position);
-
-                AlertDialog.Builder builder;
-                builder = new AlertDialog.Builder(getContext());
-                builder.setTitle("确认删除: " + info.getName() + "?");
-                builder.setPositiveButton("删除", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        TagView.this.removeTag(info);
-                    }
-                });
-                builder.setNegativeButton("返回", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                });
-                builder.show();
-            }
-        });
+        mPoemTags.setOnTagClickListener(this);
 
         mAllTags = (TagContainerLayout) findViewById(R.id.all_tags);
         mAllTags.setIsTagViewClickable(true);
-        mAllTags.setOnTagClickListener(new co.lujun.androidtagview.TagView.OnTagClickListener() {
-            @Override
-            public void onTagClick(int position, String text) {
-                String tag = mAllTagList.get(position).getName();
-                addTag(tag);
-            }
-
-            @Override
-            public void onTagLongClick(int position, String text) {
-
-            }
-
-            @Override
-            public void onTagCrossClick(int position) {
-
-            }
-        });
+        mAllTags.setOnTagClickListener(this);
     }
 
     private void addTag(String tag) {
@@ -155,5 +94,56 @@ public class TagView extends LinearLayout {
     private void setAllTags() {
         mAllTagList = TagAgent.getAllTagInfos();
         mAllTags.setTags(TagAgent.getAllTagsHasCount());
+    }
+
+    @Override
+    public void onClick(View v) {
+        // 添加标签 按钮
+        String tag = mEdit.getText().toString().trim();
+        if ("".equals(tag)) {
+            return;
+        }
+        addTag(tag);
+        mEdit.setText("");
+
+        // 关闭输入法
+        hideSoftInput();
+    }
+
+    @Override
+    public void onTagClick(int position, String text) {
+        // 注意，两个tag窗口共用一个接口
+        // 这是下面的，所有标签
+        String tag = mAllTagList.get(position).getName();
+        addTag(tag);
+    }
+
+    @Override
+    public void onTagLongClick(int position, String text) {
+
+    }
+
+    @Override
+    public void onTagCrossClick(int position) {
+        // 注意，两个tag窗口共用一个接口
+        // 这是上面的，当前标签
+        final TagInfo info = mTagList.get(position);
+
+        AlertDialog.Builder builder;
+        builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("确认删除: " + info.getName() + "?");
+        builder.setPositiveButton("删除", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                TagView.this.removeTag(info);
+            }
+        });
+        builder.setNegativeButton("返回", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        builder.show();
     }
 }
