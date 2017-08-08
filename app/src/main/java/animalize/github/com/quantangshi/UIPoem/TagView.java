@@ -138,12 +138,7 @@ public class TagView extends LinearLayout implements View.OnClickListener, co.lu
                 TagView.this.removeTag(info);
             }
         });
-        builder.setNegativeButton("返回", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-            }
-        });
+        builder.setNegativeButton("取消", null);
         builder.show();
     }
 }
