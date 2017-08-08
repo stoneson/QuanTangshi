@@ -17,7 +17,7 @@
 <a href="https://github.com/animalize/QuanTangshi">https://github.com/animalize/QuanTangshi</a><br><br>
 使用了jackeyGao网友整理的全唐诗数据库（原始数据为繁体字）：<br>
 <a href="https://github.com/jackeyGao/chinese-poetry">https://github.com/jackeyGao/chinese-poetry</a><br><br>
-这个数据库质量很高，但也有个别错字，恰好能让读者对字、词保持锐敏。以下是勘误记录：<br>
+这个数据库质量很高，但也有个别错字，恰好能让读者对字、词保持敏锐。以下是勘误记录：<br>
 <a href="https://github.com/animalize/chinese-poetry/commits/master">https://github.com/animalize/chinese-poetry/commits/master</a><br><br>
 参考了OpenCC提供的繁体->简体转换表：<br>
 <a href="https://github.com/BYVoid/OpenCC">https://github.com/BYVoid/OpenCC</a>]]></string>
