@@ -22,6 +22,7 @@ def fun():
              '嬾 懒',
              '鴈 雁',
              '劒 剑',
+             '幷 并',
              )
     all_lines.extend(extra)
         

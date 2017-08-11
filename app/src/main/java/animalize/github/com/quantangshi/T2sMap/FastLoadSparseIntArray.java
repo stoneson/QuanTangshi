@@ -13,7 +13,7 @@ public class FastLoadSparseIntArray {
     public FastLoadSparseIntArray(int[] keys, int[] values) {
         if (keys.length != values.length) {
             mKeys = new int[]{};
-            mValues = new int[]{};
+            mValues = mKeys;
             mSize = 0;
         } else {
             mKeys = keys;
