@@ -96,18 +96,18 @@ multi_s.sort()
 
 # java code
 def line(s):
-    s = regex.sub(r'([^\n]{0,60},)', r'\1\n', s)
+    s = regex.sub(r'([^\n]{0,60}(?:\};|,))', r'\1\n', s)
     return s
 
 with open('java.txt', 'w') as f:
 
     s = "public final static int[] key = {\n" + \
-    ','.join(str(i) for i in k_list) + '};\n\n'
+    ','.join(str(i) for i in k_list) + '};\n'
     s = line(s)
     f.write(s)
 
     s = "public final static int[] value = {\n" + \
-        ','.join(str(i) for i in v_list) + '};\n\n'
+        ','.join(str(i) for i in v_list) + '};\n'
     s = line(s)
     f.write(s)
 
