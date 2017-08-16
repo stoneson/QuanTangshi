@@ -23,6 +23,7 @@ def fun():
              '鴈 雁',
              '劒 剑',
              '幷 并',
+             '帬 裙',
              )
     all_lines.extend(extra)
         
@@ -47,7 +48,7 @@ def fun():
             t = ('瀰', '㳽')
         elif t[0] == '閤':
             assert t == ['閤', '合']
-            t = ('閤', '阁')
+            continue
 
         # 只保留BMP字符
         if ord(t[0]) > 0xffff or \
