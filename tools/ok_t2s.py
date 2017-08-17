@@ -24,6 +24,7 @@ def fun():
              '劒 剑',
              '幷 并',
              '帬 裙',
+             '猨 猿',
              )
     all_lines.extend(extra)
         
@@ -40,12 +41,19 @@ def fun():
         if t[0] == '餘':
             assert t == ['餘', '余', '馀']
             t = ('餘', '馀')
+            
         elif t[0] == '鉅':
             assert t == ['鉅', '巨', '钜']
             t = ('鉅', '钜')
+            
         elif t[0] == '瀰':
             assert t == ['瀰', '弥', '㳽']
             t = ('瀰', '㳽')
+            
+        elif t[0] == '逕':
+            assert t == ['逕', '迳']
+            t = ('逕', '径')
+            
         elif t[0] == '閤':
             assert t == ['閤', '合']
             continue
