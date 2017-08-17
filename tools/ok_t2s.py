@@ -50,10 +50,6 @@ def fun():
             assert t == ['瀰', '弥', '㳽']
             t = ('瀰', '㳽')
             
-        elif t[0] == '逕':
-            assert t == ['逕', '迳']
-            t = ('逕', '径')
-            
         elif t[0] == '閤':
             assert t == ['閤', '合']
             continue
