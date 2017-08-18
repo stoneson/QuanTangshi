@@ -6,4 +6,6 @@ package animalize.github.com.quantangshi.UIPoem;
 
 public interface PoemController {
     void setPoemID(int id);
+
+    void setHasTag(boolean has);
 }

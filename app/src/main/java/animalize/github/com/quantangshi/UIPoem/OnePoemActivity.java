@@ -18,8 +18,6 @@ import android.widget.LinearLayout;
 
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
-import java.util.ArrayList;
-
 import animalize.github.com.quantangshi.Data.RawPoem;
 import animalize.github.com.quantangshi.Database.MyDatabaseHelper;
 import animalize.github.com.quantangshi.R;
@@ -82,6 +80,7 @@ public class OnePoemActivity
         // 得到 诗view
         poemView = (PoemView) findViewById(R.id.poem_view);
         tagView = (TagView) findViewById(R.id.tag_view);
+        tagView.setPoemController(this);
 
         recentView = (RecentView) findViewById(R.id.recent_view);
         recentView.setPoemController(this);
@@ -155,6 +154,11 @@ public class OnePoemActivity
             studyPosi = 0;
             studyTags = null;
         }
+    }
+
+    @Override
+    public void setHasTag(boolean has) {
+        poemView.setHasTag(has);
     }
 
     private void randomPoem() {

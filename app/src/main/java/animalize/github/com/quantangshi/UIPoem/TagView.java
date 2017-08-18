@@ -24,6 +24,8 @@ import co.lujun.androidtagview.TagContainerLayout;
 public class TagView extends LinearLayout implements View.OnClickListener, co.lujun.androidtagview.TagView.OnTagClickListener {
     InputMethodManager imm;
     private int mPid;
+
+    private PoemController mController;
     private List<TagInfo> mTagList;
     private List<TagInfo> mAllTagList;
     private TagContainerLayout mPoemTags;
@@ -77,6 +79,7 @@ public class TagView extends LinearLayout implements View.OnClickListener, co.lu
         mPid = pid;
 
         mTagList = TagAgent.getTagsInfo(pid);
+        mController.setHasTag(!mTagList.isEmpty());
 
         List<String> tags = TagAgent.getTagsNoCount(mTagList);
         mPoemTags.setTags(tags);
@@ -140,5 +143,9 @@ public class TagView extends LinearLayout implements View.OnClickListener, co.lu
         });
         builder.setNegativeButton("取消", null);
         builder.show();
+    }
+
+    public void setPoemController(PoemController controller) {
+        mController = controller;
     }
 }

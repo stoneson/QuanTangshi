@@ -78,6 +78,14 @@ public class PoemView extends LinearLayout implements View.OnClickListener {
         }
     }
 
+    public void setHasTag(boolean has) {
+        if (has) {
+            mId.setText("" + mPoemWrapper.getID() + " 标");
+        } else {
+            mId.setText("" + mPoemWrapper.getID());
+        }
+    }
+
     public void setMode(int mode) {
         mChineseMode = mode;
         if (mPoemWrapper != null) {
