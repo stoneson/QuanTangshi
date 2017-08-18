@@ -14,6 +14,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +24,7 @@ import java.util.regex.Pattern;
 
 import animalize.github.com.quantangshi.Database.BackupUtil;
 import animalize.github.com.quantangshi.Database.MyDatabaseHelper;
+import animalize.github.com.quantangshi.Database.TagAgent;
 
 public class BackupActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -43,7 +45,9 @@ public class BackupActivity extends AppCompatActivity implements View.OnClickLis
         String path = "/" + BackupUtil.getDirName();
         locPath.setText(path);
 
-        Button bt = (Button) findViewById(R.id.button_vacuum);
+        Button bt = (Button) findViewById(R.id.install_tags);
+        bt.setOnClickListener(this);
+        bt = (Button) findViewById(R.id.button_vacuum);
         bt.setOnClickListener(this);
         bt = (Button) findViewById(R.id.button_backup);
         bt.setOnClickListener(this);
@@ -57,6 +61,13 @@ public class BackupActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.install_tags:
+                CheckBox cb = (CheckBox) findViewById(R.id.clean_install);
+                boolean clean = cb.isChecked();
+                TagAgent.installTags(clean);
+                Toast.makeText(this, "启动生成预置标签的线程", Toast.LENGTH_SHORT).show();
+                break;
+
             case R.id.button_vacuum:
                 int s1, s2;
                 s1 = MyDatabaseHelper.getDBSize();

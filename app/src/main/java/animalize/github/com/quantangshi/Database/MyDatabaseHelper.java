@@ -30,6 +30,8 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
     private static final String ENCODING = "UTF-16LE";
 
+    private static final String NAME_300 = "300首";
+
     // 静态变量
     private static MyDatabaseHelper mHelper;
     private static SQLiteDatabase mDb;
@@ -579,26 +581,56 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     }
 
     // 生成唐诗300首tag
-    public static synchronized void tangshi300() {
-        init();
+    private static synchronized void tangshi300(boolean clean) {
 
-        final String tagname = "300首";
+        class TaskRunnable implements Runnable {
+            boolean clean;
 
-        // 得到tid
-        int tid = getTagID(tagname);
-        if (tid == -1) {
-            tid = addTag(tagname);
-        }
+            TaskRunnable(boolean clean) {
+                this.clean = clean;
+            }
 
-        // 添加
-        for (int id : TagData.tangshi300) {
-            if (!poemHasTagID(id, tid)) {
-                addToTagMap(id, tid);
+            @Override
+            public void run() {
+                init();
+
+                mDb.execSQL("BEGIN");
+
+                if (clean) {
+                    // 从tag map删除
+                    String sql = "DELETE FROM tag_map " +
+                            "WHERE tid = (SELECT id " +
+                            "FROM tag " +
+                            "WHERE name=?)";
+                    mDb.execSQL(sql, new String[]{NAME_300});
+                }
+
+                // 得到tid
+                int tid = getTagID(NAME_300);
+                if (tid == -1) {
+                    tid = addTag(NAME_300);
+                }
+
+                // 添加关系
+                for (int id : TagData.tangshi300) {
+                    if (!poemHasTagID(id, tid)) {
+                        addToTagMap(id, tid);
+                    }
+                }
+
+                // 更新计数
+                updateTagCount(tid);
+
+                mDb.execSQL("COMMIT");
             }
         }
 
-        // 更新计数
-        updateTagCount(tid);
+        Thread t = new Thread(new TaskRunnable(clean));
+        t.start();
+    }
+
+    public static synchronized void installTags(boolean clean) {
+        tangshi300(clean);
     }
 
     public static synchronized int getDBSize() {
@@ -684,7 +716,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
         mDb = db;
         // 唐诗300首
-        tangshi300();
+        tangshi300(false);
     }
 
     @Override
@@ -710,8 +742,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         mDb = db;
         if (oldVersion < 4) {
             // 唐诗300首
-            tangshi300();
+            tangshi300(false);
         }
     }
-
 }

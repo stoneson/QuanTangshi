@@ -105,4 +105,10 @@ public class TagAgent {
         MyDatabaseHelper.delTag(tag);
         invalideTags();
     }
+
+    // 生成预置标签
+    public static synchronized void installTags(boolean clean) {
+        MyDatabaseHelper.installTags(clean);
+        invalideTags();
+    }
 }
