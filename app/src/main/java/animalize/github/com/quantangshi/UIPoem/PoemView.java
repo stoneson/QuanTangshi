@@ -80,7 +80,7 @@ public class PoemView extends LinearLayout implements View.OnClickListener {
 
     public void setHasTag(boolean has) {
         if (has) {
-            mId.setText("" + mPoemWrapper.getID() + " 标");
+            mId.setText("" + mPoemWrapper.getID() + " t");
         } else {
             mId.setText("" + mPoemWrapper.getID());
         }
