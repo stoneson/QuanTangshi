@@ -26,7 +26,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     private static final String TAG = "MyDatabaseHelper";
 
     private static final String DATABASE_NAME = "data.db";
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 4;
 
     private static final String ENCODING = "UTF-16LE";
 
@@ -578,6 +578,29 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         init();
     }
 
+    // 生成唐诗300首tag
+    public static synchronized void tangshi300() {
+        init();
+
+        final String tagname = "300首";
+
+        // 得到tid
+        int tid = getTagID(tagname);
+        if (tid == -1) {
+            tid = addTag(tagname);
+        }
+
+        // 添加
+        for (int id : TagData.tangshi300) {
+            if (!poemHasTagID(id, tid)) {
+                addToTagMap(id, tid);
+            }
+        }
+
+        // 更新计数
+        updateTagCount(tid);
+    }
+
     public static synchronized int getDBSize() {
         File dbFile = MyApplication
                 .getContext()
@@ -658,6 +681,10 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
         sql = "CREATE INDEX recent_pid_idx ON recent(pid);";
         db.execSQL(sql);
+
+        mDb = db;
+        // 唐诗300首
+        tangshi300();
     }
 
     @Override
@@ -678,6 +705,12 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         if (oldVersion < 3) {
             sql = "CREATE INDEX recent_pid_idx ON recent(pid);";
             db.execSQL(sql);
+        }
+
+        mDb = db;
+        if (oldVersion < 4) {
+            // 唐诗300首
+            tangshi300();
         }
     }
 
