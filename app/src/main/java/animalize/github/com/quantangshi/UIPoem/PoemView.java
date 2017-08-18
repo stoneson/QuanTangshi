@@ -26,6 +26,7 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 import animalize.github.com.quantangshi.Data.InfoItem;
+import animalize.github.com.quantangshi.Data.MyColors;
 import animalize.github.com.quantangshi.Data.PoemWrapper;
 import animalize.github.com.quantangshi.Data.RawPoem;
 import animalize.github.com.quantangshi.Data.Typeset;
@@ -45,6 +46,8 @@ public class PoemView extends LinearLayout implements View.OnClickListener {
     private TextView mText;
     private ScrollView mScroller;
 
+    private int defaultColor;
+
     public PoemView(Context context, AttributeSet attrs) {
         super(context, attrs);
         LayoutInflater.from(context).inflate(R.layout.view_poem, this);
@@ -53,6 +56,8 @@ public class PoemView extends LinearLayout implements View.OnClickListener {
 
         mId = (TextView) findViewById(R.id.poem_id);
         mId.setOnClickListener(this);
+        defaultColor = mId.getCurrentTextColor();
+
         mTitle = (TextView) findViewById(R.id.poem_title);
         mAuthor = (TextView) findViewById(R.id.poem_author);
         mText = (TextView) findViewById(R.id.poem_text);
@@ -80,9 +85,9 @@ public class PoemView extends LinearLayout implements View.OnClickListener {
 
     public void setHasTag(boolean has) {
         if (has) {
-            mId.setText("" + mPoemWrapper.getID() + " t");
+            mId.setTextColor(MyColors.tagID);
         } else {
-            mId.setText("" + mPoemWrapper.getID());
+            mId.setTextColor(defaultColor);
         }
     }
 
