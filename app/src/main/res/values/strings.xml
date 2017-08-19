@@ -3,7 +3,7 @@
     <string name="tip"><![CDATA[
 一、在诗界面：<br>
 1、底部的<font color="#6666cc"><b>蓝色按钮条</b></font>可以向上拖动，拖动后可以进行更多操作。<br>
-2、点击左上的数字编号，会把诗复制到剪贴板。<br><br>
+2、左上的数字编号：点击编号会把诗复制到剪贴板；如果诗有标签，编号会变成<font color="#663300"><b>深红色</b></font>。<br><br>
 二、在学习界面：<br>
 1、先点击诗中出现的<font color=black><b>字、词汇、作者</b></font>，再点击<font color=black><b>添加</b></font>按钮保存到标签，然后点击<font color=black><b>标签</b></font>开始搜索。<br>
 2、长按<font color=black><b>清空</b></font>按钮，会清空所有标签。<br><br>

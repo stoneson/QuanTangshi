@@ -54,6 +54,11 @@
                 android:text="生成" />
         </LinearLayout>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="生成《唐诗三百首》的标签。" />
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"

@@ -582,7 +582,45 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
     // 生成唐诗300首tag
     private static synchronized void tangshi300(boolean clean) {
+        init();
 
+        mDb.execSQL("BEGIN");
+
+        if (clean) {
+            // 从tag map删除
+            String sql = "DELETE FROM tag_map " +
+                    "WHERE tid = (SELECT id " +
+                    "FROM tag " +
+                    "WHERE name=?)";
+            mDb.execSQL(sql, new String[]{NAME_300});
+        }
+
+        // 得到tid
+        int tid = getTagID(NAME_300);
+        if (tid == -1) {
+            tid = addTag(NAME_300);
+        }
+
+        // 添加关系, ?, ? : pid, tid
+        String sql = "INSERT INTO tag_map(pid, tid) " +
+                "SELECT ?, ? " +
+                "WHERE NOT EXISTS" +
+                "(SELECT 1 FROM tag_map WHERE pid=? AND tid=?)";
+        for (int id : TagData.tangshi300) {
+            mDb.execSQL(sql, new String[]{
+                    String.valueOf(id), String.valueOf(tid),
+                    String.valueOf(id), String.valueOf(tid)}
+            );
+        }
+
+        // 更新计数
+        updateTagCount(tid);
+
+        mDb.execSQL("COMMIT");
+
+    }
+
+    public static synchronized void installTags(boolean clean) {
         class TaskRunnable implements Runnable {
             boolean clean;
 
@@ -592,45 +630,12 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
             @Override
             public void run() {
-                init();
-
-                mDb.execSQL("BEGIN");
-
-                if (clean) {
-                    // 从tag map删除
-                    String sql = "DELETE FROM tag_map " +
-                            "WHERE tid = (SELECT id " +
-                            "FROM tag " +
-                            "WHERE name=?)";
-                    mDb.execSQL(sql, new String[]{NAME_300});
-                }
-
-                // 得到tid
-                int tid = getTagID(NAME_300);
-                if (tid == -1) {
-                    tid = addTag(NAME_300);
-                }
-
-                // 添加关系
-                for (int id : TagData.tangshi300) {
-                    if (!poemHasTagID(id, tid)) {
-                        addToTagMap(id, tid);
-                    }
-                }
-
-                // 更新计数
-                updateTagCount(tid);
-
-                mDb.execSQL("COMMIT");
+                tangshi300(clean);
             }
         }
 
         Thread t = new Thread(new TaskRunnable(clean));
         t.start();
-    }
-
-    public static synchronized void installTags(boolean clean) {
-        tangshi300(clean);
     }
 
     public static synchronized int getDBSize() {
