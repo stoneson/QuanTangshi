@@ -631,6 +631,8 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             @Override
             public void run() {
                 tangshi300(clean);
+
+                TagAgent.invalideTags();
             }
         }
 

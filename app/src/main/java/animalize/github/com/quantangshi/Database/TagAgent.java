@@ -108,7 +108,7 @@ public class TagAgent {
 
     // 生成预置标签
     public static synchronized void installTags(boolean clean) {
+        // 此函数有线程，会在内部执行 TagAgent.invalideTags();
         MyDatabaseHelper.installTags(clean);
-        invalideTags();
     }
 }
