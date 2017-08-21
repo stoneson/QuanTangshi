@@ -84,11 +84,7 @@ public class PoemView extends LinearLayout implements View.OnClickListener {
     }
 
     public void setHasTag(boolean has) {
-        if (has) {
-            mId.setTextColor(MyColors.tagID);
-        } else {
-            mId.setTextColor(defaultColor);
-        }
+        mId.setTextColor(has ? MyColors.tagID : defaultColor);
     }
 
     public void setMode(int mode) {

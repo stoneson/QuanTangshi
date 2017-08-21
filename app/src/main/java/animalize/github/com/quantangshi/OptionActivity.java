@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import animalize.github.com.quantangshi.Data.RawPoem;
 import animalize.github.com.quantangshi.Data.Typeset;
-import animalize.github.com.quantangshi.UIPoem.PoemView;
+import animalize.github.com.quantangshi.UIPoem.OptionPoemView;
 
 public class OptionActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
@@ -26,7 +26,7 @@ public class OptionActivity extends AppCompatActivity implements AdapterView.OnI
             "诗的作者",
             "座隅泉出洞，竹上云起岭。\n五岳寻仙不辞远，一生好入名山游。\n头上何所有，翠微盍叶垂鬓唇。\n朝避猛虎，夕避长蛇。"
     );
-    private PoemView poemView;
+    private OptionPoemView poemView;
 
     private TextView titleLinesTextView;
     private TextView titleSizeTextView;
@@ -45,7 +45,7 @@ public class OptionActivity extends AppCompatActivity implements AdapterView.OnI
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_option);
 
-        poemView = (PoemView) findViewById(R.id.poem_view);
+        poemView = (OptionPoemView) findViewById(R.id.poem_view);
         poemView.setPoem(samplePoem, true);
 
         // 启动后跳转
@@ -78,8 +78,6 @@ public class OptionActivity extends AppCompatActivity implements AdapterView.OnI
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 Typeset typeset = poemView.getTypeset();
                 typeset.setScreenOn(isChecked);
-
-                poemView.setScreenOn();
             }
         });
 

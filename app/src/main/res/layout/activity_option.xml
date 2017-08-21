@@ -150,7 +150,7 @@
         android:scrollbarSize="10dp"
         android:verticalScrollbarPosition="left">
 
-        <animalize.github.com.quantangshi.UIPoem.PoemView
+        <animalize.github.com.quantangshi.UIPoem.OptionPoemView
             android:id="@+id/poem_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
