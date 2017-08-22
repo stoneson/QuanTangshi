@@ -13,12 +13,12 @@
 四、建议把本应用加入系统后台保护，并在退出时使用Home键切出应用。这样在切入时更流畅，并且能保存一些使用状态。<br>]]></string>
 
     <string name="about"><![CDATA[
-下载最新版、访问源代码：<br>
+下载最新版的.apk安装包：<br>
+<a href="https://github.com/animalize/QuanTangshi/releases">https://github.com/animalize/QuanTangshi/releases</a><br><br>
+访问源代码：<br>
 <a href="https://github.com/animalize/QuanTangshi">https://github.com/animalize/QuanTangshi</a><br><br>
 使用了jackeyGao网友整理的全唐诗数据库（原始数据为繁体字）：<br>
 <a href="https://github.com/jackeyGao/chinese-poetry">https://github.com/jackeyGao/chinese-poetry</a><br><br>
 这个数据库质量很高，但也有极个别错字。以下是勘误、补充记录：<br>
-<a href="https://github.com/animalize/chinese-poetry/commits/master">https://github.com/animalize/chinese-poetry/commits/master</a><br><br>
-参考了OpenCC提供的繁体->简体转换表：<br>
-<a href="https://github.com/BYVoid/OpenCC">https://github.com/BYVoid/OpenCC</a>]]></string>
+<a href="https://github.com/animalize/chinese-poetry/commits/master">https://github.com/animalize/chinese-poetry/commits/master</a>]]></string>
 </resources>

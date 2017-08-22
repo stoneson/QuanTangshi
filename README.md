@@ -1,7 +1,8 @@
 ## Android应用《离线全唐诗》
 
 设计目的：利用碎片化时间，无障碍欣赏唐诗。这个应用是我自用的。  
-在这里下载编译好的.apk安装文件：[https://pan.baidu.com/s/1kVhtnl9](https://pan.baidu.com/s/1kVhtnl9)，需要Android 4.0+。
+[点击这里](https://github.com/animalize/QuanTangshi/releases)下载编译好的.apk安装文件，需要Android 4.0+。
+
 ### 特性
 1.  离线全唐诗数据库，有5万余首唐诗。  
 2.  支持繁体、简体切换。（注：原始数据为繁体字）  
