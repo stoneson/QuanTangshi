@@ -25,6 +25,7 @@ def fun():
              '幷 并',
              '帬 裙',
              '猨 猿',
+             '桮 杯',
              )
     all_lines.extend(extra)
         
