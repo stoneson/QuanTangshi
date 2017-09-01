@@ -26,6 +26,8 @@ def fun():
              '帬 裙',
              '猨 猿',
              '桮 杯',
+             '堦 阶',
+             '緜 绵',
              )
     all_lines.extend(extra)
         
