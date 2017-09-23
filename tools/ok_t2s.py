@@ -14,9 +14,10 @@ def fun():
         all_lines = f.read().strip().split('\n')
 
     # 额外补充
+    # 一些通假字、异体字，基本是无歧义转换
     extra = ('慙 惭',
              '羗 羌',
-             '歛 敛',  # 有丢失意义的可能
+             '歛 敛',  # 此条有丢失意义的可能
              '遶 绕',
              '疎 疏',
              '嬾 懒',
@@ -28,6 +29,9 @@ def fun():
              '桮 杯',
              '堦 阶',
              '緜 绵',
+             '僊 仙',
+             '鬬 斗',
+             '徴 徵',
              )
     all_lines.extend(extra)
         
@@ -38,7 +42,7 @@ def fun():
             continue
         
         t = re_split.split(line)
-        assert t[0] not in t2s, '出现重复的繁体字'
+        assert t[0] not in t2s, '出现重复的繁体字 %s' % t[0]
 
         # 特例
         if t[0] == '餘':
