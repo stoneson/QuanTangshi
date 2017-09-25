@@ -32,6 +32,8 @@ def fun():
              '僊 仙',
              '鬬 斗',
              '徴 徵',
+             '逈 迥',
+             '蔕 蒂',
              )
     all_lines.extend(extra)
         
