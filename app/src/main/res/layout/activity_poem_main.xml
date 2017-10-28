@@ -10,7 +10,7 @@
     android:gravity="bottom"
     sothree:umanoAnchorPoint="0.6"
     sothree:umanoDragView="@+id/drag_view"
-    sothree:umanoFadeColor="@android:color/transparent"
+    sothree:umanoFadeColor="#30000000"
     sothree:umanoOverlay="false"
     sothree:umanoPanelHeight="52dp"
     sothree:umanoParallaxOffset="100dp"
