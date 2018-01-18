@@ -26,6 +26,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import animalize.github.com.quantangshi.Database.MyAssetsDatabaseHelper;
+import animalize.github.com.quantangshi.T2sMap.T2SData;
 
 public class AboutActivity extends AppCompatActivity {
 
@@ -55,6 +56,7 @@ public class AboutActivity extends AppCompatActivity {
 
         String versionName = "程序版本：" + BuildConfig.VERSION_NAME +
                 "\n全唐诗数据修订：" + MyAssetsDatabaseHelper.DATABASE_VERSION +
+                "\n繁简转换表修订：" + T2SData.DATA_VERSION +
                 "\n";
 
         Date buildDate = new Date(BuildConfig.TIMESTAMP);
@@ -146,7 +148,9 @@ public class AboutActivity extends AppCompatActivity {
                 return null;
             }
 
-            String p = "versionName\\s*\"(.*?)\".*?dataRev\\s*\"(.*?)\"";
+            String p = "versionName\\s*\"(.*?)\"" +
+                    ".*?dataRev\\s*\"(.*?)\"" +
+                    ".*?T2SRev\\s*\"(.*?)\"";
 
             Pattern pattern = Pattern.compile(p, Pattern.DOTALL);
             Matcher matcher = pattern.matcher(html);
@@ -155,7 +159,8 @@ public class AboutActivity extends AppCompatActivity {
             }
 
             return "GitHub上最新版本：" + matcher.group(1) +
-                    "\n最新全唐诗数据修订：" + matcher.group(2);
+                    "\n最新全唐诗数据修订：" + matcher.group(2) +
+                    "\n最新繁简转换表修订：" + matcher.group(3);
         }
 
         @Override

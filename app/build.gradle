@@ -8,8 +8,8 @@ android {
         minSdkVersion 14
         targetSdkVersion 26
         versionCode 1
-        versionName "1.3.8"
-        // dataRev "32"
+        versionName "1.3.9"
+        // dataRev "33" T2SRev "1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         buildConfigField "long", "TIMESTAMP", System.currentTimeMillis() + "L"
     }

@@ -2,6 +2,8 @@ package animalize.github.com.quantangshi.T2sMap;
 
 
 public class T2SData {
+    public final static int DATA_VERSION = 1;
+
     public final static int[] key = {
             13423, 13427, 13430, 13544, 13844, 13850, 14084, 14095, 14351, 14702,
             14940, 14963, 14965, 16507, 16622, 17079, 17113, 17114, 17145, 17147,
