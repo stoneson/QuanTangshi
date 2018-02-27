@@ -23,7 +23,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
         android:gravity="center_horizontal"
-        android:lines="3" />
+        android:lines="4" />
 
     <Button
         android:id="@+id/check_update"
