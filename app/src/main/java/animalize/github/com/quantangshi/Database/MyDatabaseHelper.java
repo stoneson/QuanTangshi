@@ -581,10 +581,12 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     }
 
     // 生成唐诗300首tag
-    private static synchronized void tangshi300(boolean clean) {
+    private static synchronized void tangshi300(boolean clean, boolean useTransaction) {
         init();
 
-        mDb.execSQL("BEGIN");
+        if (useTransaction) {
+            mDb.execSQL("BEGIN");
+        }
 
         if (clean) {
             // 从tag map删除
@@ -616,7 +618,9 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         // 更新计数
         updateTagCount(tid);
 
-        mDb.execSQL("COMMIT");
+        if (useTransaction) {
+            mDb.execSQL("COMMIT");
+        }
 
     }
 
@@ -630,7 +634,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
             @Override
             public void run() {
-                tangshi300(clean);
+                tangshi300(clean, true);
 
                 TagAgent.invalideTags();
             }
@@ -723,7 +727,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
         mDb = db;
         // 唐诗300首
-        tangshi300(false);
+        tangshi300(false, false);
     }
 
     @Override
@@ -749,7 +753,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         mDb = db;
         if (oldVersion < 4) {
             // 唐诗300首
-            tangshi300(false);
+            tangshi300(false, false);
         }
     }
 }
