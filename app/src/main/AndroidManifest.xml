@@ -23,7 +23,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".UIPoem.OnePoemActivity" />
+        <activity
+            android:name=".UIPoem.OnePoemActivity"
+            android:windowSoftInputMode="stateHidden" />
 
         <activity android:name=".StudyActivity" />
         <activity
