@@ -39,6 +39,8 @@ def fun():
              '隟 隙',
              '鵶 鸦',
              '賸 剩',
+             '竚 伫',
+             '崪 崒',
              )
     all_lines.extend(extra)
         
