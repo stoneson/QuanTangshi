@@ -41,6 +41,7 @@ def fun():
              '賸 剩',
              '竚 伫',
              '崪 崒',
+             '燄 焰',
              )
     all_lines.extend(extra)
         
