@@ -15,6 +15,7 @@ import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
@@ -99,6 +100,11 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
 
         text = (TextView) findViewById(R.id.poem_text);
         text.setTextSize(mTypeset.getTextSize());
+        text.setLineSpacing(TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                mTypeset.getLineSpace(),
+                getResources().getDisplayMetrics()),
+                1.0f);
 
         edit_item = (EditText) findViewById(R.id.item_edit);
 
