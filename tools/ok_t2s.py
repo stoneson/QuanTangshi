@@ -44,6 +44,7 @@ def fun():
              '燄 焰',
              '汚 污',
              '霑 沾',
+             '栢 柏',
              )
     all_lines.extend(extra)
         
