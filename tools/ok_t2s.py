@@ -49,6 +49,7 @@ def fun():
              '澂 澄',
              '濬 浚',
              '臯 皋',
+             '虵 蛇',
              )
     all_lines.extend(extra)
         
