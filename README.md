@@ -41,7 +41,7 @@
 
 ### 感谢
 使用了jackeyGao网友整理的全唐诗数据库：  
-https://github.com/jackeyGao/chinese-poetry
+https://github.com/chinese-poetry/chinese-poetry
 
 参考了OpenCC提供的繁体->简体转换表：  
 https://github.com/BYVoid/OpenCC
