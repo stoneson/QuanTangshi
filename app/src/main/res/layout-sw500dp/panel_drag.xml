@@ -55,18 +55,21 @@
         android:id="@+id/show_neighbour"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:minWidth="50dp"
         android:text="邻近" />
 
     <Button
         android:id="@+id/show_recent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:minWidth="50dp"
         android:text="最近" />
 
     <Button
         android:id="@+id/show_tag"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:minWidth="50dp"
         android:text="标签" />
 
 </LinearLayout>
