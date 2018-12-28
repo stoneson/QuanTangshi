@@ -10,3 +10,5 @@
 /build
 /captures
 .externalNativeBuild
+/tools/TSCharacters.txt
+/tools/java.txt
