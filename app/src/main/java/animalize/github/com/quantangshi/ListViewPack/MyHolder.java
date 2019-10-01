@@ -1,10 +1,11 @@
 package animalize.github.com.quantangshi.ListViewPack;
 
 
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import animalize.github.com.quantangshi.R;
 
@@ -18,11 +19,11 @@ public class MyHolder extends RecyclerView.ViewHolder {
     public MyHolder(View itemView) {
         super(itemView);
 
-        root = (LinearLayout) itemView.findViewById(R.id.recent_item);
-        order = (TextView) itemView.findViewById(R.id.recent_item_order);
-        title = (TextView) itemView.findViewById(R.id.recent_item_title);
-        author = (TextView) itemView.findViewById(R.id.recent_item_author);
-        id = (TextView) itemView.findViewById(R.id.recent_item_id);
+        root = itemView.findViewById(R.id.recent_item);
+        order = itemView.findViewById(R.id.recent_item_order);
+        title = itemView.findViewById(R.id.recent_item_title);
+        author = itemView.findViewById(R.id.recent_item_author);
+        id = itemView.findViewById(R.id.recent_item_id);
     }
 }
 

@@ -3,10 +3,6 @@ package animalize.github.com.quantangshi;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -14,6 +10,11 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,13 +58,13 @@ public class TagSearchActivity extends AppCompatActivity implements View.OnClick
         setContentView(R.layout.activity_tag_search);
 
         // toolbar
-        tb = (Toolbar) findViewById(R.id.tag_search_toolbar);
+        tb = findViewById(R.id.tag_search_toolbar);
         setSupportActionBar(tb);
 
         // 要在setSupportActionBar之后
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        searchTags = (TagContainerLayout) findViewById(R.id.search_tags);
+        searchTags = findViewById(R.id.search_tags);
         searchTags.setOnTagClickListener(this);
 
         // 所有tags 数组
@@ -73,33 +74,33 @@ public class TagSearchActivity extends AppCompatActivity implements View.OnClick
         }
 
         // 所有tags
-        allTags = (TagContainerLayout) findViewById(R.id.all_tags);
+        allTags = findViewById(R.id.all_tags);
         allTags.setIsTagViewClickable(true);
         allTags.setOnTagClickListener(this);
         allTags.setTags(TagAgent.getAllTagsHasCount());
 
         // 开始搜索
-        searchButton = (Button) findViewById(R.id.search_button);
+        searchButton = findViewById(R.id.search_button);
         searchButton.setOnClickListener(this);
 
         // 退回
-        Button bt = (Button) findViewById(R.id.back_button);
+        Button bt = findViewById(R.id.back_button);
         bt.setOnClickListener(this);
 
         // 前一个，后一个，spinner
-        prev = (Button) findViewById(R.id.prev);
+        prev = findViewById(R.id.prev);
         prev.setOnClickListener(this);
-        next = (Button) findViewById(R.id.next);
+        next = findViewById(R.id.next);
         next.setOnClickListener(this);
 
         // spinner
-        spinner = (Spinner) findViewById(R.id.spinner);
+        spinner = findViewById(R.id.spinner);
         spinner.setOnItemSelectedListener(this);
 
-        layoutAll = (LinearLayout) findViewById(R.id.layout_search);
-        layoutResult = (LinearLayout) findViewById(R.id.layout_result);
+        layoutAll = findViewById(R.id.layout_search);
+        layoutResult = findViewById(R.id.layout_result);
 
-        rvResult = (RecyclerView) findViewById(R.id.rv_result);
+        rvResult = findViewById(R.id.rv_result);
 
         // 布局管理
         LinearLayoutManager lm = new LinearLayoutManager(this);
@@ -290,6 +291,11 @@ public class TagSearchActivity extends AppCompatActivity implements View.OnClick
 
     @Override
     public void onTagLongClick(int position, String text) {
+
+    }
+
+    @Override
+    public void onSelectedTagDrag(int i, String s) {
 
     }
 

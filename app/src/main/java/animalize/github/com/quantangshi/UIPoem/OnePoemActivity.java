@@ -7,14 +7,15 @@ import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
@@ -78,47 +79,47 @@ public class OnePoemActivity
         int intentID = intent.getIntExtra("poem_id", -1);
 
         // 得到 诗view
-        poemView = (PoemView) findViewById(R.id.poem_view);
-        tagView = (TagView) findViewById(R.id.tag_view);
+        poemView = findViewById(R.id.poem_view);
+        tagView = findViewById(R.id.tag_view);
         tagView.setPoemController(this);
 
-        recentView = (RecentView) findViewById(R.id.recent_view);
+        recentView = findViewById(R.id.recent_view);
         recentView.setPoemController(this);
 
-        neighbourView = (NeighbourView) findViewById(R.id.neighbour_view);
+        neighbourView = findViewById(R.id.neighbour_view);
         neighbourView.setPoemController(this);
 
-        swichFrame = (FrameLayout) findViewById(R.id.switch_frame);
+        swichFrame = findViewById(R.id.switch_frame);
 
-        slider = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
+        slider = findViewById(R.id.sliding_layout);
         slider.addPanelSlideListener(this);
 
         // 显示tag
-        tagButton = (Button) findViewById(R.id.show_tag);
+        tagButton = findViewById(R.id.show_tag);
         tagButton.setOnClickListener(this);
 
         // 显示最近列表
-        recentButton = (Button) findViewById(R.id.show_recent);
+        recentButton = findViewById(R.id.show_recent);
         recentButton.setOnClickListener(this);
 
         // 显示邻近
-        neighborButton = (Button) findViewById(R.id.show_neighbour);
+        neighborButton = findViewById(R.id.show_neighbour);
         neighborButton.setOnClickListener(this);
 
         // 学习
-        Button mDicButton = (Button) findViewById(R.id.start_study);
+        Button mDicButton = findViewById(R.id.start_study);
         mDicButton.setOnClickListener(this);
 
         // 繁体、简体、简体+
-        mTButton = (Button) findViewById(R.id.button_t);
+        mTButton = findViewById(R.id.button_t);
         mTButton.setOnClickListener(this);
-        mSButton = (Button) findViewById(R.id.button_s);
+        mSButton = findViewById(R.id.button_s);
         mSButton.setOnClickListener(this);
-        mSpButton = (Button) findViewById(R.id.button_sp);
+        mSpButton = findViewById(R.id.button_sp);
         mSpButton.setOnClickListener(this);
 
         // 下一首随机诗
-        Button b = (Button) findViewById(R.id.next_random);
+        Button b = findViewById(R.id.next_random);
         b.setOnClickListener(this);
 
         // 读取配置

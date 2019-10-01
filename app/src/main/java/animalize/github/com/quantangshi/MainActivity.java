@@ -3,8 +3,6 @@ package animalize.github.com.quantangshi;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +10,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import animalize.github.com.quantangshi.Database.MyDatabaseHelper;
 import animalize.github.com.quantangshi.UIPoem.OnePoemActivity;
@@ -39,44 +40,44 @@ public class MainActivity
         mPoemCount = MyDatabaseHelper.getPoemCount();
 
         // toolbar
-        Toolbar tb = (Toolbar) findViewById(R.id.main_toolbar);
+        Toolbar tb = findViewById(R.id.main_toolbar);
         setSupportActionBar(tb);
 
         // 打开诗 ------------------------------
-        Button bt = (Button) findViewById(R.id.main_viewpoem);
+        Button bt = findViewById(R.id.main_viewpoem);
         bt.setOnClickListener(this);
 
         // 跳转指定ID ------------------------------
-        idEdit = (EditText) findViewById(R.id.jump_edit);
-        bt = (Button) findViewById(R.id.jump_button);
+        idEdit = findViewById(R.id.jump_edit);
+        bt = findViewById(R.id.jump_button);
         bt.setOnClickListener(this);
 
         // 清空ID
-        bt = (Button) findViewById(R.id.jump_clear);
+        bt = findViewById(R.id.jump_clear);
         bt.setOnClickListener(this);
 
         // 标签检索 -------------------------
-        bt = (Button) findViewById(R.id.main_opentag);
+        bt = findViewById(R.id.main_opentag);
         bt.setOnClickListener(this);
 
         // 标签管理 -------------------------
-        bt = (Button) findViewById(R.id.main_managetag);
+        bt = findViewById(R.id.main_managetag);
         bt.setOnClickListener(this);
 
         // 阅读设置 ------------------------------
-        bt = (Button) findViewById(R.id.main_option);
+        bt = findViewById(R.id.main_option);
         bt.setOnClickListener(this);
 
         // 设置 ------------------------------
-        bt = (Button) findViewById(R.id.main_setting);
+        bt = findViewById(R.id.main_setting);
         bt.setOnClickListener(this);
 
         // 使用技巧 ---------------------------
-        bt = (Button) findViewById(R.id.main_tip);
+        bt = findViewById(R.id.main_tip);
         bt.setOnClickListener(this);
 
         // 关于 ------------------------------
-        bt = (Button) findViewById(R.id.main_about);
+        bt = findViewById(R.id.main_about);
         bt.setOnClickListener(this);
 
         // 启动后跳转

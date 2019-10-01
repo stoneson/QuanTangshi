@@ -1,11 +1,12 @@
 package animalize.github.com.quantangshi.UIPoem;
 
 import android.content.Context;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
@@ -29,7 +30,7 @@ public class RecentView extends LinearLayout {
         LayoutInflater.from(context).inflate(R.layout.view_recent, this);
 
         // 最近的RecyclerView
-        mRecentList = (RecyclerView) findViewById(R.id.recent_list);
+        mRecentList = findViewById(R.id.recent_list);
 
         // 布局管理
         LinearLayoutManager lm = new LinearLayoutManager(getContext());

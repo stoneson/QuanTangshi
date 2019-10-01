@@ -46,4 +46,4 @@ https://github.com/chinese-poetry/chinese-poetry
 参考了OpenCC提供的繁体->简体转换表：  
 https://github.com/BYVoid/OpenCC
 
-使用的其它开源项目：[标签控件](https://github.com/whilu/AndroidTagView)，[底部向上拖动控件](https://github.com/umano/AndroidSlidingUpPanel)，[assets数据库支持](https://github.com/jgilfelt/android-sqlite-asset-helper) 。
+使用的其它开源项目：[标签控件](https://github.com/whilu/AndroidTagView)，[底部向上拖动控件](https://github.com/hannesa2/AndroidSlidingUpPanel)，[assets数据库支持](https://github.com/jgilfelt/android-sqlite-asset-helper) 。

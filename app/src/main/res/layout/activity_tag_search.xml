@@ -7,32 +7,6 @@
     android:orientation="vertical"
     tools:context="animalize.github.com.quantangshi.TagSearchActivity">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/tag_search_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        app:contentInsetStartWithNavigation="0dp"
-        app:theme="@style/ToolbarColoredBackArrow"
-        app:titleTextColor="@android:color/white" />
-
-    <co.lujun.androidtagview.TagContainerLayout
-        android:id="@+id/search_tags"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:container_background_color="#11FF0000"
-        app:container_border_color="#22FF0000"
-        app:container_border_radius="0dp"
-        app:tag_background_color="#BDD5D9"
-        app:tag_border_color="#88009688"
-        app:tag_cross_color="#999999"
-        app:tag_enable_cross="true"
-        app:tag_horizontal_padding="12dp"
-        app:tag_text_color="#2e2e2e"
-        app:tag_text_size="18sp"
-        app:tag_theme="none"
-        app:tag_vertical_padding="10dp" />
-
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -131,11 +105,37 @@
                     android:text="重新搜索" />
             </LinearLayout>
 
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_result"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
         </LinearLayout>
     </FrameLayout>
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/tag_search_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        app:contentInsetStartWithNavigation="0dp"
+        app:theme="@style/ToolbarColoredBackArrow"
+        app:titleTextColor="@android:color/white" />
+
+    <co.lujun.androidtagview.TagContainerLayout
+        android:id="@+id/search_tags"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:container_background_color="#11FF0000"
+        app:container_border_color="#22FF0000"
+        app:container_border_radius="0dp"
+        app:tag_background_color="#BDD5D9"
+        app:tag_border_color="#88009688"
+        app:tag_cross_color="#999999"
+        app:tag_enable_cross="true"
+        app:tag_horizontal_padding="12dp"
+        app:tag_text_color="#2e2e2e"
+        app:tag_text_size="18sp"
+        app:tag_theme="none"
+        app:tag_vertical_padding="10dp" />
 
 </LinearLayout>

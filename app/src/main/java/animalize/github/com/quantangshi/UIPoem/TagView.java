@@ -40,16 +40,16 @@ public class TagView extends LinearLayout implements View.OnClickListener, co.lu
                 .getContext()
                 .getSystemService(Context.INPUT_METHOD_SERVICE);
 
-        mEdit = (EditText) findViewById(R.id.tag_edit);
+        mEdit = findViewById(R.id.tag_edit);
 
-        Button mAddTag = (Button) findViewById(R.id.tag_add);
+        Button mAddTag = findViewById(R.id.tag_add);
         mAddTag.setOnClickListener(this);
 
         // tag
-        mPoemTags = (TagContainerLayout) findViewById(R.id.poem_tags);
+        mPoemTags = findViewById(R.id.poem_tags);
         mPoemTags.setOnTagClickListener(this);
 
-        mAllTags = (TagContainerLayout) findViewById(R.id.all_tags);
+        mAllTags = findViewById(R.id.all_tags);
         mAllTags.setIsTagViewClickable(true);
         mAllTags.setOnTagClickListener(this);
     }
@@ -123,6 +123,11 @@ public class TagView extends LinearLayout implements View.OnClickListener, co.lu
 
     @Override
     public void onTagLongClick(int position, String text) {
+
+    }
+
+    @Override
+    public void onSelectedTagDrag(int i, String s) {
 
     }
 

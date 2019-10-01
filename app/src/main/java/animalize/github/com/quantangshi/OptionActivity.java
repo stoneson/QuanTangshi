@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
@@ -12,6 +11,8 @@ import android.widget.CompoundButton;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import animalize.github.com.quantangshi.Data.RawPoem;
 import animalize.github.com.quantangshi.Data.Typeset;
@@ -45,11 +46,11 @@ public class OptionActivity extends AppCompatActivity implements AdapterView.OnI
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_option);
 
-        poemView = (OptionPoemView) findViewById(R.id.poem_view);
+        poemView = findViewById(R.id.poem_view);
         poemView.setPoem(samplePoem, true);
 
         // 启动后跳转
-        CheckBox cb = (CheckBox) findViewById(R.id.jump_to_read);
+        CheckBox cb = findViewById(R.id.jump_to_read);
         Context c = MyApplication.getContext();
         SharedPreferences sp = c.getSharedPreferences(
                 "global",
@@ -71,7 +72,7 @@ public class OptionActivity extends AppCompatActivity implements AdapterView.OnI
 
         // 屏幕常亮
         boolean screenOn = poemView.getTypeset().isScreenOn();
-        cb = (CheckBox) findViewById(R.id.keep_screen_on);
+        cb = findViewById(R.id.keep_screen_on);
         cb.setChecked(screenOn);
         cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -82,8 +83,8 @@ public class OptionActivity extends AppCompatActivity implements AdapterView.OnI
         });
 
         // 标题行数
-        titleLinesTextView = (TextView) findViewById(R.id.title_lines_text);
-        SeekBar titleLinesSeekbar = (SeekBar) findViewById(R.id.title_lines_seekbar);
+        titleLinesTextView = findViewById(R.id.title_lines_text);
+        SeekBar titleLinesSeekbar = findViewById(R.id.title_lines_seekbar);
         titleLinesSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -108,8 +109,8 @@ public class OptionActivity extends AppCompatActivity implements AdapterView.OnI
         titleLinesSeekbar.setProgress(poemView.getTypeset().getTitleLines());
 
         // 标题字体
-        titleSizeTextView = (TextView) findViewById(R.id.title_size_text);
-        SeekBar titleSizeSeekbar = (SeekBar) findViewById(R.id.title_size_seekbar);
+        titleSizeTextView = findViewById(R.id.title_size_text);
+        SeekBar titleSizeSeekbar = findViewById(R.id.title_size_seekbar);
         titleSizeSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -134,8 +135,8 @@ public class OptionActivity extends AppCompatActivity implements AdapterView.OnI
         titleSizeSeekbar.setProgress(poemView.getTypeset().getTitleSize());
 
         // 诗文字体
-        textSizeTextView = (TextView) findViewById(R.id.text_size_text);
-        SeekBar textSizeSeekbar = (SeekBar) findViewById(R.id.text_size_seekbar);
+        textSizeTextView = findViewById(R.id.text_size_text);
+        SeekBar textSizeSeekbar = findViewById(R.id.text_size_seekbar);
         textSizeSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -160,8 +161,8 @@ public class OptionActivity extends AppCompatActivity implements AdapterView.OnI
         textSizeSeekbar.setProgress(poemView.getTypeset().getTextSize());
 
         // 行间距
-        lineSpaceTextView = (TextView) findViewById(R.id.line_space_text);
-        SeekBar lineSpaceSeekbar = (SeekBar) findViewById(R.id.line_space_seekbar);
+        lineSpaceTextView = findViewById(R.id.line_space_text);
+        SeekBar lineSpaceSeekbar = findViewById(R.id.line_space_seekbar);
         lineSpaceSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -186,8 +187,8 @@ public class OptionActivity extends AppCompatActivity implements AdapterView.OnI
         lineSpaceSeekbar.setProgress(poemView.getTypeset().getLineSpace());
 
         // 换行
-        lineBreakTextView = (TextView) findViewById(R.id.line_break_text);
-        SeekBar lineBreakSeekbar = (SeekBar) findViewById(R.id.line_break_seekbar);
+        lineBreakTextView = findViewById(R.id.line_break_text);
+        SeekBar lineBreakSeekbar = findViewById(R.id.line_break_seekbar);
         lineBreakSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -212,8 +213,8 @@ public class OptionActivity extends AppCompatActivity implements AdapterView.OnI
         lineBreakSeekbar.setProgress(poemView.getTypeset().getLineBreak());
 
         // 背景图
-        bgTextView = (TextView) findViewById(R.id.bg_img);
-        Spinner bgSpinner = (Spinner) findViewById(R.id.bg_spinner);
+        bgTextView = findViewById(R.id.bg_img);
+        Spinner bgSpinner = findViewById(R.id.bg_spinner);
         bgSpinner.setOnItemSelectedListener(this);
 
         SpinnerAdapter sa = new SpinnerAdapter(this);

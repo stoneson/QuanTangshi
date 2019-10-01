@@ -8,8 +8,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
-import android.support.v7.app.AppCompatActivity;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextPaint;
@@ -26,6 +24,9 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.TextView;
+
+import androidx.annotation.IdRes;
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -83,7 +84,7 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_study);
 
         // 背景图
-        root = (ScrollView) findViewById(R.id.root);
+        root = findViewById(R.id.root);
         BitmapDrawable bitmapDrawable = mTypeset.getStudyBGDrawable();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             root.setBackground(bitmapDrawable);
@@ -92,13 +93,13 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
         }
 
         // 各组件
-        title = (TextView) findViewById(R.id.poem_title);
+        title = findViewById(R.id.poem_title);
         title.setTextSize(mTypeset.getTextSize());
 
-        author = (TextView) findViewById(R.id.poem_author);
+        author = findViewById(R.id.poem_author);
         author.setTextSize(mTypeset.getTextSize());
 
-        text = (TextView) findViewById(R.id.poem_text);
+        text = findViewById(R.id.poem_text);
         text.setTextSize(mTypeset.getTextSize());
         text.setLineSpacing(TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_DIP,
@@ -106,32 +107,32 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
                 getResources().getDisplayMetrics()),
                 1.0f);
 
-        edit_item = (EditText) findViewById(R.id.item_edit);
+        edit_item = findViewById(R.id.item_edit);
 
-        button_t = (Button) findViewById(R.id.button_t);
+        button_t = findViewById(R.id.button_t);
         button_t.setOnClickListener(this);
 
-        button_s = (Button) findViewById(R.id.button_s);
+        button_s = findViewById(R.id.button_s);
         button_s.setOnClickListener(this);
 
-        sys_browser = (CheckBox) findViewById(R.id.sys_browser);
+        sys_browser = findViewById(R.id.sys_browser);
         sys_browser.setOnCheckedChangeListener(this);
 
         // 编辑按钮
-        Button b = (Button) findViewById(R.id.add_item);
+        Button b = findViewById(R.id.add_item);
         b.setOnClickListener(this);
-        b = (Button) findViewById(R.id.edit_back);
+        b = findViewById(R.id.edit_back);
         b.setOnClickListener(this);
-        b = (Button) findViewById(R.id.edit_clear);
+        b = findViewById(R.id.edit_clear);
         b.setOnClickListener(this);
         b.setOnLongClickListener(this);
 
-        b = (Button) findViewById(R.id.edit_space);
+        b = findViewById(R.id.edit_space);
         if (b != null) {
             b.setOnClickListener(this);
         }
 
-        items = (TagContainerLayout) findViewById(R.id.items);
+        items = findViewById(R.id.items);
         items.setIsTagViewClickable(true);
         items.setOnTagClickListener(this);
 
@@ -170,7 +171,7 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
 
         sys_browser.setChecked(isSysBroswer);
 
-        engines = (RadioGroup) findViewById(R.id.radioGroup);
+        engines = findViewById(R.id.radioGroup);
         if (engine == 0) {
             engines.check(R.id.search_baidu);
         } else if (engine == 1) {
@@ -466,6 +467,11 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onTagLongClick(int position, String text) {
+
+    }
+
+    @Override
+    public void onSelectedTagDrag(int i, String s) {
 
     }
 

@@ -4,14 +4,15 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import java.util.List;
 
@@ -39,15 +40,15 @@ public class TagManageActivity extends AppCompatActivity implements View.OnClick
         setContentView(R.layout.activity_tag_manage);
 
         // toolbar
-        Toolbar tb = (Toolbar) findViewById(R.id.tag_manage_toolbar);
+        Toolbar tb = findViewById(R.id.tag_manage_toolbar);
         setSupportActionBar(tb);
 
         // 要在setSupportActionBar之后
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        currentTag = (TextView) findViewById(R.id.current_tag);
+        currentTag = findViewById(R.id.current_tag);
 
-        selectTag = (TagContainerLayout) findViewById(R.id.select_tag);
+        selectTag = findViewById(R.id.select_tag);
         selectTag.setIsTagViewClickable(true);
         selectTag.setOnTagClickListener(new TagView.OnTagClickListener() {
             @Override
@@ -65,18 +66,23 @@ public class TagManageActivity extends AppCompatActivity implements View.OnClick
             }
 
             @Override
+            public void onSelectedTagDrag(int i, String s) {
+
+            }
+
+            @Override
             public void onTagCrossClick(int position) {
 
             }
         });
 
-        renameButton = (Button) findViewById(R.id.rename_tag);
+        renameButton = findViewById(R.id.rename_tag);
         renameButton.setOnClickListener(this);
 
-        delButton = (Button) findViewById(R.id.del_tag);
+        delButton = findViewById(R.id.del_tag);
         delButton.setOnClickListener(this);
 
-        newName = (EditText) findViewById(R.id.new_name);
+        newName = findViewById(R.id.new_name);
 
         // 刷新标签
         refreshTags();

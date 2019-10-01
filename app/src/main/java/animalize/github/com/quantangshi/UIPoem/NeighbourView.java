@@ -2,14 +2,15 @@ package animalize.github.com.quantangshi.UIPoem;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +39,7 @@ public class NeighbourView extends LinearLayout {
 
 
         // 邻近的RecyclerView
-        neighbourList = (RecyclerView) findViewById(R.id.neighbour_list);
+        neighbourList = findViewById(R.id.neighbour_list);
         // 布局管理
         LinearLayoutManager lm = new LinearLayoutManager(getContext());
         neighbourList.setLayoutManager(lm);
@@ -167,11 +168,11 @@ public class NeighbourView extends LinearLayout {
             public MyHolder(View itemView) {
                 super(itemView);
 
-                root = (LinearLayout) itemView.findViewById(R.id.recent_item);
-                order = (TextView) itemView.findViewById(R.id.recent_item_order);
-                title = (TextView) itemView.findViewById(R.id.recent_item_title);
-                author = (TextView) itemView.findViewById(R.id.recent_item_author);
-                id = (TextView) itemView.findViewById(R.id.recent_item_id);
+                root = itemView.findViewById(R.id.recent_item);
+                order = itemView.findViewById(R.id.recent_item_order);
+                title = itemView.findViewById(R.id.recent_item_title);
+                author = itemView.findViewById(R.id.recent_item_author);
+                id = itemView.findViewById(R.id.recent_item_id);
             }
         }
     }

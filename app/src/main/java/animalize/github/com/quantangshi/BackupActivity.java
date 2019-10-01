@@ -7,16 +7,17 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import java.io.File;
 import java.util.regex.Matcher;
@@ -40,21 +41,21 @@ public class BackupActivity extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_backup);
 
-        TextView locPath = (TextView) findViewById(R.id.loc_path);
+        TextView locPath = findViewById(R.id.loc_path);
 
         String path = "/" + BackupUtil.getDirName();
         locPath.setText(path);
 
-        Button bt = (Button) findViewById(R.id.install_tags);
+        Button bt = findViewById(R.id.install_tags);
         bt.setOnClickListener(this);
-        bt = (Button) findViewById(R.id.button_vacuum);
+        bt = findViewById(R.id.button_vacuum);
         bt.setOnClickListener(this);
-        bt = (Button) findViewById(R.id.button_backup);
+        bt = findViewById(R.id.button_backup);
         bt.setOnClickListener(this);
-        bt = (Button) findViewById(R.id.button_choose);
+        bt = findViewById(R.id.button_choose);
         bt.setOnClickListener(this);
 
-        TextView tv = (TextView) findViewById(R.id.mydb_size);
+        TextView tv = findViewById(R.id.mydb_size);
         tv.setText("" + MyDatabaseHelper.getDBSize() + " 字节");
     }
 
@@ -62,7 +63,7 @@ public class BackupActivity extends AppCompatActivity implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.install_tags:
-                CheckBox cb = (CheckBox) findViewById(R.id.clean_install);
+                CheckBox cb = findViewById(R.id.clean_install);
                 boolean clean = cb.isChecked();
                 TagAgent.installTags(clean);
                 Toast.makeText(this, "启动生成预置标签的线程", Toast.LENGTH_SHORT).show();
@@ -74,7 +75,7 @@ public class BackupActivity extends AppCompatActivity implements View.OnClickLis
                 MyDatabaseHelper.vacuum();
                 s2 = MyDatabaseHelper.getDBSize();
 
-                TextView tv = (TextView) findViewById(R.id.mydb_size);
+                TextView tv = findViewById(R.id.mydb_size);
                 tv.setText("" + s2 + " 字节");
 
                 Toast.makeText(this,

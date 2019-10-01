@@ -9,10 +9,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,6 +23,11 @@ import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -83,7 +84,7 @@ public class StudyResultActivity
         setContentView(R.layout.activity_study_result);
 
         // toolbar
-        Toolbar tb = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar tb = findViewById(R.id.toolbar);
         setSupportActionBar(tb);
 
         // 要在setSupportActionBar之后
@@ -92,7 +93,7 @@ public class StudyResultActivity
         ab.setDisplayHomeAsUpEnabled(true);
 
         // 标题
-        TextView barTitle = (TextView) findViewById(R.id.title_name);
+        TextView barTitle = findViewById(R.id.title_name);
         barTitle.setText(word);
         barTitle.setOnClickListener(this);
 
@@ -100,7 +101,7 @@ public class StudyResultActivity
         ratio = loadRatio();
 
         // webview
-        webView = (WebView) findViewById(R.id.webView);
+        webView = findViewById(R.id.webView);
 
         if (savedInstanceState == null) {
             WebSettings settings = webView.getSettings();
@@ -141,18 +142,18 @@ public class StudyResultActivity
             return;
         }
 
-        ratioPanel = (LinearLayout) findViewById(R.id.ratio_panel);
+        ratioPanel = findViewById(R.id.ratio_panel);
 
-        Button bt = (Button) findViewById(R.id.ratio_ok);
+        Button bt = findViewById(R.id.ratio_ok);
         bt.setOnClickListener(this);
 
-        bt = (Button) findViewById(R.id.ratio_cancel);
+        bt = findViewById(R.id.ratio_cancel);
         bt.setOnClickListener(this);
 
-        ratioText = (TextView) findViewById(R.id.ratio_text);
+        ratioText = findViewById(R.id.ratio_text);
         ratioText.setText(PREFIX + ratio);
 
-        ratioBar = (SeekBar) findViewById(R.id.ratio_bar);
+        ratioBar = findViewById(R.id.ratio_bar);
         ratioBar.setProgress(ratio);
         ratioBar.setOnSeekBarChangeListener(this);
     }

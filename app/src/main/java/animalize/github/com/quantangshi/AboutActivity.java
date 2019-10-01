@@ -4,13 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -45,14 +46,14 @@ public class AboutActivity extends AppCompatActivity {
         setContentView(R.layout.activity_about);
 
         // toolbar
-        Toolbar tb = (Toolbar) findViewById(R.id.about_toolbar);
+        Toolbar tb = findViewById(R.id.about_toolbar);
         setSupportActionBar(tb);
 
         // 要在setSupportActionBar之后
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // 版本
-        TextView tv = (TextView) findViewById(R.id.version);
+        TextView tv = findViewById(R.id.version);
 
         String versionName = "程序版本：" + BuildConfig.VERSION_NAME +
                 "\n全唐诗数据修订：" + MyAssetsDatabaseHelper.DATABASE_VERSION +
@@ -64,7 +65,7 @@ public class AboutActivity extends AppCompatActivity {
         tv.setText(versionName + df.format(buildDate));
 
         // mail
-        tv = (TextView) findViewById(R.id.about_mail);
+        tv = findViewById(R.id.about_mail);
         StringBuilder sb = new StringBuilder();
         sb.append("反馈意见、勘误：<br><a href=mailto:mal");
         sb.append("incn");
@@ -77,13 +78,13 @@ public class AboutActivity extends AppCompatActivity {
         tv.setText(s);
 
         // html
-        tv = (TextView) findViewById(R.id.about_text);
+        tv = findViewById(R.id.about_text);
         s = Utils.getFromHtml(getString(R.string.about));
         tv.setMovementMethod(LinkMovementMethod.getInstance());
         tv.setText(s);
 
         // 检查更新
-        checkButton = (Button) findViewById(R.id.check_update);
+        checkButton = findViewById(R.id.check_update);
         checkButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -96,7 +97,7 @@ public class AboutActivity extends AppCompatActivity {
             }
         });
 
-        versionInfo = (TextView) findViewById(R.id.ver_info);
+        versionInfo = findViewById(R.id.ver_info);
     }
 
     public void updateUI(String s) {
